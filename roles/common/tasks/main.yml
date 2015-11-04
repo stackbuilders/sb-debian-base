@@ -1,56 +1,19 @@
 ---
-- name: Update packges
-  apt: update_cache=yes
-  tags:
-    - bootstrap
-
-- name: Dist upgrade packges
-  apt: upgrade=dist
-  tags:
-    - bootstrap
-
-- name: Install packges
-  apt: name={{ item }} state=present
-  with_items:
-    - vim
-    - tmux
-    - htop
-    - atop
-  tags:
-    - bootstrap
-    - install-items
-
 - name: Sudo without password
   lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  remote_user: root
   tags:
     - bootstrap
 
 - name: Add administrator user
   user: name=administrator comment="Privileged administrator user" uid=1001 group=sudo
+  remote_user: root
   tags:
     - bootstrap
     - create-user-administrator
 
-- name: Create stackbuilders group
-  group: name=stackbuilders state=present
-  tags:
-    - bootstrap
-    - create-group-stackbuilders
-
-- name: Add stackbuilders user
-  user: name=stackbuilders comment="Unprivileged Stack Builders User" uid=1000 groups=stackbuilders,sudo
-  tags:
-    - bootstrap
-    - create-user-stackbuilders
-
-- name: Configure UFW
-  ufw: state=enabled policy=disable
-  ufw: logging=on
-  ufw: rule=allow name=OpenSSH
-  tags:
-    - bootstrap
-
 - name: Disallow root SSH access
+  remote_user: root
   lineinfile:
    dest=/etc/ssh/sshd_config
    regexp="^PermitRootLogin"
@@ -62,6 +25,7 @@
     - bootstrap
 
 - name: Disallow SSH password authentication
+  remote_user: root
   lineinfile:
     dest=/etc/ssh/sshd_config
     regexp="^PasswordAuthentication"
@@ -69,3 +33,43 @@
     state=present
   notify:
     - restart sshd
+
+- name: Update packges
+  apt: update_cache=yes
+  tags:
+    - base
+
+- name: Dist upgrade packges
+  apt: upgrade=dist
+  tags:
+    - base
+
+- name: Install packges
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - tmux
+    - htop
+    - atop
+  tags:
+    - base
+    - install-items
+
+- name: Create stackbuilders group
+  group: name=stackbuilders state=present
+  tags:
+    - base
+    - create-group-stackbuilders
+
+- name: Add stackbuilders user
+  user: name=stackbuilders comment="Unprivileged Stack Builders User" uid=1000 groups=stackbuilders,sudo
+  tags:
+    - base
+    - create-user-stackbuilders
+
+- name: Configure UFW
+  ufw: state=enabled policy=disable
+  ufw: logging=on
+  ufw: rule=allow name=OpenSSH
+  tags:
+    - base
