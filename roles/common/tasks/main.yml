@@ -1,0 +1,71 @@
+--- 
+- name: Update packges
+  apt: update_cache=yes
+  tags: 
+    - bootstrap
+ 
+- name: Dist upgrade packges
+  apt: upgrade=dist
+  tags: 
+    - bootstrap
+
+- name: Install packges
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - tmux
+    - htop
+    - atop
+  tags: 
+    - bootstrap
+    - install-items
+
+- name: Sudo without password
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  tags: 
+    - bootstrap
+
+- name: Add Administrator user
+  user: name=administrator comment="Privileged Administrartor user" uid=1001 group=sudo  
+  tags: 
+    - bootstrap
+    - create-user-administrator
+
+- name: Create haystak group
+  group: name=haystak state=present
+  tags: 
+    - bootstrap
+    - create-group-haystak
+
+- name: Add haystak user
+  user: name=haystak comment="Unprivileged Haystak User" uid=1000 groups=haystak,sudo
+  tags: 
+    - bootstrap
+    - create-user-haystak
+
+- name: Configure UFW 
+  ufw: state=enabled policy=disable
+  ufw: logging=on
+  ufw: rule=allow name=OpenSSH
+  tags:
+    - bootstrap 
+
+- name: Disallow root SSH access
+  lineinfile:
+   dest=/etc/ssh/sshd_config
+   regexp="^PermitRootLogin"
+   line="PermitRootLogin no"
+   state=present
+  notify:
+    - restart sshd
+  tags:
+    - bootstrap  
+
+- name: Disallow SSH password authentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^PasswordAuthentication"
+    line="PasswordAuthentication no"
+    state=present
+  notify:
+    - restart sshd
