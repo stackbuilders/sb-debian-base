@@ -171,6 +171,17 @@
   tags:
     - haskell-stack
 
+- name: Install common Haskell build dependencies
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: name={{ item }} state=present
+  with_items:
+    - libpcre3-dev
+    - libpq-dev
+  tags:
+    - haskell-build-dependencies
+
 - name: Set up application deploy directory
   remote_user: administrator
   become: yes
