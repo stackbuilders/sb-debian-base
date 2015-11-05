@@ -100,6 +100,17 @@
   tags:
     - bootstrap
 
+- name: Set up authorized_keys for the stackbuilders user
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  authorized_key: user=stackbuilders
+                  key="{{ item }}"
+  with_file:
+    - keys/stackbuilders
+  tags:
+    - bootstrap
+
 - name: Configure UFW
   remote_user: administrator
   become: yes
