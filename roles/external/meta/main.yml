@@ -29,3 +29,16 @@ dependencies:
     remote_method: administrator
     tags:
       - nginx
+
+  - role: ANXS.postgresql
+    postgresql_version: 9.3
+    postgresql_encoding: 'UTF-8'
+    postgresql_locale: 'en_US.UTF-8'
+
+    postgresql_admin_user: "postgres"
+    postgresql_default_auth_method: "trust"
+
+    postgresql_cluster_name: "main"
+    postgresql_cluster_reset: false
+    tags:
+      - basic-postgres
