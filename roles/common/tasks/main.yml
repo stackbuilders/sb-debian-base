@@ -1,6 +1,6 @@
 ---
 - name: Add administrator user
-  user: name=administrator comment="Privileged administrator user" uid=1001 group=sudo
+  user: name=administrator comment="Privileged administrator user" uid=1001 group=sudo shell=/bin/bash
   remote_user: root
   tags:
     - prebootstrap
@@ -9,7 +9,6 @@
   apt: update_cache=yes
   tags:
     - prebootstrap
-    - base
 
 - name: Install sudo package
   apt: name={{ item }} state=present
@@ -92,7 +91,7 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo
+  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash
   tags:
     - bootstrap
     - create-user-stackbuilders
@@ -106,3 +105,43 @@
   ufw: rule=allow name=OpenSSH
   tags:
     - bootstrap
+
+- name: Add FPCO Deb Key
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
+  tags:
+    - haskell-stack
+
+- name: Add FPCO Deb repository
+  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  tags:
+    - haskell-stack
+
+- name: Add FPCO Deb repository
+  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  tags:
+    - haskell-stack
+
+- name: Update packges
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: update_cache=yes
+  tags:
+    - haskell-stack
+
+- name: Install Stack packges
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: name=stack state=present
+  tags:
+    - haskell-stack
