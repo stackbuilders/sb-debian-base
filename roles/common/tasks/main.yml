@@ -5,6 +5,12 @@
   tags:
     - prebootstrap
 
+- name: Enable default repos
+  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
+  remote_user: root
+  tags:
+    - prebootstrap
+
 - name: Update packges
   apt: update_cache=yes
   tags:
@@ -24,7 +30,13 @@
   tags:
     - prebootstrap
 
-# add key for administrator user
+- name: Set up authorized_keys for the administrator user
+  authorized_key: user=administrator
+                  key="{{ item }}"
+  with_file:
+    - keys/administrator
+  tags:
+    - prebootstrap
 
 - name: Disallow SSH password authentication
   remote_user: administrator
@@ -49,14 +61,6 @@
    state=present
   notify:
     - restart sshd
-  tags:
-    - bootstrap
-
-- name: Set up authorized_keys for the administrator user
-  authorized_key: user=administrator
-                  key="{{ item }}"
-  with_file:
-    - keys/administrator
   tags:
     - bootstrap
 
@@ -126,14 +130,6 @@
   become: yes
   become_method: sudo
   apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
-  tags:
-    - haskell-stack
-
-- name: Add FPCO Deb repository
-  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
-  remote_user: administrator
-  become: yes
-  become_method: sudo
   tags:
     - haskell-stack
 
