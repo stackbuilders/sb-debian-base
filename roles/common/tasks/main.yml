@@ -73,6 +73,8 @@
     - htop
     - atop
     - ufw
+    - emacs24-nox
+    - atsar
   tags:
     - bootstrap
     - install-items
