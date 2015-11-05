@@ -22,3 +22,10 @@ dependencies:
     ntp_timezone: UTC
     tags:
       - bootstrap
+
+  - role: egidijus.nginx-ssl
+    become: yes
+    become_method: sudo
+    remote_method: administrator
+    tags:
+      - nginx
