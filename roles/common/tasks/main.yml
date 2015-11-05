@@ -1,19 +1,42 @@
 ---
-- name: Sudo without password
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
-  remote_user: root
-  tags:
-    - bootstrap
-
 - name: Add administrator user
   user: name=administrator comment="Privileged administrator user" uid=1001 group=sudo
   remote_user: root
   tags:
+    - prebootstrap
+
+- name: Update packges
+  apt: update_cache=yes
+  tags:
+    - prebootstrap
+    - base
+
+- name: Install sudo package
+  apt: name={{ item }} state=present
+  remote_user: root
+  with_items:
+    - sudo
+  tags:
+    - prebootstrap
+
+- name: Sudo without password
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  remote_user: root
+  tags:
+    - prebootstrap
+
+# add key for administrator user
+
+- name: Disallow SSH password authentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^PasswordAuthentication"
+    line="PasswordAuthentication no"
+    state=present
+  tags:
     - bootstrap
-    - create-user-administrator
 
 - name: Disallow root SSH access
-  remote_user: root
   lineinfile:
    dest=/etc/ssh/sshd_config
    regexp="^PermitRootLogin"
@@ -23,21 +46,6 @@
     - restart sshd
   tags:
     - bootstrap
-
-- name: Disallow SSH password authentication
-  remote_user: root
-  lineinfile:
-    dest=/etc/ssh/sshd_config
-    regexp="^PasswordAuthentication"
-    line="PasswordAuthentication no"
-    state=present
-  notify:
-    - restart sshd
-
-- name: Update packges
-  apt: update_cache=yes
-  tags:
-    - base
 
 - name: Dist upgrade packges
   apt: upgrade=dist
