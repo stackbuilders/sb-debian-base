@@ -52,6 +52,14 @@
   tags:
     - bootstrap
 
+- name: Set up authorized_keys for the administrator user
+  authorized_key: user=administrator
+                  key="{{ item }}"
+  with_file:
+    - keys/administrator
+  tags:
+    - bootstrap
+
 - name: Dist upgrade packges
   remote_user: administrator
   become: yes
@@ -59,7 +67,6 @@
   apt: upgrade=dist
   tags:
     - bootstrap
-    - base
 
 - name: Install packges
   remote_user: administrator
@@ -76,7 +83,6 @@
     - atsar
   tags:
     - bootstrap
-    - install-items
 
 - name: Create stackbuilders group
   remote_user: administrator
@@ -85,7 +91,6 @@
   group: name=stackbuilders state=present
   tags:
     - bootstrap
-    - create-group-stackbuilders
 
 - name: Add stackbuilders user
   remote_user: administrator
@@ -94,7 +99,6 @@
   user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash
   tags:
     - bootstrap
-    - create-user-stackbuilders
 
 - name: Configure UFW
   remote_user: administrator
