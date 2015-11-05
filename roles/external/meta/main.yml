@@ -1,0 +1,14 @@
+dependencies:
+  - role: jnv.unattended-upgrades
+    become: yes
+    become_method: sudo
+    remote_method: administrator
+    unattended_origins_patterns:
+      - 'origin=Debian,archive=${distro_codename},label=Debian-Security'
+
+  - role: nickjj.fail2ban
+    become: yes
+    become_method: sudo
+    remote_method: administrator
+    tags:
+      - fail2ban
