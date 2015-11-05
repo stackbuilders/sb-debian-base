@@ -5,6 +5,12 @@
   tags:
     - prebootstrap
 
+- name: Enable default repos
+  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
+  remote_user: root
+  tags:
+    - prebootstrap
+
 - name: Update packges
   apt: update_cache=yes
   tags:
@@ -55,14 +61,6 @@
    state=present
   notify:
     - restart sshd
-  tags:
-    - bootstrap
-
-- name: Enable default repos
-  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
-  remote_user: administrator
-  become: yes
-  become_method: sudo
   tags:
     - bootstrap
 
