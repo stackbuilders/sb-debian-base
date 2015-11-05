@@ -28,6 +28,9 @@
 # add key for administrator user
 
 - name: Disallow SSH password authentication
+  remote_user: administrator
+  become: yes
+  become_method: sudo
   lineinfile:
     dest=/etc/ssh/sshd_config
     regexp="^PasswordAuthentication"
@@ -37,6 +40,9 @@
     - bootstrap
 
 - name: Disallow root SSH access
+  remote_user: administrator
+  become: yes
+  become_method: sudo
   lineinfile:
    dest=/etc/ssh/sshd_config
    regexp="^PermitRootLogin"
@@ -48,36 +54,53 @@
     - bootstrap
 
 - name: Dist upgrade packges
+  remote_user: administrator
+  become: yes
+  become_method: sudo
   apt: upgrade=dist
   tags:
+    - bootstrap
     - base
 
 - name: Install packges
+  remote_user: administrator
+  become: yes
+  become_method: sudo
   apt: name={{ item }} state=present
   with_items:
     - vim
     - tmux
     - htop
     - atop
+    - ufw
   tags:
-    - base
+    - bootstrap
     - install-items
 
 - name: Create stackbuilders group
+  remote_user: administrator
+  become: yes
+  become_method: sudo
   group: name=stackbuilders state=present
   tags:
-    - base
+    - bootstrap
     - create-group-stackbuilders
 
 - name: Add stackbuilders user
-  user: name=stackbuilders comment="Unprivileged Stack Builders User" uid=1000 groups=stackbuilders,sudo
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo
   tags:
-    - base
+    - bootstrap
     - create-user-stackbuilders
 
 - name: Configure UFW
+  remote_user: administrator
+  become: yes
+  become_method: sudo
   ufw: state=enabled policy=disable
   ufw: logging=on
   ufw: rule=allow name=OpenSSH
   tags:
-    - base
+    - bootstrap
