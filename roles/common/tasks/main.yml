@@ -100,7 +100,7 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash
+  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
   tags:
     - bootstrap
 
@@ -112,6 +112,20 @@
                   key="{{ item }}"
   with_file:
     - keys/stackbuilders
+  tags:
+    - bootstrap
+
+- name: Ensure github.com is a known host
+  remote_user: stackbuilders
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: /home/stackbuilders/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    regexp: "^github\\.com"
+
   tags:
     - bootstrap
 
@@ -156,3 +170,11 @@
   apt: name=stack state=present
   tags:
     - haskell-stack
+
+- name: Set up application deploy directory
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  file: path=/var/projects state=directory owner=stackbuilders group=stackbuilders mode=0775
+  tags:
+    - create-app-directory
