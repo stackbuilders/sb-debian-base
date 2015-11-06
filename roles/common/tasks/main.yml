@@ -100,7 +100,7 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash
+  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
   tags:
     - bootstrap
 
@@ -115,6 +115,20 @@
   tags:
     - bootstrap
 
+- name: Ensure github.com is a known host
+  remote_user: stackbuilders
+  become: yes
+  become_method: sudo
+  lineinfile:
+    dest: /home/stackbuilders/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    regexp: "^github\\.com"
+
+  tags:
+    - bootstrap
+
 - name: Configure UFW
   remote_user: administrator
   become: yes
@@ -124,6 +138,26 @@
   ufw: rule=allow name=OpenSSH
   tags:
     - bootstrap
+
+- name: Set hostname to host-specific variable
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  hostname: name={{ hostname }}
+  when: hostname is defined
+  tags:
+    - bootstrap
+    - set-hostname
+
+- name: Set hostname to host name in inventory
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  hostname: name={{ inventory_hostname }}
+  when: hostname is undefined
+  tags:
+    - bootstrap
+    - set-hostname
 
 - name: Add FPCO Deb Key
   remote_user: administrator
@@ -175,3 +209,22 @@
     - 80
   tags:
     - app-server-firewall
+
+- name: Install common Haskell build dependencies
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: name={{ item }} state=present
+  with_items:
+    - libpcre3-dev
+    - libpq-dev
+  tags:
+    - haskell-build-dependencies
+
+- name: Set up application deploy directory
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  file: path=/var/projects state=directory owner=stackbuilders group=stackbuilders mode=0775
+  tags:
+    - create-app-directory

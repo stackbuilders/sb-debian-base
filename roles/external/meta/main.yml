@@ -1,4 +1,12 @@
 dependencies:
+  - role: kamaln7.swapfile
+    become: yes
+    become_method: sudo
+    remote_method: administrator
+    swapfile_size: 2GB
+    tags:
+      - bootstrap
+
   - role: jnv.unattended-upgrades
     become: yes
     become_method: sudo
