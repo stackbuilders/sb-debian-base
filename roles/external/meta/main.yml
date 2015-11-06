@@ -31,10 +31,24 @@ dependencies:
     tags:
       - bootstrap
 
-  - role: egidijus.nginx-ssl
+  - role: jdauphant.nginx
     become: yes
     become_method: sudo
     remote_method: administrator
+
+    nginx_sites:
+     default:
+         - listen 80
+         - location / { proxy_pass "http://localhost:8000"; }
+
+    # A list of hashs that define additional configuration
+    nginx_configs:
+      proxy:
+          - proxy_set_header X-Real-IP  $remote_addr
+          - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+      upstream:
+          - upstream foo { server 127.0.0.1:8000; }
+
     tags:
       - nginx
 
