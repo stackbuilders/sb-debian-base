@@ -156,3 +156,22 @@
   apt: name=stack state=present
   tags:
     - haskell-stack
+
+- name: Enable ufw
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  ufw: state=enabled policy=deny
+  tags:
+    - app-server-firewall
+
+- name: Open port 22
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  ufw: rule=allow port={{item}}  proto=tcp
+  with_items:
+    - 443
+    - 80
+  tags:
+    - app-server-firewall
