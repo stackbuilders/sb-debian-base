@@ -149,6 +149,18 @@
     - bootstrap
     - set-hostname
 
+- name: Generate ufw rules
+  template: src={{ item }}.j2
+            dest=/lib/ufw/{{ item }}
+            owner=root
+            group=root
+            mode=640
+  with_items:
+    - ufw_rules
+  notify: Restart ufw
+  tags:
+    - ufw-rules
+
 - name: Add FPCO Deb Key
   remote_user: administrator
   become: yes
