@@ -199,12 +199,13 @@
   tags:
     - app-server-firewall
 
-- name: Open port 22
+- name: Open ports 22, 443, 80
   remote_user: administrator
   become: yes
   become_method: sudo
   ufw: rule=allow port={{item}}  proto=tcp
   with_items:
+    - 22
     - 443
     - 80
   tags:
