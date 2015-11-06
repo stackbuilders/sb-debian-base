@@ -48,5 +48,19 @@ dependencies:
 
     postgresql_cluster_name: "main"
     postgresql_cluster_reset: false
+
+    postgresql_databases:
+      - name: "{{ app_name }}_{{ app_environment }}"
+
+    postgresql_users:
+      - name: stackbuilders
+        pass:
+        encrypted: no       # denotes if the password is already encrypted.
+
+    postgresql_user_privileges:
+      - name: stackbuilders
+        db: "{{ app_name }}_{{ app_environment }}"
+        priv: "ALL"
+
     tags:
       - basic-postgres
