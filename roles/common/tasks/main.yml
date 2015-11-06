@@ -139,6 +139,26 @@
   tags:
     - bootstrap
 
+- name: Set hostname to host-specific variable
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  hostname: name={{ hostname }}
+  when: hostname is defined
+  tags:
+    - bootstrap
+    - set-hostname
+
+- name: Set hostname to host name in inventory
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  hostname: name={{ inventory_hostname }}
+  when: hostname is undefined
+  tags:
+    - bootstrap
+    - set-hostname
+
 - name: Add FPCO Deb Key
   remote_user: administrator
   become: yes
