@@ -191,6 +191,26 @@
   tags:
     - haskell-stack
 
+- name: Enable ufw
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  ufw: state=enabled policy=deny
+  tags:
+    - app-server-firewall
+
+- name: Open ports 22, 443, 80
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  ufw: rule=allow port={{item}}  proto=tcp
+  with_items:
+    - 22
+    - 443
+    - 80
+  tags:
+    - app-server-firewall
+
 - name: Install common Haskell build dependencies
   remote_user: administrator
   become: yes
@@ -198,6 +218,7 @@
   apt: name={{ item }} state=present
   with_items:
     - libpcre3-dev
+    - libsqlite3-dev
     - libpq-dev
   tags:
     - haskell-build-dependencies
