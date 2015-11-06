@@ -25,7 +25,7 @@
     - prebootstrap
 
 - name: Sudo without password
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
   remote_user: root
   tags:
     - prebootstrap
