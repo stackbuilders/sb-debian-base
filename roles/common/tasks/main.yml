@@ -129,16 +129,6 @@
   tags:
     - bootstrap
 
-- name: Configure UFW
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  ufw: state=enabled policy=disable
-  ufw: logging=on
-  ufw: rule=allow name=OpenSSH
-  tags:
-    - bootstrap
-
 - name: Set hostname to host-specific variable
   remote_user: administrator
   become: yes
@@ -198,6 +188,7 @@
   ufw: state=enabled policy=deny
   tags:
     - app-server-firewall
+    - bootstrap
 
 - name: Open ports 22, 443, 80
   remote_user: administrator
@@ -210,6 +201,7 @@
     - 80
   tags:
     - app-server-firewall
+    - bootstrap
 
 - name: Install common Haskell build dependencies
   remote_user: administrator
