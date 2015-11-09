@@ -21,5 +21,15 @@ will be preferred. The following uses the hostname value rather than
 127.0.0.1:
 
 ```
-127.0.0.1:2222 hostname=vanderbilt-staging.stackbuilders.net
+127.0.0.1:2222 hostname=staging.stackbuilders.net
 ```
+
+## Use Vagrant to test provisioning
+
+To use vagrant and ansible is essential to have vagrant and Virtual Box for our configuration. [Download vagrant](https://www.vagrantup.com/downloads.html) [Donwload Virtual Box](https://www.virtualbox.org/wiki/Downloads)
+How to use vagrant and :
+* Into the project folder type ```vagrant up``` which use the Vagrantfile to provide the information to start the VM.
+* Connect by ssh type ```vagrant ssh``` into the project folder.
+* Stop machine ```vagrant halt``` into the project folder.
+* Destroy machine ```vagrant destroy``
+
