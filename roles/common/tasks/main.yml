@@ -1,4 +1,9 @@
 ---
+- name: Set host name
+  hostname: name={{ app_environment }}.{{ app_name }}.com
+  tags:
+    - prebootstrap
+
 - name: Add administrator user
   user: name=administrator comment="Privileged administrator user" uid=1001 group=sudo shell=/bin/bash
   remote_user: root
