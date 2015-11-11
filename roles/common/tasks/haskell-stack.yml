@@ -1,0 +1,31 @@
+- name: Add FPCO Deb Key
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
+  tags:
+    - haskell-stack
+
+- name: Add FPCO Deb repository
+  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  tags:
+    - haskell-stack
+
+- name: Update packges
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: update_cache=yes
+  tags:
+    - haskell-stack
+
+- name: Install Stack packges
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: name=stack state=present
+  tags:
+    - haskell-stack
