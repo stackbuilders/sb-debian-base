@@ -187,9 +187,20 @@
   become_method: sudo
   ufw: state=enabled policy=deny
   tags:
-    - app-server-firewall
-    - ssh-server-https-firewall
-    - ssh-server-http-firewall
+    - app-server-http-firewall
+    - app-server-https-firewall
+    - ssh-server-firewall
+
+- name: Open ports 22 and 80 for an HTTP application server
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  ufw: rule=allow port={{item}}  proto=tcp
+  with_items:
+    - 22
+    - 80
+  tags:
+    - app-server-http-firewall
 
 - name: Open ports 22, 443, 80 for an HTTPS application server
   remote_user: administrator
@@ -202,18 +213,6 @@
     - 80
   tags:
     - app-server-https-firewall
-
-- name: Open ports 22, 80 for an HTTPS application server
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  ufw: rule=allow port={{item}}  proto=tcp
-  with_items:
-    - 22
-    - 443
-    - 80
-  tags:
-    - app-server-http-firewall
 
 - name: Open port 22 for an SSH-only server
   remote_user: administrator
