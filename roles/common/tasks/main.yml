@@ -117,6 +117,7 @@
                   key="{{ item }}"
   with_file:
     - keys/stackbuilders
+    - keys/ci-{{ app_environment }}
   tags:
     - bootstrap
 
