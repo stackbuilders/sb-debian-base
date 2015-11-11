@@ -85,7 +85,6 @@
     state: present
     line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
-
   tags:
     - bootstrap
 
@@ -108,6 +107,7 @@
   tags:
     - bootstrap
     - set-hostname
+
 - name: Enable ufw
   remote_user: administrator
   become: yes
@@ -116,12 +116,12 @@
   tags:
     - bootstrap
 
-- name: Open ports 
+- name: Open ports
   remote_user: administrator
   become: yes
   become_method: sudo
   ufw: rule=allow port={{ item }}  proto=tcp
-  with_items: 
+  with_items:
     - "{{ ports }}"
   tags:
-    - app-server-http-firewall
+    - bootstrap
