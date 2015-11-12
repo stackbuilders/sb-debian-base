@@ -1,0 +1,10 @@
+---
+- name: Install ruby dependencies
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  apt: name={{ item }} state=present
+  with_items:
+    - curl
+  tags:
+    - bootstrap
