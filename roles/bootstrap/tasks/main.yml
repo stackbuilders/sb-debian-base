@@ -1,5 +1,5 @@
 - name: Disallow SSH password authentication
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   lineinfile:
@@ -11,7 +11,7 @@
     - bootstrap
 
 - name: Disallow root SSH access
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   lineinfile:
@@ -25,7 +25,7 @@
     - bootstrap
 
 - name: Dist upgrade packges
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   apt: upgrade=dist
@@ -33,7 +33,7 @@
     - bootstrap
 
 - name: Install packges
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   apt: name={{ item }} state=present
@@ -49,7 +49,7 @@
     - bootstrap
 
 - name: Create stackbuilders group
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   group: name=stackbuilders state=present
@@ -57,7 +57,7 @@
     - bootstrap
 
 - name: Add stackbuilders user
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
@@ -65,7 +65,7 @@
     - bootstrap
 
 - name: Set up authorized_keys for the stackbuilders user
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   authorized_key: user=stackbuilders
@@ -89,7 +89,7 @@
     - bootstrap
 
 - name: Set hostname to host-specific variable
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   hostname: name={{ hostname }}
@@ -99,7 +99,7 @@
     - set-hostname
 
 - name: Set hostname to host name in inventory
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   hostname: name={{ inventory_hostname }}
@@ -109,7 +109,7 @@
     - set-hostname
 
 - name: Enable ufw
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   ufw: state=enabled policy=deny
@@ -117,7 +117,7 @@
     - bootstrap
 
 - name: Open ports
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   ufw: rule=allow port={{ item }}  proto=tcp

@@ -4,8 +4,8 @@
   tags:
     - prebootstrap
 
-- name: Add administrator user
-  user: name=administrator comment="Privileged administrator user" uid=1001 group=sudo shell=/bin/bash
+- name: Add OS user
+  user: name="{{ os_username }}" comment="Privileged {{ os_username }} user" uid=1001 group=sudo shell=/bin/bash
   remote_user: root
   tags:
     - prebootstrap
@@ -35,10 +35,10 @@
   tags:
     - prebootstrap
 
-- name: Set up authorized_keys for the administrator user
-  authorized_key: user=administrator
+- name: Set up authorized_keys for the "{{ os_username }}" user
+  authorized_key: user="{{ os_username }}"
                   key="{{ item }}"
   with_file:
-    - keys/administrator
+    - keys/os_username
   tags:
     - prebootstrap
