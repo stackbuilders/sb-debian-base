@@ -1,8 +1,4 @@
 ---
-- include: prebootstrap.yml
-- include: bootstrap.yml
-- include: haskell-stack.yml
-
 - name: Install common Haskell build dependencies
   remote_user: administrator
   become: yes

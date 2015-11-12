@@ -108,6 +108,7 @@
   tags:
     - bootstrap
     - set-hostname
+    
 - name: Enable ufw
   remote_user: administrator
   become: yes
