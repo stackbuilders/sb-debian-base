@@ -1,6 +1,6 @@
 ---
 - name: Install common Haskell build dependencies
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   apt: name={{ item }} state=present
@@ -10,4 +10,3 @@
     - libpq-dev
   tags:
     - haskell-build-dependencies
-

@@ -1,6 +1,6 @@
 ---
 - name: Set up application deploy directory
-  remote_user: administrator
+  remote_user: "{{ os_username }}"
   become: yes
   become_method: sudo
   file: path=/var/projects state=directory owner=stackbuilders group=stackbuilders mode=0775
