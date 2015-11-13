@@ -45,6 +45,8 @@
     - ufw
     - emacs24-nox
     - atsar
+    - git
+    - curl
   tags:
     - bootstrap
 
