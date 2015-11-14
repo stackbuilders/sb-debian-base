@@ -87,6 +87,8 @@
     state: present
     line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
+    group: users
+    owner: stackbuilders
   tags:
     - bootstrap
 
