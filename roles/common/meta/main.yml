@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: prebootstrap }
+  - { role: bootstrap }
+  - { role: create-app-directory }

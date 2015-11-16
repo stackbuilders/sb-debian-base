@@ -1,0 +1,44 @@
+---
+- name: Set host name
+  hostname: name={{ app_environment }}.{{ app_name }}.com
+  tags:
+    - prebootstrap
+
+- name: Add OS user
+  user: name="{{ os_username }}" comment="Privileged {{ os_username }} user" uid=1001 group=sudo shell=/bin/bash
+  remote_user: root
+  tags:
+    - prebootstrap
+
+- name: Enable default repos
+  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
+  remote_user: root
+  tags:
+    - prebootstrap
+
+- name: Update packges
+  apt: update_cache=yes
+  tags:
+    - prebootstrap
+
+- name: Install sudo package
+  apt: name={{ item }} state=present
+  remote_user: root
+  with_items:
+    - sudo
+  tags:
+    - prebootstrap
+
+- name: Sudo without password
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  remote_user: root
+  tags:
+    - prebootstrap
+
+- name: Set up authorized_keys for the "{{ os_username }}" user
+  authorized_key: user="{{ os_username }}"
+                  key="{{ item }}"
+  with_file:
+    - keys/os_username
+  tags:
+    - prebootstrap
