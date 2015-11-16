@@ -73,7 +73,7 @@
   authorized_key: user=stackbuilders
                   key="{{ item }}"
   with_file:
-    - keys/stackbuilders
+    - keys/os_username
     - keys/ci-{{ app_environment }}
   tags:
     - bootstrap
