@@ -1,0 +1,25 @@
+$script = <<SCRIPT
+echo I am provisioning...
+date > /etc/vagrant_provisioned_at
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.provider "virtualbox"
+  config.vm.provision "shell", inline: $script
+
+  # Create private network assigned by dhcp or assigning a IP
+  # config.vm.network "private_network", type: "dhcp"
+  # config.vm.network "private_network", ip: "192.168.9.10", virtualbox__intnet: "vboxnet0"
+end
+
+Vagrant::Config.run do |config|
+  config.vm.box = "debian/jessie64"
+  config.vm.box_url = "https://atlas.hashicorp.com/debian/boxes/jessie64"
+  config.vm.host_name = "ansible.sb.com"
+
+  config.vm.share_folder "bootstrap", "/mnt/bootstrap", ".", :create => true
+  config.vm.provision :shell, :path => "bootstrap.sh"
+
+  # Forwarding port (vm port, local machine port)
+  # config.vm.forward_port 5432, 15432
+end
