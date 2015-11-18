@@ -1,3 +1,14 @@
+---
+galaxy_info:
+  author: Justin Leitgeb
+  description: Base image and common roles
+  company: Stack Builders
+  license: Proprietary
+  min_ansible_version: 1.2
+  - name: Debian
+    versions:
+      - all
+
 dependencies:
   - role: kamaln7.swapfile
     become: yes
@@ -117,3 +128,6 @@ dependencies:
 
     tags:
       - basic-postgres
+
+  - role: rvm_io.rvm1-ruby
+    tags: ruby
