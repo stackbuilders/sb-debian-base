@@ -9,125 +9,125 @@ galaxy_info:
     versions:
       - all
 
-dependencies:
-  - role: kamaln7.swapfile
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
-    swapfile_size: 2GB
-    tags:
-      - bootstrap
+  dependencies:
+    - role: kamaln7.swapfile
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
+      swapfile_size: 2GB
+      tags:
+        - bootstrap
 
-  - role: jnv.unattended-upgrades
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
-    unattended_origins_patterns:
-      - 'origin=Debian,archive=${distro_codename},label=Debian-Security'
-    tags:
-      - bootstrap
+    - role: jnv.unattended-upgrades
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
+      unattended_origins_patterns:
+        - 'origin=Debian,archive=${distro_codename},label=Debian-Security'
+      tags:
+        - bootstrap
 
-  - role: nickjj.fail2ban
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
-    tags:
-      - bootstrap
+    - role: nickjj.fail2ban
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
+      tags:
+        - bootstrap
 
-  - role: geerlingguy.ntp
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
-    ntp_timezone: UTC
-    tags:
-      - bootstrap
+    - role: geerlingguy.ntp
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
+      ntp_timezone: UTC
+      tags:
+        - bootstrap
 
-  - role: jdauphant.ssl-certs
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
-    ssl_certs_common_name: "{{ inventory_hostname }}"
+    - role: jdauphant.ssl-certs
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
+      ssl_certs_common_name: "{{ inventory_hostname }}"
 
-    tags:
-      - nginx-http
-      - nginx-https
+      tags:
+        - nginx-http
+        - nginx-https
 
-  - role: jdauphant.nginx
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
+    - role: jdauphant.nginx
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
 
-    nginx_sites:
-      https_default:
-        - listen 443 ssl
-        - location / { proxy_pass "http://localhost:8000"; }
+      nginx_sites:
+        https_default:
+          - listen 443 ssl
+          - location / { proxy_pass "http://localhost:8000"; }
 
-      http_redirects_to_https:
-        - listen 80
-        - "return 301 https://{{ inventory_hostname }}$request_uri"
+        http_redirects_to_https:
+          - listen 80
+          - "return 301 https://{{ inventory_hostname }}$request_uri"
 
-    # A list of hashs that define additional configuration
-    nginx_configs:
-      ssl:
-        - "ssl_certificate_key /etc/ssl/{{ inventory_hostname }}/{{ inventory_hostname }}.key"
-        - "ssl_certificate     /etc/ssl/{{ inventory_hostname }}/{{ inventory_hostname }}.pem"
+      # A list of hashs that define additional configuration
+      nginx_configs:
+        ssl:
+          - "ssl_certificate_key /etc/ssl/{{ inventory_hostname }}/{{ inventory_hostname }}.key"
+          - "ssl_certificate     /etc/ssl/{{ inventory_hostname }}/{{ inventory_hostname }}.pem"
 
-      proxy:
-        - proxy_set_header X-Real-IP  $remote_addr
-        - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
-      upstream:
-        - upstream foo { server 127.0.0.1:8000; }
+        proxy:
+          - proxy_set_header X-Real-IP  $remote_addr
+          - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+        upstream:
+          - upstream foo { server 127.0.0.1:8000; }
 
-    tags:
-      - nginx-https
+      tags:
+        - nginx-https
 
-  - role: jdauphant.nginx
-    become: yes
-    become_method: sudo
-    remote_method: "{{ os_username }}"
+    - role: jdauphant.nginx
+      become: yes
+      become_method: sudo
+      remote_method: "{{ os_username }}"
 
-    nginx_sites:
-      default:
-        - listen 80
-        - location / { proxy_pass "http://localhost:8000"; }
+      nginx_sites:
+        default:
+          - listen 80
+          - location / { proxy_pass "http://localhost:8000"; }
 
-    # A list of hashs that define additional configuration
-    nginx_configs:
-      proxy:
-        - proxy_set_header X-Real-IP  $remote_addr
-        - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
-      upstream:
-        - upstream foo { server 127.0.0.1:8000; }
+      # A list of hashs that define additional configuration
+      nginx_configs:
+        proxy:
+          - proxy_set_header X-Real-IP  $remote_addr
+          - proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for
+        upstream:
+          - upstream foo { server 127.0.0.1:8000; }
 
-    tags:
-      - nginx-http
+      tags:
+        - nginx-http
 
-  - role: ANXS.postgresql
-    postgresql_version: 9.3
-    postgresql_encoding: 'UTF-8'
-    postgresql_locale: 'en_US.UTF-8'
+    - role: ANXS.postgresql
+      postgresql_version: 9.3
+      postgresql_encoding: 'UTF-8'
+      postgresql_locale: 'en_US.UTF-8'
 
-    postgresql_admin_user: "postgres"
-    postgresql_default_auth_method: "trust"
+      postgresql_admin_user: "postgres"
+      postgresql_default_auth_method: "trust"
 
-    postgresql_cluster_name: "main"
-    postgresql_cluster_reset: false
+      postgresql_cluster_name: "main"
+      postgresql_cluster_reset: false
 
-    postgresql_databases:
-      - name: "{{ app_name }}_{{ app_environment }}"
+      postgresql_databases:
+        - name: "{{ app_name }}_{{ app_environment }}"
 
-    postgresql_users:
-      - name: stackbuilders
-        pass:
-        encrypted: no       # denotes if the password is already encrypted.
+      postgresql_users:
+        - name: stackbuilders
+          pass:
+          encrypted: no       # denotes if the password is already encrypted.
 
-    postgresql_user_privileges:
-      - name: stackbuilders
-        db: "{{ app_name }}_{{ app_environment }}"
-        priv: "ALL"
+      postgresql_user_privileges:
+        - name: stackbuilders
+          db: "{{ app_name }}_{{ app_environment }}"
+          priv: "ALL"
 
-    tags:
-      - basic-postgres
+      tags:
+        - basic-postgres
 
-  - role: rvm_io.rvm1-ruby
-    tags: ruby
+    - role: rvm_io.rvm1-ruby
+      tags: ruby
