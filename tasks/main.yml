@@ -1,3 +1,48 @@
+---
+- name: Set host name
+  hostname: name={{ app_environment }}.{{ app_name }}.com
+  tags:
+    - prebootstrap
+
+- name: Add OS user
+  user: name="{{ os_username }}" comment="Privileged {{ os_username }} user" uid=1001 group=sudo shell=/bin/bash
+  remote_user: root
+  tags:
+    - prebootstrap
+
+- name: Enable default repos
+  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
+  remote_user: root
+  tags:
+    - prebootstrap
+
+- name: Update packges
+  apt: update_cache=yes
+  tags:
+    - prebootstrap
+
+- name: Install sudo package
+  apt: name={{ item }} state=present
+  remote_user: root
+  with_items:
+    - sudo
+  tags:
+    - prebootstrap
+
+- name: Sudo without password
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  remote_user: root
+  tags:
+    - prebootstrap
+
+- name: Set up authorized_keys for the "{{ os_username }}" user
+  authorized_key: user="{{ os_username }}"
+                  key="{{ item }}"
+  with_file:
+    - keys/os_username
+  tags:
+    - prebootstrap
+
 - name: Disallow SSH password authentication
   remote_user: "{{ os_username }}"
   become: yes
@@ -130,3 +175,56 @@
     - "{{ ports }}"
   tags:
     - bootstrap
+
+
+- name: Set up application deploy directory
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  file: path=/var/projects state=directory owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
+  tags:
+    - create-app-directory
+
+- name: Install common Haskell build dependencies
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  apt: name={{ item }} state=present
+  with_items:
+    - libpcre3-dev
+    - libsqlite3-dev
+    - libpq-dev
+  tags:
+    - haskell-build-dependencies
+
+- name: Add FPCO Deb Key
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
+  tags:
+    - haskell-stack
+
+- name: Add FPCO Deb repository
+  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  tags:
+    - haskell-stack
+
+- name: Update packges
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  apt: update_cache=yes
+  tags:
+    - haskell-stack
+
+- name: Install Stack packges
+  remote_user: "{{ os_username }}"
+  become: yes
+  become_method: sudo
+  apt: name=stack state=present
+  tags:
+    - haskell-stack
