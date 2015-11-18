@@ -1,3 +1,4 @@
+---
 - name: Add FPCO Deb Key
   remote_user: "{{ os_username }}"
   become: yes
