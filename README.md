@@ -12,6 +12,8 @@ $ ansible-galaxy install jdauphant.nginx
 $ ansible-galaxy install ANXS.postgresql
 $ ansible-galaxy install kamaln7.swapfile
 $ ansible-galaxy install jdauphant.ssl-certs
+$ ansible-galaxy install rvm_io.rvm1-ruby
+$ ansible-galaxy install dylancwood.debian-pgbouncer
 ```
 
 The bootstrap process in this script also sets the system hostname
