@@ -133,6 +133,3 @@ dependencies:
     tags:
       - basic-postgres
 
-  - role: rvm1-ansible
-    tags:
-      - ruby
