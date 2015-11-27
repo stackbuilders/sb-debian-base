@@ -1,11 +1,6 @@
 ---
-- name: Set host name
-  hostname: name={{ app_environment }}.{{ app_name }}.com
-  tags:
-    - prebootstrap
-
 - name: Add OS user
-  user: name="{{ os_username }}" comment="Privileged {{ os_username }} user" uid=1001 group=sudo shell=/bin/bash
+  user: name=administrator comment="Privileged Administrator user" uid=1001 group=sudo shell=/bin/bash
   remote_user: root
   tags:
     - prebootstrap
@@ -35,16 +30,16 @@
   tags:
     - prebootstrap
 
-- name: Set up authorized_keys for the "{{ os_username }}" user
-  authorized_key: user="{{ os_username }}"
+- name: Set up authorized_keys for the administrator user
+  authorized_key: user=administrator
                   key="{{ item }}"
   with_file:
-    - keys/os_username
+    - keys/administrators
   tags:
     - prebootstrap
 
 - name: Disallow SSH password authentication
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   lineinfile:
@@ -56,7 +51,7 @@
     - bootstrap
 
 - name: Disallow root SSH access
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   lineinfile:
@@ -70,7 +65,7 @@
     - bootstrap
 
 - name: Dist upgrade packges
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   apt: upgrade=dist
@@ -78,7 +73,7 @@
     - bootstrap
 
 - name: Install packges
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   apt: name={{ item }} state=present
@@ -95,51 +90,51 @@
   tags:
     - bootstrap
 
-- name: Create stackbuilders group
-  remote_user: "{{ os_username }}"
+- name: Create {{ deploy_username }} group
+  remote_user: administrator
   become: yes
   become_method: sudo
-  group: name=stackbuilders state=present
+  group: name={{ deploy_username }} state=present
   tags:
     - bootstrap
 
-- name: Add stackbuilders user
-  remote_user: "{{ os_username }}"
+- name: Add {{ deploy_username }} user
+  remote_user: administrator
   become: yes
   become_method: sudo
-  user: name=stackbuilders comment="Unprivileged Stack Builders User" groups=stackbuilders,sudo shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" groups={{ deploy_username }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
   tags:
     - bootstrap
 
-- name: Set up authorized_keys for the stackbuilders user
-  remote_user: "{{ os_username }}"
+- name: Set up authorized_keys for the {{ deploy_username }} user
+  remote_user: administrator
   become: yes
   become_method: sudo
-  authorized_key: user=stackbuilders
+  authorized_key: user={{ deploy_username }}
                   key="{{ item }}"
   with_file:
-    - keys/os_username
+    - keys/deploy_users
     - keys/ci-{{ app_environment }}
   tags:
     - bootstrap
 
 - name: Ensure github.com is a known host
-  remote_user: stackbuilders
   become: yes
   become_method: sudo
+  remote_user: administrator
   lineinfile:
-    dest: /home/stackbuilders/.ssh/known_hosts
+    dest: /home/{{ deploy_username }}/.ssh/known_hosts
     create: yes
     state: present
     line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
     group: users
-    owner: stackbuilders
+    owner: '{{ deploy_username }}'
   tags:
-    - bootstrap
+    - github
 
 - name: Set hostname to host-specific variable
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   hostname: name={{ hostname }}
@@ -149,7 +144,7 @@
     - set-hostname
 
 - name: Set hostname to host name in inventory
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   hostname: name={{ inventory_hostname }}
@@ -159,7 +154,7 @@
     - set-hostname
 
 - name: Enable ufw
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   ufw: state=enabled policy=deny
@@ -167,7 +162,7 @@
     - bootstrap
 
 - name: Open ports
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   ufw: rule=allow port={{ item }}  proto=tcp
@@ -178,7 +173,7 @@
 
 
 - name: Set up application deploy directory
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   file: path=/var/projects state=directory owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
@@ -186,7 +181,7 @@
     - create-app-directory
 
 - name: Install common Haskell build dependencies
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   apt: name={{ item }} state=present
@@ -198,7 +193,7 @@
     - haskell-build-dependencies
 
 - name: Add FPCO Deb Key
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
@@ -207,14 +202,14 @@
 
 - name: Add FPCO Deb repository
   apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   tags:
     - haskell-stack
 
 - name: Update packges
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   apt: update_cache=yes
@@ -222,7 +217,7 @@
     - haskell-stack
 
 - name: Install Stack packges
-  remote_user: "{{ os_username }}"
+  remote_user: administrator
   become: yes
   become_method: sudo
   apt: name=stack state=present
