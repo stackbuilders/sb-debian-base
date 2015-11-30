@@ -30,7 +30,6 @@ dependencies:
       - 'origin=Debian,archive=${distro_codename},label=Debian-Security'
       - 'o=Debian,a=stable'
       - 'o=Debian,a=stable-updates'
-    unattended_package_blacklist: [ "postgresql","postgresql-*","apache2","apache2-*","redis","redis-*","proftp","proftp-*","fail2ban","php5","php5-*","nagios3"]
     unattended_automatic_reboot: false
     tags:
       - bootstrap
