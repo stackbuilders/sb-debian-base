@@ -223,3 +223,31 @@
   apt: name=stack state=present
   tags:
     - haskell-stack
+
+- name: Install rvm dependencies
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+#  command: bash -c "rvm autolibs enable; rvm requirements;"
+  apt: name='{{ item }}' state=present
+  with_items:
+    - gawk
+    - g++
+    - libreadline6-dev
+    - libyaml-dev
+    - libsqlite3-dev
+    - sqlite3
+    - autoconf
+    - libgdbm-dev
+    - libncurses5-dev
+    - automake
+    - libtool
+    - bison
+    - pkg-config
+    - libffi-dev
+    - bzip2
+    - make
+    - libssl-dev
+    - zlib1g-dev
+  tags:
+    - ruby-dependencies
