@@ -228,26 +228,15 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-#  command: bash -c "rvm autolibs enable; rvm requirements;"
   apt: name='{{ item }}' state=present
   with_items:
-    - gawk
-    - g++
-    - libreadline6-dev
-    - libyaml-dev
-    - libsqlite3-dev
-    - sqlite3
-    - autoconf
-    - libgdbm-dev
-    - libncurses5-dev
-    - automake
-    - libtool
-    - bison
-    - pkg-config
-    - libffi-dev
-    - bzip2
-    - make
-    - libssl-dev
+    - build-essential
+    - tklib
     - zlib1g-dev
+    - libssl-dev
+    - libreadline-gplv2-dev
+    - libxml2
+    - libxml2-dev
+    - libxslt1-dev
   tags:
     - ruby-dependencies
