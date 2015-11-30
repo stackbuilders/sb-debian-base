@@ -28,8 +28,7 @@ dependencies:
     remote_user: administrator
     unattended_origins_patterns:
       - 'origin=Debian,archive=${distro_codename},label=Debian-Security'
-      - 'o=Debian,a=stable'
-      - 'o=Debian,a=stable-updates'
+    unattended_mail: 'haystak@stackbuilders.com'
     unattended_automatic_reboot: false
     tags:
       - bootstrap
