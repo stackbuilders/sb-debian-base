@@ -161,7 +161,7 @@
   tags:
     - bootstrap
 
-- name: Open ports
+- name: Open general ports
   remote_user: administrator
   become: yes
   become_method: sudo
@@ -171,6 +171,14 @@
   tags:
     - bootstrap
 
+- name: Open ports by IP
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
+  with_dict: port_ips
+  tags:
+    - bootstrap
 
 - name: Set up application deploy directory
   remote_user: administrator
