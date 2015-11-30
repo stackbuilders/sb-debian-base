@@ -178,7 +178,7 @@
   ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
   with_dict: port_ips
   tags:
-    - bootstrap
+    - db-bootstrap
 
 - name: Set up application deploy directory
   remote_user: administrator
