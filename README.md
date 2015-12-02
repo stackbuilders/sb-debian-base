@@ -38,25 +38,34 @@ This tag contains more advance setup tasks, such as:
 - Disallow password authentication for SSH sessions.
 - Disallow ssh access for root user
 - Upgrade Dist packages
+- Install Unattended-Upgrades for security patches only
+    - You need to define the var {{ uu_email_alerts }} (e.g. haystak@stackbuilders.com)
 - Install basic packages
     - s.a: vim, tmux, htop, atop, ufw, emacs, atsar, git, curl
 - Create group for deployer user
-    - You need to define the var {{ deploy_username }} (f.e: stackbuilders, haystak)
+    - You need to define the var {{ deploy_username }} (e.g. stackbuilders, haystak)
 - Create deployer user and create ssh keys (public and private)
-    - You need to define the var {{ deploy_username }} (f.e: stackbuilders, haystak)
+    - You need to define the var {{ deploy_username }} (e.g. stackbuilders, haystak)
 - Setup authorized ssh keys for the deployer user
-    - You need to define the files: keys/deploy_users, keys/ci-staging (f.e.)
+    - You need to define the files: keys/deploy_users, e.g. keys/ci-staging
 - Set hostname to host-specific
     - You need to define {{ hostname }}
 - Set hostname in the inventory
     - You need to define {{ inventory_hostname }}
 - Enable UFW
-- Open general ports ( f.e.: ssh port, http port)
+- Open general ports ( e.g. ssh port, http port)
     - You need to define {{ ports }}
 - Open specific ports for specific IPs
     - You need to define {{ port_ips }}
 - This tag ensures github.com is a known host
     - You need to define {{ deploy_username }}
+
+#### External dependencies (galaxy) included in this tag -bootstrap
+- kamaln7.swapfile (Setups the swapfile)
+    - You need to define the var {{ swap_file_size }} (e.g. 2048)
+- nickjj.fail2ban (Install and configure fail2ban)
+- geerlingguy.ntp (Installs NTP)
+
 
 ### - set-hostname
 - Set hostname to host-specific
@@ -81,6 +90,12 @@ This tag contains more advance setup tasks, such as:
 ### - ruby-dependencies
 - Install dependencies for rvm
     - (s.a. build-essential, tklib,zlib1g-dev,libssl-dev,libreadline-gplv2-dev,libxml2,libxml2-dev,libxslt1-dev)
+
+### - basic-postgres
+- external dependency ANXS.postgresql which installs and configures PostgreSQL, extensions, databases and users
+
+### - nginx-https
+- external dependency jdauphant.nginx to install and manage nginx configuration
 
 ## Files you need to create
 You should have the following list of files containing the SSH public-keys for both the administrator and deployer users, respectively.
