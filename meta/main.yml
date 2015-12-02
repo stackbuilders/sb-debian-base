@@ -22,7 +22,7 @@ dependencies:
     tags:
       - bootstrap
 
-  - role: jnv.unattended-upgrades
+  - role: ansible-role-unattended-upgrades
     become: yes
     become_method: sudo
     remote_user: administrator
