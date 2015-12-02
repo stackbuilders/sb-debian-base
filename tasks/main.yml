@@ -131,7 +131,7 @@
     group: users
     owner: '{{ deploy_username }}'
   tags:
-    - github
+    - bootstrap
 
 - name: Set hostname to host-specific variable
   remote_user: administrator

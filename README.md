@@ -55,8 +55,6 @@ This tag contains more advance setup tasks, such as:
     - You need to define {{ ports }}
 - Open specific ports for specific IPs
     - You need to define {{ port_ips }}
-
-### - github
 - This tag ensures github.com is a known host
     - You need to define {{ deploy_username }}
 
@@ -94,23 +92,12 @@ keys/deploy_users
 
 ## How to execute/run these playbooks
 
-If you want to deploy a DB-server
 ```
 # Basic image
 ansible-playbook -l local -i allservers.yml --tag prebootstrap site.yml -vvv -k -u root
 
 # Administrator account
 ansible-playbook -l local -i allservers.yml --tag bootstrap site.yml -vvv -u administrator
-```
-
-Otherwise
-
-```
-# Basic image
-ansible-playbook -l local -i allservers.yml --tag prebootstrap site.yml -vvv -k -u root
-
-# Administrator account
-ansible-playbook -l local -i allservers.yml --tags "bootstrap,github" site.yml -vvv -u administrator
 ```
 
 License
