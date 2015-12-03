@@ -112,3 +112,9 @@ dependencies:
     tags:
       - basic-postgres
 
+  - role: HanXHX.redis
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    tags:
+      - basic-redis
