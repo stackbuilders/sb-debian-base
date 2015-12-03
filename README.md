@@ -94,6 +94,9 @@ This tag contains more advance setup tasks, such as:
 ### - basic-postgres
 - external dependency ANXS.postgresql which installs and configures PostgreSQL, extensions, databases and users
 
+### - basic-redis
+- external dependency HanXHX.redis which installs and configures Redis
+
 ### - nginx-https
 - external dependency jdauphant.nginx to install and manage nginx configuration
 
