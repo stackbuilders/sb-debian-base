@@ -118,6 +118,15 @@
   tags:
     - bootstrap
 
+- name: Replace ssh files with github deployer ssh
+  remote_user: "{{ deploy_username }}"
+  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}" owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}"
+  with_items:
+    - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
+    - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
+  tags:
+    - bootstrap
+
 - name: Ensure github.com is a known host
   become: yes
   become_method: sudo
