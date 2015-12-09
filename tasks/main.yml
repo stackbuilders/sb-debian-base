@@ -90,11 +90,11 @@
   tags:
     - bootstrap
 
-- name: Create {{ deploy_username }} group
+- name: Create {{ user_group_app_directory }} group
   remote_user: administrator
   become: yes
   become_method: sudo
-  group: name={{ deploy_username }} state=present
+  group: name={{ user_group_app_directory }} state=present
   tags:
     - bootstrap
 
@@ -102,7 +102,7 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" groups={{ deploy_username }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" groups={{ user_group_app_directory }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
   tags:
     - bootstrap
 
@@ -137,7 +137,7 @@
     state: present
     line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
-    group: users
+    group: '{{ user_group_app_directory }}'
     owner: '{{ deploy_username }}'
   tags:
     - bootstrap
