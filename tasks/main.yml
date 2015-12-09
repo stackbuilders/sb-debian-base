@@ -90,7 +90,7 @@
   tags:
     - bootstrap
 
-- name: Create {{ user_group_app_directory }} group
+- name: Create deploy user group
   remote_user: administrator
   become: yes
   become_method: sudo
@@ -98,15 +98,15 @@
   tags:
     - bootstrap
 
-- name: Add {{ deploy_username }} user
+- name: Add deploy user user
   remote_user: administrator
   become: yes
   become_method: sudo
-  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" group={{ user_group_app_directory }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" uid=2000 groups={{ deploy_username }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
   tags:
     - bootstrap
 
-- name: Set up authorized_keys for the {{ deploy_username }} user
+- name: Set up authorized_keys for the deploy user user
   remote_user: administrator
   become: yes
   become_method: sudo
