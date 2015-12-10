@@ -102,7 +102,7 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" groups={{ user_group_app_directory }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" group={{ user_group_app_directory }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
   tags:
     - bootstrap
 
