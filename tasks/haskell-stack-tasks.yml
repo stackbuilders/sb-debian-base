@@ -1,0 +1,11 @@
+- name: Add FPCO Deb Key
+  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
+
+- name: Add FPCO Deb repository
+  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+
+- name: Update packges
+  apt: update_cache=yes
+
+- name: Install Stack packges
+  apt: name=stack state=present
