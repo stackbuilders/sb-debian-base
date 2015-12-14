@@ -1,201 +1,27 @@
 ---
-- name: Add OS user
-  user: name=administrator comment="Privileged Administrator user" uid=1001 group=sudo shell=/bin/bash
+- include: prebootstrap-tasks.yml
   remote_user: root
   tags:
     - prebootstrap
 
-- name: Enable default repos
-  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
-  remote_user: root
-  tags:
-    - prebootstrap
-
-- name: Update packges
-  apt: update_cache=yes
-  tags:
-    - prebootstrap
-
-- name: Install sudo package
-  apt: name={{ item }} state=present
-  remote_user: root
-  with_items:
-    - sudo
-  tags:
-    - prebootstrap
-
-- name: Sudo without password
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
-  remote_user: root
-  tags:
-    - prebootstrap
-
-- name: Set up authorized_keys for the administrator user
-  authorized_key: user=administrator
-                  key="{{ item }}"
-  with_file:
-    - keys/administrators
-  tags:
-    - prebootstrap
-
-- name: Disallow SSH password authentication
+- include: bootstrap-tasks.yml
   remote_user: administrator
   become: yes
   become_method: sudo
-  lineinfile:
-    dest=/etc/ssh/sshd_config
-    regexp="^PasswordAuthentication"
-    line="PasswordAuthentication no"
-    state=present
   tags:
     - bootstrap
 
-- name: Disallow root SSH access
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  lineinfile:
-   dest=/etc/ssh/sshd_config
-   regexp="^PermitRootLogin"
-   line="PermitRootLogin no"
-   state=present
-  notify:
-    - restart sshd
-  tags:
-    - bootstrap
-
-- name: Dist upgrade packges
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  apt: upgrade=dist
-  tags:
-    - bootstrap
-
-- name: Install packges
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  apt: name={{ item }} state=present
-  with_items:
-    - vim
-    - tmux
-    - htop
-    - atop
-    - ufw
-    - emacs24-nox
-    - atsar
-    - git
-    - curl
-  tags:
-    - bootstrap
-
-- name: Create deploy user group
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  group: name={{ user_group_app_directory }} state=present
-  tags:
-    - bootstrap
-
-- name: Add deploy user user
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  user: name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User" uid=2000 groups={{ deploy_username }} shell=/bin/bash generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
-  tags:
-    - bootstrap
-
-- name: Set up authorized_keys for the deploy user user
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  authorized_key: user={{ deploy_username }}
-                  key="{{ item }}"
-  with_file:
-    - keys/deploy_users
-    - keys/ci-{{ app_environment }}
-  tags:
-    - bootstrap
-
-- name: Replace ssh files with github deployer ssh
-  remote_user: "{{ deploy_username }}"
-  template: src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}" owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}"
-  with_items:
-    - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
-    - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
-  tags:
-    - bootstrap
-
-- name: Ensure github.com is a known host
-  become: yes
-  become_method: sudo
-  remote_user: administrator
-  lineinfile:
-    dest: /home/{{ deploy_username }}/.ssh/known_hosts
-    create: yes
-    state: present
-    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
-    regexp: "^github\\.com"
-    group: '{{ user_group_app_directory }}'
-    owner: '{{ deploy_username }}'
-  tags:
-    - bootstrap
-
-- name: Set hostname to host-specific variable
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  hostname: name={{ hostname }}
-  when: hostname is defined
-  tags:
-    - bootstrap
-    - set-hostname
-
-- name: Set hostname to host name in inventory
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  hostname: name={{ inventory_hostname }}
-  when: hostname is undefined
-  tags:
-    - bootstrap
-    - set-hostname
-
-- name: Enable ufw
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  ufw: state=enabled policy=deny
-  tags:
-    - bootstrap
-
-- name: Open general ports
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  ufw: rule=allow port={{ item }}  proto=tcp
-  with_items:
-    - "{{ ports }}"
-  tags:
-    - bootstrap
-
-- name: Open ports by IP
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
-  with_dict: port_ips
-  tags:
-    - db-bootstrap
 
 - name: Set up application deploy directory
   remote_user: administrator
   become: yes
   become_method: sudo
-  file: path=/var/projects state=directory owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
+  file: 
+    path=/var/projects state=directory
+    owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
   tags:
     - create-app-directory
+
 
 - name: Install common Haskell build dependencies
   remote_user: administrator
@@ -209,37 +35,14 @@
   tags:
     - haskell-build-dependencies
 
-- name: Add FPCO Deb Key
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
-  tags:
-    - haskell-stack
 
-- name: Add FPCO Deb repository
-  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+- include: haskell-stack-tasks.yml
   remote_user: administrator
   become: yes
   become_method: sudo
   tags:
     - haskell-stack
 
-- name: Update packges
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  apt: update_cache=yes
-  tags:
-    - haskell-stack
-
-- name: Install Stack packges
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  apt: name=stack state=present
-  tags:
-    - haskell-stack
 
 - name: Install rvm dependencies
   remote_user: administrator

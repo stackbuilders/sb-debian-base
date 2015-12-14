@@ -1,2 +1,4 @@
 ---
 # defaults file for sb-base
+deploy_user_id: 1000
+deploy_group_id: 1000

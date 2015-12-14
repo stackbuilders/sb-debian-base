@@ -1,0 +1,109 @@
+---
+- name: Disallow SSH password authentication
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    regexp="^PasswordAuthentication"
+    line="PasswordAuthentication no"
+    state=present
+
+- name: Disallow root SSH access
+  lineinfile:
+   dest=/etc/ssh/sshd_config
+   regexp="^PermitRootLogin"
+   line="PermitRootLogin no"
+   state=present
+  notify:
+    - restart sshd
+
+- name: Dist upgrade packges
+  apt: upgrade=dist
+
+- name: Install packges
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - tmux
+    - htop
+    - atop
+    - ufw
+    - emacs24-nox
+    - atsar
+    - git
+    - curl
+
+- name: Set collide_user_name
+  shell: "awk -v val={{ deploy_user_id }} -F ':' '$3==val{print $1}' /etc/passwd"
+  register: collide_user_name
+
+- name: Set collide_group_name
+  shell: "getent group {{ deploy_group_id }} | cut -d: -f1"
+  register: collide_group_name
+
+- name: Remove user to avoid uid collide
+  user:
+    name="{{ collide_user_name.stdout_lines[0] }}" state=absent
+  when: collide_user_name.stdout_lines[0] is defined
+
+- name: Remove group to avoid gid collide
+  group:
+    name="{{ collide_group_name.stdout_lines[0] }}" state=absent
+  when: collide_group_name.stdout_lines[0] is defined
+
+- name: Create deploy user group
+  group:
+    name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
+
+- name: Add deploy user user
+  user:
+    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
+    uid={{ deploy_user_id }} groups={{ deploy_username }} shell=/bin/bash
+
+- name: Set up authorized_keys for the deploy user user
+  authorized_key: user={{ deploy_username }} key="{{ item }}"
+  with_file:
+    - keys/deploy_users
+    - keys/ci-{{ app_environment }}
+
+- name: Replace ssh files with github deployer ssh
+  template: 
+    src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
+    owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}"
+  with_items:
+    - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
+    - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
+
+- name: Ensure github.com is a known host
+  lineinfile:
+    dest: /home/{{ deploy_username }}/.ssh/known_hosts
+    create: yes
+    state: present
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    regexp: "^github\\.com"
+    group: '{{ user_group_app_directory }}'
+    owner: '{{ deploy_username }}'
+
+- name: Set hostname to host-specific variable
+  hostname: name={{ hostname }}
+  when: hostname is defined
+  tags:
+    - bootstrap
+    - set-hostname
+
+- name: Set hostname to host name in inventory
+  hostname: name={{ inventory_hostname }}
+  when: hostname is undefined
+  tags:
+    - bootstrap
+    - set-hostname
+
+- name: Enable ufw
+  ufw: state=enabled policy=deny
+
+- name: Open general ports
+  ufw: rule=allow port={{ item }}  proto=tcp
+  with_items:
+    - "{{ ports | default([22]) }}"
+
+- name: Open ports by IP
+  ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
+  with_dict: "{{ port_ips | default({}) }}"
