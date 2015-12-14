@@ -32,16 +32,16 @@
     - curl
 
 - name: Set collide_user_name
-  shell: "awk -v val={{ deploy_user_id }} -F ':' '$3==val{print $1}' /etc/passwd"
+  shell: "awk -v val=1000 -F ':' '$3==val{print $1}' /etc/passwd"
   register: collide_user_name
 
 - name: Set collide_group_name
-  shell: "getent group {{ deploy_group_id }} | cut -d: -f1"
+  shell: "getent group 1000 | cut -d: -f1"
   register: collide_group_name
 
 - name: Remove user to avoid uid collide
   user:
-    name="{{ collide_user_name.stdout_lines[0] }}" state=absent
+    name="{{ collide_user_name.stdout_lines[0] }}" state=absent remove=yes
   when: collide_user_name.stdout_lines[0] is defined
 
 - name: Remove group to avoid gid collide
