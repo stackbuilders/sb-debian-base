@@ -53,10 +53,10 @@
   group:
     name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
 
-- name: Add deploy user user
+- name: Add deploy user
   user:
     name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
-    uid={{ deploy_user_id }} groups={{ deploy_username }} shell=/bin/bash
+    uid={{ deploy_user_id }} groups={{ user_group_app_directory }} shell=/bin/bash
 
 - name: Set up authorized_keys for the deploy user user
   authorized_key: user={{ deploy_username }} key="{{ item }}"
