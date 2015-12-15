@@ -56,7 +56,7 @@
 - name: Add deploy user
   user:
     name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
-    uid={{ deploy_user_id }} groups={{ user_group_app_directory }} shell=/bin/bash
+    uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash
 
 - name: Set up authorized_keys for the deploy user user
   authorized_key: user={{ deploy_username }} key="{{ item }}"
