@@ -1,6 +1,6 @@
 ---
 - name: Add OS user
-  user: 
+  user:
     name=administrator comment="Privileged Administrator user" shell=/bin/bash
     uid={{ deploy_user_id + 1 }} group=sudo
 
