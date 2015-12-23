@@ -3,6 +3,12 @@
   remote_user: root
   tags:
     - prebootstrap
+    - seo-app
+    - seo-ops
+    - seo-db
+    - dynamic-app
+    - dynamic-ops
+    - dynamic-db
 
 - include: bootstrap-tasks.yml
   remote_user: administrator
@@ -10,18 +16,12 @@
   become_method: sudo
   tags:
     - bootstrap
-
-
-- name: Set up application deploy directory
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  file: 
-    path=/var/projects state=directory
-    owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
-  tags:
-    - create-app-directory
-
+    - seo-app
+    - seo-ops
+    - seo-db
+    - dynamic-app
+    - dynamic-ops
+    - dynamic-db
 
 - name: Install common Haskell build dependencies
   remote_user: administrator
@@ -60,3 +60,7 @@
     - libxslt1-dev
   tags:
     - ruby-dependencies
+    - seo-app
+    - seo-ops
+    - dynamic-app
+    - dynamic-ops
