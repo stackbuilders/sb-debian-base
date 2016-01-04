@@ -30,6 +30,7 @@
     - atsar
     - git
     - curl
+    - libgmp-dev
 
 - name: Set collide_user_name
   shell: "awk -v val=1000 -F ':' '$3==val{print $1}' /etc/passwd"
