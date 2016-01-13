@@ -39,21 +39,28 @@
 - name: Add deploy user
   user:
     name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
-    group={{ user_group_app_directory }} shell=/bin/bash state=present
+    group={{ user_group_app_directory }} shell=/bin/bash state=present generate_ssh_key=yes ssh_key_bits=2048 ssh_key_file=.ssh/id_rsa
+
+- name: Set up authorized_keys for the deploy user user
+  authorized_key: user={{ deploy_username }} key="{{ item }}"
+  with_file:
+    - keys/deploy_users
 
 - name: Set up authorized_keys for the deploy user user
   authorized_key: user={{ deploy_username }} key="{{ item }}"
   with_file:
     - keys/deploy_users
     - keys/ci-{{ app_environment }}
+  when: default_deployment_method == "circle-ci"
 
 - name: Replace ssh files with github deployer ssh
-  template: 
+  template:
     src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
     owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}"
   with_items:
     - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
     - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
+  when: default_deployment_method == "github-keys"
 
 - name: Ensure github.com is a known host
   lineinfile:
