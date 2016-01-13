@@ -32,32 +32,14 @@
     - curl
     - libgmp-dev
 
-- name: Set collide_user_name
-  shell: "awk -v val=1000 -F ':' '$3==val{print $1}' /etc/passwd"
-  register: collide_user_name
-
-- name: Set collide_group_name
-  shell: "getent group 1000 | cut -d: -f1"
-  register: collide_group_name
-
-- name: Remove user to avoid uid collide
-  user:
-    name="{{ collide_user_name.stdout_lines[0] }}" state=absent remove=yes
-  when: collide_user_name.stdout_lines[0] is defined
-
-- name: Remove group to avoid gid collide
-  group:
-    name="{{ collide_group_name.stdout_lines[0] }}" state=absent
-  when: collide_group_name.stdout_lines[0] is defined
-
 - name: Create deploy user group
   group:
-    name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
+    name={{ user_group_app_directory }} state=present
 
 - name: Add deploy user
   user:
     name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
-    uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash state=present
+    group={{ user_group_app_directory }} shell=/bin/bash state=present
 
 - name: Set up authorized_keys for the deploy user user
   authorized_key: user={{ deploy_username }} key="{{ item }}"
