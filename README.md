@@ -97,6 +97,9 @@ This tag contains more advance setup tasks, such as:
 ### - nginx-https
 - external dependency jdauphant.nginx to install and manage nginx configuration
 
+### - add-remove-keys
+- deploy listed ssh-keys into key files, first remove/add  unneeded/needed keys on keys/* folder
+
 ## Files you need to create
 You should have the following list of files containing the SSH public-keys for both the administrator and deployer users, respectively.
 

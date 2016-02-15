@@ -53,17 +53,20 @@
 - name: Create deploy user group
   group:
     name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
+  when: deploy_username is defined
 
 - name: Add deploy user
   user:
     name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
     uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash
+  when: deploy_username is defined
 
 - name: Set up authorized_keys for the deploy user user
   authorized_key: user={{ deploy_username }} key="{{ item }}"
   with_file:
     - keys/deploy_users
     - keys/ci-{{ app_environment }}
+  when: deploy_username is defined
 
 - name: Replace ssh files with github deployer ssh
   template: 
@@ -72,6 +75,7 @@
   with_items:
     - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
     - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
+  when: deploy_username is defined
 
 - name: Ensure github.com is a known host
   lineinfile:
@@ -82,6 +86,7 @@
     regexp: "^github\\.com"
     group: '{{ user_group_app_directory }}'
     owner: '{{ deploy_username }}'
+  when: deploy_username is defined
 
 - name: Set hostname to host-specific variable
   hostname: name={{ hostname }}
