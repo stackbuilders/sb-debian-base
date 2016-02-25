@@ -20,8 +20,9 @@
     path=/var/projects state=directory
     owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
   tags:
+    - bootstrap
     - create-app-directory
-
+  when: deploy_username is defined
 
 - name: Install common Haskell build dependencies
   remote_user: administrator
