@@ -1,0 +1,5 @@
+---
+- name: restart sshd
+  become: yes
+  become_method: sudo
+  service: name=sshd state=restarted

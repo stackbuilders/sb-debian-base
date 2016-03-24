@@ -1,0 +1,50 @@
+---
+- name: Set collide_user_name
+  shell: "awk -F ':' '$3 >= 1000 && $3 < 1020{print $1}' /etc/passwd | grep -v administrator |grep -v {{ deploy_username }}"
+  register: collide_user_name
+  ignore_errors: true
+- debug: msg="{{ collide_user_name.stdout.strip() }}"
+
+- name: Set collide_group_name
+  shell: "awk -F ':' '$3 >= 1000 && $3 < 1020{print $1}' /etc/group |grep -v administrator |grep -v {{ deploy_username }}"
+  register: collide_group_name
+  ignore_errors: true
+- debug: msg="{{ collide_group_name.stdout.strip() }}"
+
+- name: Remove user to avoid uid collide
+  user:
+    name="{{ item }}" state=absent remove=yes
+  when: collide_user_name.stdout.strip() != ""
+  with_items: collide_user_name.stdout_lines
+
+- name: Remove group to avoid gid collide
+  group:
+    name="{{ item }}" state=absent
+  when: collide_group_name.stdout.strip() != ""
+  with_items: collide_group_name.stdout_lines
+
+- name: Add OS user
+  user:
+    name=administrator comment="Privileged Administrator user" shell=/bin/bash
+    uid={{ deploy_user_id + 1 }} group=sudo
+
+- name: Enable default repos
+  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
+  when: ansible_distribution == "Debian"
+
+- name: Update packges
+  apt: update_cache=yes
+
+- name: Install sudo package
+  apt: name={{ item }} state=present
+  with_items:
+    - sudo
+
+- name: Sudo without password
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+
+- name: Set up authorized_keys for the administrator user
+  authorized_key: user=administrator
+                  key="{{ item }}"
+  with_file:
+    - keys/administrators

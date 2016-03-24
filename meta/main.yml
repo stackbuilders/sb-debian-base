@@ -1,0 +1,71 @@
+---
+galaxy_info:
+  author: Justin Leitgeb
+  description: Base image and common roles
+  company: Stack Builders
+  license: Proprietary
+  min_ansible_version: 1.2
+  platforms:
+    - name: Debian
+      versions:
+        - all
+
+  galaxy_tags:
+    - sb-base
+
+dependencies:
+  - role: kamaln7.swapfile
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    swapfile_size: "{{ swap_file_size }}"
+    tags:
+      - bootstrap
+
+  - role: ansible-role-unattended-upgrades
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    unattended_origins_patterns:
+      - 'origin=Debian,archive=${distro_codename},label=Debian-Security'
+    unattended_mail: '{{ uu_email_alerts }}'
+    unattended_automatic_reboot: false
+    tags:
+      - bootstrap
+
+  - role: nickjj.fail2ban
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    tags:
+      - bootstrap
+
+  - role: geerlingguy.ntp
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    ntp_timezone: UTC
+    tags:
+      - bootstrap
+
+  - role: jdauphant.ssl-certs
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    ssl_certs_common_name: "{{ inventory_hostname }}"
+
+    tags:
+      - nginx-http
+      - nginx-https
+
+  - role: jdauphant.nginx
+    become: yes
+    become_method: sudo
+    remote_user: administrator
+    tags:
+      - nginx
+
+  - role: ANXS.postgresql
+    tags:
+      - basic-postgres
+
