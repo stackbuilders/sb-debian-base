@@ -14,6 +14,20 @@
    state=present
   notify:
     - restart sshd
+  when: ansible_distribution == "Debian" 
+
+- name: Disallow root SSH access for Ubuntu versions later 14.04
+  lineinfile:
+   dest=/etc/ssh/sshd_config
+   regexp="^PermitRootLogin"
+   line="PermitRootLogin no"
+   state=present
+  notify:
+    - restart ssh
+  when: ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
 
 - name: Dist upgrade packges
   apt: upgrade=dist
