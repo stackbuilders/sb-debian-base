@@ -4,6 +4,12 @@
   tags:
     - prebootstrap
 
+- include: aws-prebootstrap-task.yml
+  become: yes
+  become_method: sudo
+  tags:
+    - aws-prebootstrap
+
 - include: bootstrap-tasks.yml
   remote_user: administrator
   become: yes
