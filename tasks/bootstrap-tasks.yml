@@ -49,13 +49,30 @@
 - name: Create deploy user group
   group:
     name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
-  when: deploy_username is defined
+  when: deploy_username is defined and ansible_distribution == "Debian"
+
+- name: Create deploy user group
+  group:
+    name={{ user_group_app_directory }} state=present
+  when: deploy_username is defined and ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
 
 - name: Add deploy user
   user:
     name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
     uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash
-  when: deploy_username is defined
+  when: deploy_username is defined and ansible_distribution == "Debian"
+
+- name: Add deploy user
+  user:
+    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
+    group={{ user_group_app_directory }} shell=/bin/bash
+  when: deploy_username is defined and ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
 
 - name: Set up authorized_keys for the deploy user user
   authorized_key: user={{ deploy_username }} key="{{ item }}"
