@@ -4,7 +4,7 @@
 
 - name: Add FPCO Deb Key
   apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/ubuntu/fpco.key state=present
-  when: ansible_distribution_release == "Ubuntu"
+  when: ansible_distribution == "Ubuntu"
 
 - name: Add FPCO Deb repository
   apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
