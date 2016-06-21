@@ -1,3 +1,15 @@
+- name: Install common Haskell build dependencies
+  remote_user: administrator
+  become: yes
+  become_method: sudo
+  apt: name={{ item }} state=present
+  with_items:
+    - libpcre3-dev
+    - libsqlite3-dev
+    - libpq-dev
+  tags:
+    - haskell-build-dependencies
+
 - name: Add FPCO Deb Key
   apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
   when: ansible_distribution == "Debian"
@@ -14,8 +26,5 @@
   apt_repository: repo='deb http://download.fpcomplete.com/ubuntu trusty main' state=present
   when: ansible_distribution_release == "trusty"
 
-- name: Update packges
-  apt: update_cache=yes
-
-- name: Install Stack packges
-  apt: name=stack state=present
+- name: Install Stack package
+  apt: name=stack state=present update_cache=yes

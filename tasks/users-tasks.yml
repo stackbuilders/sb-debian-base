@@ -1,0 +1,49 @@
+---
+- name: Create deploy user group
+  group:
+    name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
+  when: deploy_username is defined and ansible_distribution == "Debian"
+
+- name: Create deploy user group Ubuntu
+  group:
+    name={{ user_group_app_directory }} state=present
+  when: deploy_username is defined and ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
+
+- name: Add deploy user
+  user:
+    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
+    uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash
+  when: deploy_username is defined and ansible_distribution == "Debian"
+
+- name: Add deploy user Ubuntu
+  user:
+    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
+    group={{ user_group_app_directory }} shell=/bin/bash
+  when: deploy_username is defined and ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
+
+- name: Set up authorized_keys for the administrator user
+  become: yes
+  become_method: sudo
+  authorized_key: user=administrator key="{{ item }}"
+  with_items: "{{authorized_keys.administrators}}"
+  tags:
+    - add-remove-keys
+
+- name: Set up authorized_keys for the deploy user
+  become: yes
+  become_method: sudo
+  authorized_key: user={{ deploy_username }} key="{{ item }}"
+  with_items: "{{authorized_keys.deployers}}"
+  when: deploy_username is defined
+  tags:
+    - add-remove-keys
+
+- name: Sudo without password
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+

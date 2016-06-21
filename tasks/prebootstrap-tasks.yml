@@ -39,12 +39,3 @@
   apt: name={{ item }} state=present
   with_items:
     - sudo
-
-- name: Sudo without password
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
-
-- name: Set up authorized_keys for the administrator user
-  authorized_key: user=administrator
-                  key="{{ item }}"
-  with_file:
-    - keys/administrators

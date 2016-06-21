@@ -1,4 +1,8 @@
 ---
+- include: hostname-tasks.yml
+  become: yes
+  become_method: sudo
+
 - name: Disallow SSH password authentication
   lineinfile:
     dest=/etc/ssh/sshd_config
@@ -29,7 +33,7 @@
     - precise
     - trusty
 
-- name: Dist upgrade packges
+- name: Dist upgrade packages
   apt: upgrade=dist
 
 - name: Install packges
@@ -46,50 +50,6 @@
     - curl
     - libgmp-dev
 
-- name: Create deploy user group
-  group:
-    name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
-  when: deploy_username is defined and ansible_distribution == "Debian"
-
-- name: Create deploy user group Ubuntu
-  group:
-    name={{ user_group_app_directory }} state=present
-  when: deploy_username is defined and ansible_distribution_release == "{{ item }}"
-  with_items:
-    - precise
-    - trusty
-
-- name: Add deploy user
-  user:
-    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
-    uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash
-  when: deploy_username is defined and ansible_distribution == "Debian"
-
-- name: Add deploy user Ubuntu
-  user:
-    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
-    group={{ user_group_app_directory }} shell=/bin/bash
-  when: deploy_username is defined and ansible_distribution_release == "{{ item }}"
-  with_items:
-    - precise
-    - trusty
-
-- name: Set up authorized_keys for the deploy user user
-  authorized_key: user={{ deploy_username }} key="{{ item }}"
-  with_file:
-    - keys/deploy_users
-    - keys/ci-{{ app_environment }}
-  when: deploy_username is defined
-
-- name: Replace ssh files with github deployer ssh
-  template:
-    src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
-    owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}"
-  with_items:
-    - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
-    - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
-  when: deploy_username is defined
-
 - name: Ensure github.com is a known host
   lineinfile:
     dest: /home/{{ deploy_username }}/.ssh/known_hosts
@@ -101,19 +61,6 @@
     owner: '{{ deploy_username }}'
   when: deploy_username is defined
 
-- name: Set hostname to host-specific variable
-  hostname: name={{ hostname }}
-  when: hostname is defined
-  tags:
-    - bootstrap
-    - set-hostname
-
-- name: Set hostname to host name in inventory
-  hostname: name={{ inventory_hostname }}
-  when: hostname is undefined
-  tags:
-    - bootstrap
-    - set-hostname
 
 - name: Enable ufw
   ufw: state=enabled policy=deny

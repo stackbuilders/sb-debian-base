@@ -1,0 +1,14 @@
+---
+- name: Set hostname to host-specific variable
+  hostname: name={{ hostname }}
+  when: hostname is defined
+  tags:
+    - bootstrap
+    - set-hostname
+
+- name: Set hostname to host name in inventory
+  hostname: name={{ inventory_hostname }}
+  when: hostname is undefined
+  tags:
+    - bootstrap
+    - set-hostname

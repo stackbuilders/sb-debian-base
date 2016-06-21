@@ -1,0 +1,16 @@
+---
+- name: Install ruby dependencies
+  become: yes
+  become_method: sudo
+  apt: name='{{ item }}'
+  with_items:
+    - build-essential
+    - tklib
+    - zlib1g-dev
+    - libssl-dev
+    - libreadline-gplv2-dev
+    - libxml2
+    - libxml2-dev
+    - libxslt1-dev
+  tags:
+    - ruby-dependencies
