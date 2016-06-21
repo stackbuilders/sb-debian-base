@@ -2,11 +2,12 @@
   remote_user: administrator
   become: yes
   become_method: sudo
-  apt: name={{ item }} state=present
+  apt: name={{ item }}
   with_items:
     - libpcre3-dev
     - libsqlite3-dev
     - libpq-dev
+    - pkg-config
   tags:
     - haskell-build-dependencies
 
