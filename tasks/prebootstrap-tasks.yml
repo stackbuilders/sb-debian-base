@@ -13,18 +13,18 @@
   user:
     name="{{ item }}" state=absent remove=yes
   when: collide_user_name.stdout.strip() != ""
-  with_items: collide_user_name.stdout_lines
+  with_items: "{{ collide_user_name.stdout_lines }}"
 
 - name: Remove group to avoid gid collide
   group:
     name="{{ item }}" state=absent
   when: collide_group_name.stdout.strip() != ""
-  with_items: collide_group_name.stdout_lines
+  with_items: "{{ collide_group_name.stdout_lines }}"
 
 - name: Add OS user
   user:
     name=administrator comment="Privileged Administrator user" shell=/bin/bash
-    uid={{ deploy_user_id + 1 }} group=sudo
+    uid="{{ deploy_user_id + 1 }}" group=sudo
 
 - name: Enable default repos
   apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present

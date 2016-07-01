@@ -1,0 +1,34 @@
+- name: Create deploy user group
+  group:
+    name={{ user_group_app_directory }} gid={{ deploy_group_id }} state=present
+  when: ansible_distribution == "Debian"
+
+- name: Create deploy user group Ubuntu
+  group:
+    name={{ user_group_app_directory }} state=present
+  when: ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
+
+- name: Add deploy user
+  user:
+    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
+    uid={{ deploy_user_id }} group={{ user_group_app_directory }} shell=/bin/bash
+  when: ansible_distribution == "Debian"
+
+- name: Add deploy user Ubuntu
+  user:
+    name={{ deploy_username }} comment="Unprivileged {{ deploy_username }} User"
+    group={{ user_group_app_directory }} shell=/bin/bash
+  when: ansible_distribution_release == "{{ item }}"
+  with_items:
+    - precise
+    - trusty
+
+- name: Set up application deploy directory
+  file:
+    path=/var/projects state=directory
+    owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
+  tags:
+    - create-app-directory
