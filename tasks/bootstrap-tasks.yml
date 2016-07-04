@@ -53,15 +53,12 @@
   hostname: name={{ hostname }}
   when: hostname is defined
   tags:
-    - bootstrap
     - set-hostname
 
-- name: Set hostname to host name in inventory
-  hostname: name={{ inventory_hostname }}
-  when: hostname is undefined
-  tags:
-    - bootstrap
-    - set-hostname
+- name: Version 8.5 of debian introduce a bug, this is a work around
+  lineinfile:
+    dest=/etc/default/ufw regexp=^IPV6=yes line=IPV6=no
+  when: ansible_distribution == "Debian"
 
 - name: Enable ufw
   ufw: state=enabled policy=deny
