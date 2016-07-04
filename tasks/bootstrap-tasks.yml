@@ -70,4 +70,4 @@
 
 - name: Open ports by IP
   ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
-  with_dict: "{{ port_ips | default([]) }}"
+  with_dict: "{{ port_ips | default({}) }}"
