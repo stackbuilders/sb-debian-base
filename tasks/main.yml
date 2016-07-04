@@ -3,12 +3,6 @@
   remote_user: root
   when: prebootstrap is defined
 
-- include: aws-prebootstrap-tasks.yml
-  remote_user: root
-  become: yes
-  become_method: sudo
-  when: aws-preboostrap is defined
-
 - include: bootstrap-tasks.yml
   remote_user: administrator
   become: yes

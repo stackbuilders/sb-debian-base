@@ -1,8 +1,9 @@
 ---
 - name: Add OS user
   user:
-    name=administrator comment="Privileged Administrator user" shell=/bin/bash
-    uid="{{ "" if (deploy_user_id is not defined ) else deploy_user_id }}" group=sudo
+    name=administrator comment="Privileged Administrator user"
+    shell=/bin/bash
+    group=sudo
 
 - name: Enable default repos
   apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
