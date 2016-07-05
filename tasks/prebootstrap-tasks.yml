@@ -1,7 +1,7 @@
 ---
 - name: Add OS user
   user:
-    name=administrator comment="Privileged Administrator user"
+    name="{{ admin_user }}" comment="Privileged Administrator user"
     shell=/bin/bash
     group=sudo
 
@@ -21,7 +21,7 @@
   lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
 
 - name: Set up authorized_keys for the administrator user
-  authorized_key: user=administrator
+  authorized_key: user="{{ admin_user }}"
                   key="{{ item }}"
   with_file:
     - keys/administrators
