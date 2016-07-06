@@ -20,7 +20,7 @@
 - name: Sudo without password
   lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
 
-- name: Set up authorized_keys for the administrator user
+- name: Set up authorized_keys for the admin user
   authorized_key: user="{{ admin_user }}"
                   key="{{ item }}"
   with_file:

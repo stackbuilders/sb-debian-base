@@ -1,23 +1,24 @@
 ---
-- name: Set up authorized_keys for the administrator user
-  remote_user: administrator
+# tasks Add-remove keys
+- name: Set up authorized_keys for the admin user
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  authorized_key: user=administrator key="{{ item }}" state=present exclusive=yes
+  authorized_key: user="{{ admin_user }}" key="{{ item }}" state=present exclusive=yes
   with_file:
     - keys/administrators
 
 - name: Set up authorized_keys for the deploy user
-  remote_user: administrator
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  authorized_key: user={{ deploy_username }} key="{{ item }}" state=present exclusive=yes
+  authorized_key: user="{{ deploy_username }}" key="{{ item }}" state=present exclusive=yes
   with_file:
     - keys/deploy_users
   when: deploy_username is defined
 
 - name: Set up authorized_keys for ci on deploy user
-  remote_user: administrator
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
   authorized_key: user={{ deploy_username }} key="{{ item }}" state=present
