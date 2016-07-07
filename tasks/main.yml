@@ -9,16 +9,11 @@
   become_method: sudo
   when: bootstrap is defined
 
-- name: Install common Haskell build dependencies
+- include: haskell-dependencies-tasks.yml
   remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  apt: name={{ item }} state=present
   when: install_haskell_dependencies is defined
-  with_items:
-    - libpcre3-dev
-    - libsqlite3-dev
-    - libpq-dev
 
 - include: haskell-stack-tasks.yml
   remote_user: "{{ admin_user }}"
