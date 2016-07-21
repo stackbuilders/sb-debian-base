@@ -1,104 +1,38 @@
 ---
 - include: prebootstrap-tasks.yml
   remote_user: root
-  tags:
-    - prebootstrap
-
-- include: aws-prebootstrap-tasks.yml
-  become: yes
-  become_method: sudo
-  tags:
-    - aws-prebootstrap
+  when: prebootstrap is defined
 
 - include: bootstrap-tasks.yml
-  remote_user: administrator
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  tags:
-    - bootstrap
+  when: bootstrap is defined
 
-
-- name: Set up application deploy directory
-  remote_user: administrator
+- include: haskell-dependencies-tasks.yml
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  file:
-    path=/var/projects state=directory
-    owner="{{ user_owner_app_directory }}" group="{{ user_group_app_directory }}" mode=0775
-  tags:
-    - bootstrap
-    - create-app-directory
-  when: deploy_username is defined
-
-- name: Install common Haskell build dependencies
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  apt: name={{ item }} state=present
-  with_items:
-    - libpcre3-dev
-    - libsqlite3-dev
-    - libpq-dev
-  tags:
-    - haskell-build-dependencies
-
+  when: install_haskell_dependencies is defined
 
 - include: haskell-stack-tasks.yml
-  remote_user: administrator
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  tags:
-    - haskell-stack
+  when: install_haskell_stack is defined
 
-
-- name: Install rvm dependencies
-  remote_user: administrator
+- include: ruby-dependencies-tasks.yml
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  apt: name='{{ item }}' state=present
-  with_items:
-    - build-essential
-    - tklib
-    - zlib1g-dev
-    - libssl-dev
-    - libreadline-gplv2-dev
-    - libxml2
-    - libxml2-dev
-    - libxslt1-dev
+  when: install_ruby_dependencies is defined
   tags:
     - ruby-dependencies
 
-
-- name: Set up authorized_keys for the administrator user
-  remote_user: administrator
+- include: extra-tasks.yml
+  remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
-  authorized_key: user=administrator key="{{ item }}" state=present exclusive=yes
-  with_file:
-    - keys/administrators
-  tags:
-    - add-remove-keys
-
-
-- name: Set up authorized_keys for the deploy user
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  authorized_key: user={{ deploy_username }} key="{{ item }}" state=present exclusive=yes
-  with_file:
-    - keys/deploy_users
-  when: deploy_username is defined
-  tags:
-    - add-remove-keys
-
-
-- name: Set up authorized_keys for ci on deploy user
-  remote_user: administrator
-  become: yes
-  become_method: sudo
-  authorized_key: user={{ deploy_username }} key="{{ item }}" state=present
-  with_file:
-    - keys/ci-{{ app_environment }}
-  when: deploy_username is defined
+  when: add_remove_keys is defined
   tags:
     - add-remove-keys

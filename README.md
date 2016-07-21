@@ -18,11 +18,40 @@ After that you need to run the following command:
 ```
 ansible-galaxy install -r requirements.yml
 ```
+# Use the version v.0.0.2 to keep compatibility with older projects
+## Tasks available in this repo
+The current version use ansible flow controll (when: foo is defined) to run tasks for the diferent
+stages but keep some useful tags like set hostname or create deploy folder.
+This version works with ansible +2.0.1.
 
-## Tags available in this repo
-The following tags are available:
+### How to use
+Create a playbook file and in roles section set the group of tasks that you need
+to run.
+```
+# site.yml
+- hosts: all
+  remote_user: foo
+  roles:
+    - { role:  sb-debian-base, prebootstrap: true }
+    - { role:  sb-debian-base, bootstrap: true }
+    - { role:  sb-debian-base, basic_postgres: true }
+```
 
-### - prebootstrap
+Run group of task ad-hoc
+```
+ansible-playbook -l local -i allservers site.yml -vvv -k -u roo -e "prebootstrap: true"
+```
+####How to execute/run these playbooks direct
+```
+# Basic image
+ansible-playbook -l local -i allservers site.yml -vvv -k -u root
+
+# Administrator account
+ansible-playbook -l local -i allservers site.yml -vvv -u administrator
+```
+The following group of tasks are available:
+
+### Prebootstrap (prebootstrap)
 This tag contains basic setup tasks, such as:
 - Add administrator User
 - Enable default repositories for Debian
@@ -32,7 +61,7 @@ This tag contains basic setup tasks, such as:
 - Setup authorized ssh keys for administrator users
     - You need to define this file: keys/administrators
 
-### - bootstrap
+### Bootstrap (bootstrap)
 This tag contains more advance setup tasks, such as:
 
 - Disallow password authentication for SSH sessions.
@@ -60,42 +89,43 @@ This tag contains more advance setup tasks, such as:
 - This tag ensures github.com is a known host
     - You need to define {{ deploy_username }}
 
-#### External dependencies (galaxy) included in this tag -bootstrap
+#### External dependencies (galaxy) included in this group of tasks bootstrap
 - kamaln7.swapfile (Setups the swapfile)
     - You need to define the var {{ swap_file_size }} (e.g. 2048)
 - nickjj.fail2ban (Install and configure fail2ban)
 - geerlingguy.ntp (Installs NTP)
 
-
-### - set-hostname
-- Set hostname to host-specific
-    - You need to define {{ hostname }}
-- Set hostname in the inventory
-    - You need to define {{ inventory_hostname }}
-
-### - create-app-directory
-- name: Set up application deploy directory
-    - You need to define {{ user_owner_app_directory }} and {{ user_group_app_directory }}
-
-### - haskell-build-dependencies
+### Haskell build dependencies (haskell_build_dependencies)
 - Install common Haskell build dependencies
     - (s.a libpcre3-dev, libsqlite3-dev, libpq-dev)
 
-### - haskell-stack
+### Haskell stack (haskell_stack)
 - Add FPCO Deb Key
 - Add FPCO Deb repository
 - Update packages
 - Install Stack packges
 
+### Set hostname
+- Set hostname to host-specific
+    - You need to define {{ hostname }}
+- Set hostname in the inventory
+    - You need to define {{ inventory_hostname }}
+
+### Create app directory
+- name: Set up application deploy directory
+    - You need to define {{ user_owner_app_directory }} and {{ user_group_app_directory }}
+
+## Available group of tasks from external roles
+### - basic_postgres
+- external dependency ANXS.postgresql which installs and configures PostgreSQL, extensions, databases and users
+
+### - nginx_https
+- external dependency jdauphant.nginx to install and manage nginx configuration
+
+## Group of tags available for expecific tags
 ### - ruby-dependencies
 - Install dependencies for rvm
     - (s.a. build-essential, tklib,zlib1g-dev,libssl-dev,libreadline-gplv2-dev,libxml2,libxml2-dev,libxslt1-dev)
-
-### - basic-postgres
-- external dependency ANXS.postgresql which installs and configures PostgreSQL, extensions, databases and users
-
-### - nginx-https
-- external dependency jdauphant.nginx to install and manage nginx configuration
 
 ### - add-remove-keys
 - deploy listed ssh-keys into key files, first remove/add  unneeded/needed keys on keys/* folder
@@ -103,19 +133,10 @@ This tag contains more advance setup tasks, such as:
 ## Files you need to create
 You should have the following list of files containing the SSH public-keys for both the administrator and deployer users, respectively.
 
+
 ```
 keys/administrators
 keys/deploy_users
-```
-
-## How to execute/run these playbooks
-
-```
-# Basic image
-ansible-playbook -l local -i allservers.yml --tag prebootstrap site.yml -vvv -k -u root
-
-# Administrator account
-ansible-playbook -l local -i allservers.yml --tag bootstrap site.yml -vvv -u administrator
 ```
 
 License

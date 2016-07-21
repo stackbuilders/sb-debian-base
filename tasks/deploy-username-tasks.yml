@@ -1,0 +1,19 @@
+---
+- name: Create deploy user group
+  group:
+    name="{{  deploy_user_group }}" state=present
+
+- name: Add deploy user
+  user:
+    name="{{ deploy_username }}" comment="Unprivileged {{ deploy_username }} User"
+    group="{{ deploy_user_group }}"
+    shell=/bin/bash
+
+- name: Set up application deploy directory
+  file:
+    path="{{ app_path }}" state=directory
+    owner="{{ deploy_username }}"
+    group="{{ deploy_user_group }}"
+    mode=0775
+  tags:
+    - create-app-directory
