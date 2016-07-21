@@ -18,7 +18,7 @@ After that you need to run the following command:
 ```
 ansible-galaxy install -r requirements.yml
 ```
-
+# Use the version v.0.0.2 to keep compatibility with older projects
 ## Tasks available in this repo
 The current version use ansible flow controll (when: foo is defined) to run tasks for the diferent
 stages but keep some useful tags like set hostname or create deploy folder.

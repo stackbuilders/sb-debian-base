@@ -26,9 +26,13 @@
   become: yes
   become_method: sudo
   when: install_ruby_dependencies is defined
+  tags:
+    - ruby-dependencies
 
 - include: extra-tasks.yml
   remote_user: "{{ admin_user }}"
   become: yes
   become_method: sudo
   when: add_remove_keys is defined
+  tags:
+    - add-remove-keys
