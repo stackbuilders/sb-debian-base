@@ -1,7 +1,4 @@
 ---
-- include: deploy-username-tasks.yml
-  when: deploy_username is defined
-
 - name: Disallow SSH password authentication
   lineinfile:
     dest=/etc/ssh/sshd_config
@@ -49,30 +46,6 @@
     - curl
     - libgmp-dev
 
-- name: Set up authorized_keys for the deploy user
-  authorized_key: user="{{ deploy_username }}" key="{{ item }}"
-  with_file:
-    - keys/deploy_users
-    - "keys/ci-{{ app_environment }}"
-
-- name: Replace ssh files with github deployer ssh
-  template:
-    src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
-    owner="{{ deploy_username }}" group="{{ deploy_user_group }}"
-  with_items:
-    - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
-    - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
-
-- name: Ensure github.com is a known host
-  lineinfile:
-    dest: "/home/{{ deploy_username }}/.ssh/known_hosts"
-    create: yes
-    state: present
-    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
-    regexp: "^github\\.com"
-    group: '{{ deploy_user_group }}'
-    owner: '{{ deploy_username }}'
-
 - name: Set hostname to host-specific variable
   hostname: name={{ hostname }}
   when: hostname is defined
@@ -95,3 +68,6 @@
 - name: Open ports by IP
   ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
   with_dict: "{{ port_ips | default({}) }}"
+
+- include: deploy-username-tasks.yml
+  when: deploy_username is defined
