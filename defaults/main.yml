@@ -1,6 +1,6 @@
 ---
 # defaults file for sb-base
-app_path: /vars/projects
+app_path: /var/projects
 uu_email_alerts: foo@mydomain.com
 swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
 # wokrs for aws images of debian and ubuntu
