@@ -1,3 +1,7 @@
+# Stack Builders - Debian Base
+
+Generic Debian image for servers.
+
 ##How to use this repo:
 First make sure you create the requirements.yml file
 and add the reference to this repository, as following:
