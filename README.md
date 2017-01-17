@@ -2,7 +2,7 @@
 
 Generic Debian image for servers.
 
-##How to use this repo:
+## How to use this repo:
 First make sure you create the requirements.yml file
 and add the reference to this repository, as following:
 
@@ -24,9 +24,10 @@ ansible-galaxy install -r requirements.yml
 ```
 # Use the version v.0.0.2 to keep compatibility with older projects
 ## Tasks available in this repo
-The current version use ansible flow controll (when: foo is defined) to run tasks for the diferent
+The current version use Ansible flow controll (when: foo is defined) to run tasks for the diferent
 stages but keep some useful tags like set hostname or create deploy folder.
-This version works with ansible +2.0.1.
+
+This version works with Ansible 2.0.1+ (don't run with 2.2.0 which has a bug).
 
 ### How to use
 Create a playbook file and in roles section set the group of tasks that you need
@@ -45,7 +46,7 @@ Run group of task ad-hoc
 ```
 ansible-playbook -l local -i allservers site.yml -vvv -k -u roo -e "prebootstrap: true"
 ```
-####How to execute/run these playbooks direct
+#### How to execute/run these playbooks directly
 ```
 # Basic image
 ansible-playbook -l local -i allservers site.yml -vvv -k -u root
@@ -57,10 +58,10 @@ The following group of tasks are available:
 
 ### Prebootstrap (prebootstrap)
 This tag contains basic setup tasks, such as:
-- Add administrator User
+- Add administrator user
 - Enable default repositories for Debian
 - Update packages
-- Install sudo packages
+- Install sudo package
 - Remove password for sudoers group
 - Setup authorized ssh keys for administrator users
     - You need to define this file: keys/administrators
@@ -136,7 +137,6 @@ This tag contains more advance setup tasks, such as:
 
 ## Files you need to create
 You should have the following list of files containing the SSH public-keys for both the administrator and deployer users, respectively.
-
 
 ```
 keys/administrators
