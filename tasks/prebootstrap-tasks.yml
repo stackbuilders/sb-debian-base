@@ -16,7 +16,12 @@
   apt: name=sudo state=latest
 
 - name: sudo without password
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo ALL='
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
 
 - name: Set up authorized_keys for the admin user
   authorized_key: user="{{ admin_user }}"
