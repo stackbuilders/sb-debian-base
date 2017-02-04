@@ -16,7 +16,7 @@
     - restart sshd
   when: ansible_distribution == "Debian"
 
-- name: Disallow root SSH access for Ubuntu versions later 14.04
+- name: Disallow root SSH access for Ubuntu versions 14.04 and later
   lineinfile:
    dest=/etc/ssh/sshd_config
    regexp="^PermitRootLogin"
@@ -29,35 +29,35 @@
     - precise
     - trusty
 
-- name: Dist upgrade packges
-  apt: upgrade=dist
-
-- name: Install packges
-  apt: name={{ item }} state=present
-  with_items:
-    - vim
-    - tmux
-    - htop
-    - atop
-    - ufw
-    - emacs24-nox
-    - atsar
-    - git
-    - curl
-    - libgmp-dev
-
 - name: Set hostname to host-specific variable
   hostname: name={{ hostname }}
   when: hostname is defined
   tags:
     - set-hostname
 
-- name: Version 8.5 of debian introduce a bug, this is a work around
+- name: Update package cache and upgrade packages
+  apt: upgrade=dist update_cache=yes
+
+- name: Install extra packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - atsar
+    - atop
+    - curl
+    - emacs24-nox
+    - git
+    - htop
+    - libgmp-dev
+    - tmux
+    - ufw
+    - vim
+
+- name: Debian version 8.5 introduced a bug, this is a workaround
   lineinfile:
     dest=/etc/default/ufw regexp=^IPV6=yes line=IPV6=no
   when: ansible_distribution == "Debian"
 
-- name: Enable ufw
+- name: Enable UFW
   ufw: state=enabled policy=deny
 
 - name: Open general ports
