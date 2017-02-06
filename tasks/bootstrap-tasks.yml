@@ -35,6 +35,12 @@
   tags:
     - set-hostname
 
+- name: Set time zone
+  command: timedatectl set-timezone {{ ntp_timezone }}
+
+- name: Enable NTP
+  command: timedatectl set-ntp true
+
 - name: Update package cache and upgrade packages
   apt: upgrade=dist update_cache=yes
 

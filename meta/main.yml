@@ -37,13 +37,6 @@ dependencies:
     remote_user: "{{ admin_user }}"
     when: bootstrap is defined
 
-  - role: geerlingguy.ntp
-    become: yes
-    become_method: sudo
-    remote_user: "{{ admin_user }}"
-    ntp_timezone: UTC
-    when: bootstrap is defined
-
   - role: jdauphant.ssl-certs
     become: yes
     become_method: sudo
