@@ -9,16 +9,19 @@
   apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
   when: ansible_distribution == "Debian"
 
-- name: Update packges
+- name: Update packages cache
   apt: update_cache=yes
 
 - name: Install sudo package
-  apt: name={{ item }} state=present
-  with_items:
-    - sudo
+  apt: name=sudo state=latest
 
-- name: Sudo without password
-  lineinfile: "dest=/etc/sudoers state=present regexp='^%sudo ALL' line='%sudo ALL=(ALL) NOPASSWD: ALL'"
+- name: sudo without password
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%sudo ALL='
+    line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s'
 
 - name: Set up authorized_keys for the admin user
   authorized_key: user="{{ admin_user }}"

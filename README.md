@@ -70,8 +70,8 @@ This tag contains basic setup tasks, such as:
 This tag contains more advance setup tasks, such as:
 
 - Disallow password authentication for SSH sessions.
-- Disallow ssh access for root user
-- Upgrade Dist packages
+- Disallow SSH access for root user
+- Upgrade all packages
 - Install Unattended-Upgrades for security patches only
     - You need to define the var {{ uu_email_alerts }} (e.g. example@example.com)
 - Install basic packages
@@ -86,6 +86,7 @@ This tag contains more advance setup tasks, such as:
     - You need to define {{ hostname }}
 - Set hostname in the inventory
     - You need to define {{ inventory_hostname }}
+- Set time zone and enable NTP using systemd-timesyncd
 - Enable UFW
 - Open general ports ( e.g. ssh port, http port)
     - You need to define {{ ports }}
@@ -98,17 +99,16 @@ This tag contains more advance setup tasks, such as:
 - kamaln7.swapfile (Setups the swapfile)
     - You need to define the var {{ swap_file_size }} (e.g. 2048)
 - nickjj.fail2ban (Install and configure fail2ban)
-- geerlingguy.ntp (Installs NTP)
 
 ### Haskell build dependencies (haskell_build_dependencies)
 - Install common Haskell build dependencies
     - (s.a libpcre3-dev, libsqlite3-dev, libpq-dev)
 
 ### Haskell stack (haskell_stack)
-- Add FPCO Deb Key
+- Add FPCO PGP public key
 - Add FPCO Deb repository
 - Update packages
-- Install Stack packges
+- Install Stack packages
 
 ### Set hostname
 - Set hostname to host-specific

@@ -1,8 +1,10 @@
 ---
-# defaults file for sb-base
+# Defaults file for sb-base
 app_path: /var/projects
 uu_email_alerts: foo@mydomain.com
 swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
-# wokrs for aws images of debian and ubuntu
+# This works with AWS images of Debian and Ubuntu
 admin_user: "{{  'admin' if (ansible_distribution == 'Debian') else 'ubuntu' }}"
 deploy_user_group: "{{ deploy_username if (deploy_username_group is not defined) else deploy_username_group }}"
+# Time zone
+ntp_timezone: UTC
