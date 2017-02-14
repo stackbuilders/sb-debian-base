@@ -1,9 +1,11 @@
 ---
 - name: Add OS user
   user:
-    name="{{ admin_user }}" comment="Privileged Administrator user"
-    shell=/bin/bash
-    group=sudo
+    name: "{{ admin_user }}"
+    comment: "Privileged Administrator user"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
 
 - name: Enable default repos
   apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
