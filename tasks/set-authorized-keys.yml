@@ -1,5 +1,5 @@
 ---
-# tasks Add-remove keys
+# tasks Add or remove ssh keys
 - name: Set up authorized_keys for the admin user
   authorized_key: user="{{ admin_user }}" key="{{ item }}" state=present exclusive=yes
   with_file:

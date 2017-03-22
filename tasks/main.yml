@@ -25,7 +25,7 @@
   tags:
     - ruby-dependencies
 
-- include: extra-tasks.yml
+- include: set-authorized-keys.yml
   remote_user: "{{ admin_user }}"
   become: yes
   when: add_remove_keys is defined
