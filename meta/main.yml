@@ -3,8 +3,8 @@ galaxy_info:
   author: Justin Leitgeb
   description: Base image and common roles
   company: Stack Builders
-  license: Proprietary
-  min_ansible_version: 1.2
+  license: MIT
+  min_ansible_version: 2.0.1
   platforms:
     - name: Debian
       versions:
