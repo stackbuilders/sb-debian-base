@@ -2,7 +2,7 @@
 
 Generic Debian image for servers.
 
-## How to use this repo:
+## How to use this repo
 First make sure you create the requirements.yml file
 and add the reference to this repository, as following:
 
@@ -22,7 +22,6 @@ After that you need to run the following command:
 ```
 ansible-galaxy install -r requirements.yml
 ```
-# Use the version v.0.0.2 to keep compatibility with older projects
 ## Tasks available in this repo
 The current version use Ansible flow controll (when: foo is defined) to run tasks for the diferent
 stages but keep some useful tags like set hostname or create deploy folder.
@@ -44,7 +43,7 @@ to run.
 
 Run group of task ad-hoc
 ```
-ansible-playbook -l local -i allservers site.yml -vvv -k -u roo -e "prebootstrap: true"
+ansible-playbook -l local -i allservers site.yml -vvv -k -u root -e "prebootstrap: true"
 ```
 #### How to execute/run these playbooks directly
 ```
@@ -59,6 +58,7 @@ The following group of tasks are available:
 ### Prebootstrap (prebootstrap)
 This tag contains basic setup tasks, such as:
 - Add administrator user
+    - Default is `admin`, you can define the var {{ admin_user }}
 - Enable default repositories for Debian
 - Update packages
 - Install sudo package
