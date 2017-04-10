@@ -1,0 +1,40 @@
+---
+sudo: required
+
+# Tell Travis to start Docker when it brings up an environment.
+services:
+  - docker
+
+env:
+  # Lisf of Debian releases
+  - distro: debian8
+    init: /lib/systemd/systemd
+    run_opts: "--privileged --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro"
+
+before_install:
+  # Pull the image from Docker Hub for the OS under test.
+  - 'docker pull geerlingguy/docker-${distro}-ansible:latest'
+
+script:
+  # Start the container from the image and perform tests.
+  # Create a random file to store the container ID.
+  - 'container_id=$(mktemp)'
+
+  # Run container detached, with our role mounted inside.
+  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/role_under_test:ro ${run_opts} geerlingguy/docker-${distro}-ansible:latest "${init}" > "${container_id}"'
+
+  # Check running docker containers
+  - 'docker ps -a'
+
+  # Check the role/playbook's syntax
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
+
+  # Test role
+  - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml'
+
+after_success:
+  # Clean up.
+  - 'sudo docker stop "$(cat ${container_id})"'
+
+notifications:
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/
