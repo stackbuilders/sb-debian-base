@@ -23,22 +23,20 @@ After that you need to run the following command:
 ansible-galaxy install -r requirements.yml
 ```
 ## Tasks available in this repo
-The current version use Ansible flow controll (when: foo is defined) to run tasks for the diferent
-stages but keep some useful tags like set hostname or create deploy folder.
+The current version uses Ansible flow control (when: foo is defined) to run tasks for the diferent stages but keep some useful tags like set hostname or create deploy folder.
 
-This version works with Ansible 2.0.1+ (don't run with 2.2.0 which has a bug).
+This version works with Ansible 2.0.1+ (don't run with version 2.2.0 which has a bug).
 
 ### How to use
-Create a playbook file and in roles section set the group of tasks that you need
-to run.
+Create a playbook file and in roles section set the group of tasks that you need to run.
 ```
 # site.yml
 - hosts: all
   remote_user: foo
   roles:
-    - { role:  sb-debian-base, prebootstrap: true }
-    - { role:  sb-debian-base, bootstrap: true }
-    - { role:  sb-debian-base, basic_postgres: true }
+    - { role: sb-debian-base, prebootstrap: true }
+    - { role: sb-debian-base, bootstrap: true }
+    - { role: sb-debian-base, basic_postgres: true }
 ```
 
 Run group of task ad-hoc
@@ -58,7 +56,7 @@ The following group of tasks are available:
 ### Prebootstrap (prebootstrap)
 This tag contains basic setup tasks, such as:
 - Add administrator user
-    - Default is `admin`, you can define the var {{ admin_user }}
+    - Default is `admin` in Debian, `ubuntu` in others. You can define the var {{ admin_user }}
 - Enable default repositories for Debian
 - Update packages
 - Install sudo package
@@ -96,8 +94,8 @@ This tag contains more advance setup tasks, such as:
     - You need to define {{ deploy_username }}
 
 #### External dependencies (galaxy) included in this group of tasks bootstrap
-- kamaln7.swapfile (Setups the swapfile)
-    - You need to define the var {{ swap_file_size }} (e.g. 2048)
+- kamaln7.swapfile (Setup the swapfile)
+    - You need to define the var {{ swap_file_size }} (e.g. 2048MB)
 - nickjj.fail2ban (Install and configure fail2ban)
 
 ### Haskell build dependencies (haskell_build_dependencies)
@@ -125,7 +123,7 @@ This tag contains more advance setup tasks, such as:
 - external dependency ANXS.postgresql which installs and configures PostgreSQL, extensions, databases and users
 
 ### - nginx_https
-- external dependency jdauphant.nginx to install and manage nginx configuration
+- external dependency jdauphant.nginx to install and manage NGINX configuration
 
 ## Group of tags available for expecific tags
 ### - ruby-dependencies
