@@ -1,4 +1,11 @@
 ---
+- name: Make sure that the authorized_keys are present for the admin user
+  authorized_key:
+    user: "{{ admin_user }}"
+    key: "{{ item }}"
+  with_file:
+    - keys/administrators
+
 - name: Disallow SSH password authentication
   lineinfile:
     dest=/etc/ssh/sshd_config
