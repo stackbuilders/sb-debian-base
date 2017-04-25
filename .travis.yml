@@ -26,6 +26,9 @@ script:
   # Check running docker containers
   - 'docker ps -a'
 
+  # DEBUG - ADD IT FOR TESTING
+  - 'cat /etc/ansible/roles/role_under_test/tests/test.yml'
+
   # Check the role/playbook's syntax
   - 'docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/test.yml --syntax-check'
 
