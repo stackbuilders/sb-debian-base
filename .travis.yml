@@ -1,0 +1,22 @@
+---
+language: c
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.12.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - sudo apt-add-repository -y ppa:ansible/ansible
+  - sudo apt-get update
+  - sudo apt-get install -y ansible
+
+script:
+  - cd tests
+  - docker-compose up -d
+  - ansible-galaxy install -r requirements.yml -p external-roles
+  - ansible-playbook site.yml

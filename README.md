@@ -1,6 +1,8 @@
 # Stack Builders - Debian Base
 
-Generic Debian image for servers.
+[![Build Status](https://travis-ci.org/stackbuilders/sb-debian-base.svg?branch=master)](https://travis-ci.org/stackbuilders/sb-debian-base)
+
+Generic Debian image for servers. Ansible 2.2.1 is required.
 
 ## How to use this repo
 First make sure you create the requirements.yml file
@@ -8,10 +10,6 @@ and add the reference to this repository, as following:
 
 ```
 ---
-- src: jnv.unattended-upgrades
-  version: v1.1.0
-  path: external-roles
-
 - src: git@github.com:stackbuilders/sb-debian-base.git
   scm: git
   version: remotes/origin/master
@@ -24,8 +22,6 @@ ansible-galaxy install -r requirements.yml
 ```
 ## Tasks available in this repo
 The current version uses Ansible flow control (when: foo is defined) to run tasks for the diferent stages but keep some useful tags like set hostname or create deploy folder.
-
-This version works with Ansible 2.0.1+ (don't run with version 2.2.0 which has a bug).
 
 ### How to use
 Create a playbook file and in roles section set the group of tasks that you need to run.
@@ -41,15 +37,15 @@ Create a playbook file and in roles section set the group of tasks that you need
 
 Run group of task ad-hoc
 ```
-ansible-playbook -l local -i allservers site.yml -vvv -k -u root -e "prebootstrap: true"
+ansible-playbook -l local -i allservers site.yml -k -u root -e "prebootstrap: true"
 ```
 #### How to execute/run these playbooks directly
 ```
 # Basic image
-ansible-playbook -l local -i allservers site.yml -vvv -k -u root
+ansible-playbook -l local -i allservers site.yml -k -u root
 
 # Administrator account
-ansible-playbook -l local -i allservers site.yml -vvv -u administrator
+ansible-playbook -l local -i allservers site.yml -u administrator
 ```
 The following group of tasks are available:
 
@@ -84,7 +80,8 @@ This tag contains more advance setup tasks, such as:
     - You need to define {{ hostname }}
 - Set hostname in the inventory
     - You need to define {{ inventory_hostname }}
-- Set time zone and enable NTP using systemd-timesyncd
+- Set time zone
+- Enable NTP using systemd-timesyncd
 - Enable UFW
 - Open general ports ( e.g. ssh port, http port)
     - You need to define {{ ports }}
@@ -105,8 +102,8 @@ This tag contains more advance setup tasks, such as:
 ### Haskell stack (haskell_stack)
 - Add FPCO PGP public key
 - Add FPCO Deb repository
-- Update packages
-- Install Stack packages
+- Update packages cache
+- Install Stack package
 
 ### Set hostname
 - Set hostname to host-specific
