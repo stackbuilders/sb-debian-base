@@ -52,7 +52,7 @@ The following group of tasks are available:
 ### Prebootstrap (prebootstrap)
 This tag contains basic setup tasks, such as:
 - Add administrator user
-    - Default is `admin` in Debian, `ubuntu` in others. You can define the var {{ admin_user }}
+    - Default is `admin` in Debian, `ubuntu` in others. You can define the var {{ sb_debian_base_admin_user }}
 - Enable default repositories for Debian
 - Update packages
 - Install sudo package
@@ -67,13 +67,13 @@ This tag contains more advance setup tasks, such as:
 - Disallow SSH access for root user
 - Upgrade all packages
 - Install Unattended-Upgrades for security patches only
-    - You need to define the var {{ uu_email_alerts }} (e.g. example@example.com)
+    - You need to define the var {{ sb_debian_base_uu_email_alerts }} (e.g. example@example.com)
 - Install basic packages
     - s.a: vim, tmux, htop, atop, ufw, emacs, atsar, git, curl
 - Create group for deployer user
-    - You need to define the var {{ deploy_username }} (e.g. user_to_deploy, user_without_privileges)
+    - You need to define the var {{ sb_debian_base_deploy_user }} (e.g. user_to_deploy, user_without_privileges)
 - Create deployer user and create ssh keys (public and private)
-    - You need to define the var {{ deploy_username }} (e.g. user_to_deploy, user_without_privileges)
+    - You need to define the var {{ sb_debian_base_deploy_user }} (e.g. user_to_deploy, user_without_privileges)
 - Setup authorized ssh keys for the deployer user
     - You need to define the files: keys/deploy_users, e.g. keys/ci-staging
 - Set hostname to host-specific
@@ -88,11 +88,11 @@ This tag contains more advance setup tasks, such as:
 - Open specific ports for specific IPs
     - You need to define {{ port_ips }}
 - This tag ensures github.com is a known host
-    - You need to define {{ deploy_username }}
+    - You need to define {{ sb_debian_base_deploy_user }}
 
 #### External dependencies (galaxy) included in this group of tasks bootstrap
 - kamaln7.swapfile (Setup the swapfile)
-    - You need to define the var {{ swap_file_size }} (e.g. 2048MB)
+    - You need to define the var {{ sb_debian_base_swap_file_size }} (e.g. 2048MB)
 - nickjj.fail2ban (Install and configure fail2ban)
 
 ### Haskell build dependencies (haskell_build_dependencies)

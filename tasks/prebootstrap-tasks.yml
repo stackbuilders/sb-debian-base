@@ -1,7 +1,7 @@
 ---
 - name: Add privileged admin user
   user:
-    name: "{{ admin_user }}"
+    name: "{{ sb_debian_base_admin_user }}"
     comment: "Privileged admin user"
     shell: /bin/bash
     groups: sudo
@@ -26,7 +26,7 @@
 
 - name: Set up authorized_keys file for the admin user
   authorized_key:
-    user: "{{ admin_user }}"
+    user: "{{ sb_debian_base_admin_user }}"
     key:  "{{ item }}"
   with_file:
     - keys/administrators
