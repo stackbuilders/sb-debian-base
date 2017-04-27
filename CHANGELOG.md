@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## MASTER
+* Move the list of extra installed packages to defaults directory, and add 'tree'.
+
 ## 1.1.2
 * Use fixed version of the external dependencies.
 

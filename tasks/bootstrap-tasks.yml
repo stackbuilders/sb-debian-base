@@ -62,6 +62,7 @@
     - htop
     - libgmp-dev
     - tmux
+    - tree
     - ufw
     - vim
 
