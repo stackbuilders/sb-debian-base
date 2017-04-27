@@ -53,17 +53,7 @@
 
 - name: Install extra packages
   apt: name={{ item }} state=latest
-  with_items:
-    - atsar
-    - atop
-    - curl
-    - emacs24-nox
-    - git
-    - htop
-    - libgmp-dev
-    - tmux
-    - ufw
-    - vim
+  with_items: "{{ sb_debian_base_extra_packages }}"
 
 - name: Debian version 8.5 introduced a bug, this is a workaround
   lineinfile:
