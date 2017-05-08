@@ -1,7 +1,10 @@
 # CHANGELOG
 
 ## MASTER
-* Move the list of extra installed packages to defaults directory, and add 'tree'.
+
+## 1.1.3
+* Move the list of extra installed packages to the `defaults` directory.
+  * Add `tree` and `bash-completion` packages.
 
 ## 1.1.2
 * Use fixed version of the external dependencies.
