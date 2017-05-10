@@ -13,7 +13,6 @@ ntp_timezone: UTC
 
 # Extra packages
 sb_debian_base_extra_packages:
-  - atsar
   - atop
   - bash-completion
   - curl
