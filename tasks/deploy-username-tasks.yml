@@ -1,33 +1,41 @@
 ---
 - name: Create deploy user group
   group:
-    name="{{  deploy_user_group }}" state=present
+    name: "{{ deploy_user_group }}"
+    state: present
 
-- name: Add deploy user
+- name: Create deploy user
   user:
-    name="{{ deploy_username }}" comment="Unprivileged {{ deploy_username }} User"
-    group="{{ deploy_user_group }}"
-    shell=/bin/bash
+    name: "{{ deploy_username }}"
+    comment: "Unprivileged {{ deploy_username }} user"
+    group: "{{ deploy_user_group }}"
+    shell: /bin/bash
 
 - name: Set up application deploy directory
   file:
-    path="{{ app_path }}" state=directory
-    owner="{{ deploy_username }}"
-    group="{{ deploy_user_group }}"
-    mode=0775
+    path: "{{ app_path }}"
+    state: directory
+    owner: "{{ deploy_username }}"
+    group: "{{ deploy_user_group }}"
+    mode: 0775
   tags:
     - create-app-directory
 
-- name: Set up authorized_keys for the deploy user
-  authorized_key: user="{{ deploy_username }}" key="{{ item }}"
+- name: Set up authorized_keys file for the deploy user
+  authorized_key:
+    user: "{{ deploy_username }}"
+    key:  "{{ item }}"
   with_file:
     - keys/deploy_users
-    - "keys/ci-{{ app_environment }}"
+    - keys/ci-{{ app_environment }}
 
-- name: Replace ssh files with GitHub deployer ssh
+- name: Replace SSH keys with GitHub deployer keys
   template:
-    src="{{ item.src }}" dest="{{ item.dest }}" mode="{{ item.mode }}"
-    owner="{{ deploy_username }}" group="{{ deploy_user_group }}"
+    src:  "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ deploy_username }}"
+    group: "{{ deploy_user_group }}"
   with_items:
     - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
     - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
@@ -37,7 +45,7 @@
     dest: "/home/{{ deploy_username }}/.ssh/known_hosts"
     create: yes
     state: present
-    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    line:  "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
-    group: '{{ deploy_user_group }}'
-    owner: '{{ deploy_username }}'
+    group: "{{ deploy_user_group }}"
+    owner: "{{ deploy_username }}"

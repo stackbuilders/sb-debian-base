@@ -1,21 +1,33 @@
+---
 - name: Add FPCO PGP public key
-  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key state=present
+  apt_key:
+    url: https://s3.amazonaws.com/download.fpcomplete.com/debian/fpco.key
+    state: present
   when: ansible_distribution == "Debian"
 
 - name: Add FPCO PGP public key
-  apt_key: url=https://s3.amazonaws.com/download.fpcomplete.com/ubuntu/fpco.key state=present
+  apt_key:
+    url: https://s3.amazonaws.com/download.fpcomplete.com/ubuntu/fpco.key
+    state: present
   when: ansible_distribution == "Ubuntu"
 
-- name: Add FPCO repository
-  apt_repository: repo='deb http://download.fpcomplete.com/debian/jessie stable main' state=present
+- name: Add FPCO deb repository
+  apt_repository:
+    repo: 'deb http://download.fpcomplete.com/debian/jessie stable main'
+    state: present
   when: ansible_distribution_release == "jessie"
 
-- name: Add FPCO repository
-  apt_repository: repo='deb http://download.fpcomplete.com/ubuntu trusty main' state=present
+- name: Add FPCO deb repository
+  apt_repository:
+    repo: 'deb http://download.fpcomplete.com/ubuntu trusty main'
+    state: present
   when: ansible_distribution_release == "trusty"
 
 - name: Update packages cache
-  apt: update_cache=yes
+  apt:
+    update_cache: yes
 
-- name: Install Stack packges
-  apt: name=stack state=present
+- name: Install Stack packge
+  apt:
+    name: stack
+    state: present

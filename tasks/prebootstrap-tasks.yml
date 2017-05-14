@@ -1,21 +1,26 @@
 ---
-- name: Add OS user
+- name: Add privileged admin user
   user:
     name: "{{ admin_user }}"
-    comment: "Privileged Administrator user"
+    comment: "Privileged admin user"
     shell: /bin/bash
     groups: sudo
     append: yes
 
-- name: Enable default repos
-  apt_repository: repo='deb http://ftp.debian.org/debian/ jessie main' state=present
+- name: Enable default repositories
+  apt_repository:
+    repo: 'deb http://ftp.debian.org/debian/ jessie main'
+    state: present
   when: ansible_distribution == "Debian"
 
 - name: Update packages cache
-  apt: update_cache=yes
+  apt:
+    update_cache: yes
 
 - name: Install sudo package
-  apt: name=sudo state=latest
+  apt:
+    name: sudo
+    state: latest
 
 - name: sudo without password
   lineinfile:
@@ -25,8 +30,9 @@
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
-- name: Set up authorized_keys for the admin user
-  authorized_key: user="{{ admin_user }}"
-                  key="{{ item }}"
+- name: Set up authorized_keys file for the admin user
+  authorized_key:
+    user: "{{ admin_user }}"
+    key:  "{{ item }}"
   with_file:
     - keys/administrators

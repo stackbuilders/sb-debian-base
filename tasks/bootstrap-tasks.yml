@@ -1,34 +1,34 @@
 ---
-- name: Make sure that the authorized_keys are present for the admin user
+- name: Make sure that the authorized_keys file is set up for the admin user
   authorized_key:
     user: "{{ admin_user }}"
-    key: "{{ item }}"
+    key:  "{{ item }}"
   with_file:
     - keys/administrators
 
 - name: Disallow SSH password authentication
   lineinfile:
-    dest=/etc/ssh/sshd_config
-    regexp="^PasswordAuthentication"
-    line="PasswordAuthentication no"
-    state=present
+    dest: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
 
-- name: Disallow root SSH access
+- name: Disallow root SSH access for Debian
   lineinfile:
-   dest=/etc/ssh/sshd_config
-   regexp="^PermitRootLogin"
-   line="PermitRootLogin no"
-   state=present
+    dest: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
   notify:
     - restart sshd
   when: ansible_distribution == "Debian"
 
 - name: Disallow root SSH access for Ubuntu versions 14.04 and later
   lineinfile:
-   dest=/etc/ssh/sshd_config
-   regexp="^PermitRootLogin"
-   line="PermitRootLogin no"
-   state=present
+    dest: /etc/ssh/sshd_config
+    regexp: "^PermitRootLogin"
+    line: "PermitRootLogin no"
+    state: present
   notify:
     - restart ssh
   when: ansible_distribution_release == "{{ item }}"
@@ -37,39 +37,55 @@
     - trusty
 
 - name: Set hostname to host-specific variable
-  hostname: name={{ hostname }}
+  hostname:
+    name: "{{ hostname }}"
   when: hostname is defined
   tags:
     - set-hostname
 
 - name: Set time zone
-  command: timedatectl set-timezone {{ ntp_timezone }}
+  command: timedatectl set-timezone "{{ ntp_timezone }}"
 
 - name: Enable NTP
   command: timedatectl set-ntp true
 
 - name: Update package cache and upgrade packages
-  apt: upgrade=dist update_cache=yes
+  apt:
+    upgrade: dist
+    update_cache: yes
 
 - name: Install extra packages
-  apt: name={{ item }} state=latest
+  apt:
+    name: "{{ item }}"
+    state: latest
   with_items: "{{ sb_debian_base_extra_packages }}"
 
 - name: Debian version 8.5 introduced a bug, this is a workaround
   lineinfile:
-    dest=/etc/default/ufw regexp=^IPV6=yes line=IPV6=no
+    dest: /etc/default/ufw
+    regexp: ^IPV6=yes
+    line: IPV6=no
   when: ansible_distribution == "Debian"
 
 - name: Enable UFW
-  ufw: state=enabled policy=deny
+  ufw:
+    state: enabled
+    policy: deny
 
 - name: Open general ports
-  ufw: rule=allow port={{ item }}  proto=tcp
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
   with_items:
     - "{{ ports | default([22]) }}"
 
 - name: Open ports by IP
-  ufw: rule=allow port={{ item.value.port }}  proto=tcp src={{ item.value.ip }}
+  ufw:
+    rule: allow
+    src:  "{{ item.value.ip }}"
+    port: "{{ item.value.port }}"
+    proto: tcp
   with_dict: "{{ port_ips | default({}) }}"
 
 - include: deploy-username-tasks.yml
