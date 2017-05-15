@@ -31,10 +31,7 @@
     state: present
   notify:
     - restart ssh
-  when: ansible_distribution_release == "{{ item }}"
-  with_items:
-    - precise
-    - trusty
+  when: (ansible_distribution_release == 'trusty') or (ansible_distribution_release == 'xenial')
 
 - name: Set hostname to host-specific variable
   hostname:
