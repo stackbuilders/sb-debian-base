@@ -8,7 +8,12 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - all
+        - lenny   # 8
+
+    - name: Ubuntu
+      versions:
+        - trusty  # 14.04
+        - xenial  # 16.04
 
   galaxy_tags:
     - sb-base
