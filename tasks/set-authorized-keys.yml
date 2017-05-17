@@ -1,18 +1,28 @@
 ---
-# tasks Add or remove ssh keys
-- name: Set up authorized_keys for the admin user
-  authorized_key: user="{{ admin_user }}" key="{{ item }}" state=present exclusive=yes
+- name: Set up authorized_keys file for the admin user
+  authorized_key:
+    user: "{{ admin_user }}"
+    key:  "{{ item }}"
+    state: present
+    exclusive: yes
   with_file:
     - keys/administrators
 
-- name: Set up authorized_keys for the deploy user
-  authorized_key: user="{{ deploy_username }}" key="{{ item }}" state=present exclusive=yes
+- name: Set up authorized_keys file for the deploy user
+  authorized_key:
+    user: "{{ deploy_username }}"
+    key:  "{{ item }}"
+    state: present
+    exclusive: yes
   with_file:
     - keys/deploy_users
   when: deploy_username is defined
 
-- name: Set up authorized_keys for ci on deploy user
-  authorized_key: user={{ deploy_username }} key="{{ item }}" state=present
+- name: Set up authorized_keys file for CI on the deploy user
+  authorized_key:
+    user: "{{ deploy_username }}"
+    key:  "{{ item }}"
+    state: present
   with_file:
     - keys/ci-{{ app_environment }}
   when: deploy_username is defined

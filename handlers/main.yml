@@ -1,8 +1,12 @@
 ---
 - name: restart ssh
   become: yes
-  service: name=ssh state=restarted
-  
+  service:
+    name: ssh
+    state: restarted
+
 - name: restart sshd
   become: yes
-  service: name=sshd state=restarted
+  service:
+    name: sshd
+    state: restarted
