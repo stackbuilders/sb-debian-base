@@ -17,7 +17,6 @@ dependencies:
   - src: kamaln7.swapfile
     version: "0.4"
     become: yes
-    become_method: sudo
     remote_user: "{{ admin_user }}"
     swapfile_size: "{{ swap_file_size }}"
     when: bootstrap is defined
@@ -25,7 +24,6 @@ dependencies:
   - src: jnv.unattended-upgrades
     version: v1.3.0
     become: yes
-    become_method: sudo
     remote_user: "{{ admin_user }}"
     unattended_mail: "{{ uu_email_alerts }}"
     unattended_automatic_reboot: false
@@ -34,14 +32,12 @@ dependencies:
   - src: nickjj.fail2ban
     version: v0.1.2
     become: yes
-    become_method: sudo
     remote_user: "{{ admin_user }}"
     when: bootstrap is defined
 
   - src: jdauphant.ssl-certs
     version: v1.4
     become: yes
-    become_method: sudo
     remote_user: "{{ admin_user }}"
     ssl_certs_common_name: "{{ hostname }}"
     when: nginx_certs is defined
@@ -49,13 +45,11 @@ dependencies:
   - src: jdauphant.nginx
     version: v2.7.7
     become: yes
-    become_method: sudo
     remote_user: "{{ admin_user }}"
     when: nginx is defined
 
   - src: ANXS.postgresql
     version: v1.7.1
     become: yes
-    become_method: sudo
     remote_user: "{{ admin_user }}"
     when: postgres is defined

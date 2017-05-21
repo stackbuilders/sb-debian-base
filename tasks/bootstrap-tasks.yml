@@ -13,17 +13,7 @@
     line: "PasswordAuthentication no"
     state: present
 
-- name: Disallow root SSH access for Debian
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: "^PermitRootLogin"
-    line: "PermitRootLogin no"
-    state: present
-  notify:
-    - restart sshd
-  when: ansible_distribution == "Debian"
-
-- name: Disallow root SSH access for Ubuntu versions 14.04 and later
+- name: Disallow root SSH access
   lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin"
@@ -31,7 +21,6 @@
     state: present
   notify:
     - restart ssh
-  when: (ansible_distribution_release == 'trusty') or (ansible_distribution_release == 'xenial')
 
 - name: Set hostname to host-specific variable
   hostname:
@@ -57,33 +46,7 @@
     state: latest
   with_items: "{{ sb_debian_base_extra_packages }}"
 
-- name: Debian version 8.5 introduced a bug, this is a workaround
-  lineinfile:
-    dest: /etc/default/ufw
-    regexp: ^IPV6=yes
-    line: IPV6=no
-  when: ansible_distribution == "Debian"
-
-- name: Enable UFW
-  ufw:
-    state: enabled
-    policy: deny
-
-- name: Open general ports
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-    proto: tcp
-  with_items:
-    - "{{ ports | default([22]) }}"
-
-- name: Open ports by IP
-  ufw:
-    rule: allow
-    src:  "{{ item.value.ip }}"
-    port: "{{ item.value.port }}"
-    proto: tcp
-  with_dict: "{{ port_ips | default({}) }}"
+- include: firewall.yml
 
 - include: deploy-username-tasks.yml
   when: deploy_username is defined

@@ -1,0 +1,28 @@
+---
+- name: Debian version 8.5 introduced a bug, this is a workaround
+  lineinfile:
+    dest: /etc/default/ufw
+    regexp: ^IPV6=yes
+    line: IPV6=no
+  when: ansible_distribution == "Debian"
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+
+- name: Open general ports
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  with_items:
+    - "{{ ports | default([22]) }}"
+
+- name: Open ports by IP
+  ufw:
+    rule: allow
+    src:  "{{ item.value.ip }}"
+    port: "{{ item.value.port }}"
+    proto: tcp
+  with_dict: "{{ port_ips | default({}) }}"
