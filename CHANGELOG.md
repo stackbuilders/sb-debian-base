@@ -2,6 +2,12 @@
 
 ## MASTER
 
+## 1.1.4
+* Remove atsar from the default package installation list (not available in Ubuntu).
+* Fix an Ansible warning
+* Use a more legible YAML format
+* Remove duplicate code
+
 ## 1.1.3
 * Move the list of extra installed packages to the `defaults` directory.
   * Add `tree` and `bash-completion` packages.
