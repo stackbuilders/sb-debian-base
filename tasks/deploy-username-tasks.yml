@@ -1,51 +1,51 @@
 ---
 - name: Create deploy user group
   group:
-    name: "{{ deploy_user_group }}"
+    name: "{{ sb_debian_base_deploy_user_group }}"
     state: present
 
 - name: Create deploy user
   user:
-    name: "{{ deploy_username }}"
-    comment: "Unprivileged {{ deploy_username }} user"
-    group: "{{ deploy_user_group }}"
+    name: "{{ sb_debian_base_deploy_user }}"
+    comment: "Unprivileged {{ sb_debian_base_deploy_user }} user"
+    group: "{{ sb_debian_base_deploy_user_group }}"
     shell: /bin/bash
 
 - name: Set up application deploy directory
   file:
-    path: "{{ app_path }}"
+    path: "{{ sb_debian_base_app_path }}"
     state: directory
-    owner: "{{ deploy_username }}"
-    group: "{{ deploy_user_group }}"
+    owner: "{{ sb_debian_base_deploy_user }}"
+    group: "{{ sb_debian_base_deploy_user_group }}"
     mode: 0775
   tags:
     - create-app-directory
 
 - name: Set up authorized_keys file for the deploy user
   authorized_key:
-    user: "{{ deploy_username }}"
+    user: "{{ sb_debian_base_deploy_user }}"
     key:  "{{ item }}"
   with_file:
     - keys/deploy_users
-    - keys/ci-{{ app_environment }}
+    - keys/ci-{{ sb_debian_base_app_environment }}
 
 - name: Replace SSH keys with GitHub deployer keys
   template:
     src:  "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "{{ item.mode }}"
-    owner: "{{ deploy_username }}"
-    group: "{{ deploy_user_group }}"
+    owner: "{{ sb_debian_base_deploy_user }}"
+    group: "{{ sb_debian_base_deploy_user_group }}"
   with_items:
-    - { src: 'keys/github-pub', dest: '/home/{{ deploy_username }}/.ssh/id_rsa.pub', mode: '0644' }
-    - { src: 'keys/github-keys', dest: '/home/{{ deploy_username }}/.ssh/id_rsa', mode: '0600' }
+    - { src: 'keys/github-pub', dest: '/home/{{ sb_debian_base_deploy_user }}/.ssh/id_rsa.pub', mode: '0644' }
+    - { src: 'keys/github-keys', dest: '/home/{{ sb_debian_base_deploy_user }}/.ssh/id_rsa', mode: '0600' }
 
 - name: Ensure github.com is a known host
   lineinfile:
-    dest: "/home/{{ deploy_username }}/.ssh/known_hosts"
+    dest: "/home/{{ sb_debian_base_deploy_user }}/.ssh/known_hosts"
     create: yes
     state: present
     line:  "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
-    group: "{{ deploy_user_group }}"
-    owner: "{{ deploy_username }}"
+    group: "{{ sb_debian_base_deploy_user_group }}"
+    owner: "{{ sb_debian_base_deploy_user }}"

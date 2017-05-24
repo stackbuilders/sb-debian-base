@@ -1,7 +1,7 @@
 ---
 - name: Make sure that the authorized_keys file is set up for the admin user
   authorized_key:
-    user: "{{ admin_user }}"
+    user: "{{ sb_debian_base_admin_user }}"
     key:  "{{ item }}"
   with_file:
     - keys/administrators
@@ -31,7 +31,7 @@
 
 - name: Set the time zone
   timezone:
-    name: "{{ ntp_timezone }}"
+    name: "{{ sb_debian_base_ntp_timezone }}"
 
 - name: Enable NTP
   command: timedatectl set-ntp true
@@ -50,4 +50,4 @@
 - include: firewall.yml
 
 - include: deploy-username-tasks.yml
-  when: deploy_username is defined
+  when: sb_debian_base_deploy_user is defined

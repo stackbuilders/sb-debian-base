@@ -9,6 +9,6 @@
       install_haskell_dependencies: yes
       add-remove-keys: yes
       vars:
-        swap_file_size: no
-        app_environment: test
-        deploy_username: deployer
+        sb_debian_base_swap_file_size: no
+        sb_debian_base_app_environment: test
+        sb_debian_base_deploy_username: deployer

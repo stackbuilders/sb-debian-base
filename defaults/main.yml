@@ -1,15 +1,15 @@
 ---
 # Defaults file for sb-base
-app_path: /var/projects
-uu_email_alerts: foo@mydomain.com
-swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
+sb_debian_base_app_path: /var/projects
+sb_debian_base_uu_email_alerts: foo@mydomain.com
+sb_debian_base_swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
 
 # This works with AWS images of Debian and Ubuntu
-admin_user: "{{ 'admin' if (ansible_distribution == 'Debian') else 'ubuntu' }}"
-deploy_user_group: "{{ deploy_username if (deploy_username_group is not defined) else deploy_username_group }}"
+sb_debian_base_admin_user: "{{ 'admin' if (ansible_distribution == 'Debian') else 'ubuntu' }}"
+sb_debian_base_deploy_user_group: "{{ sb_debian_base_deploy_user if (deploy_username_group is not defined) else deploy_username_group }}"
 
 # Time zone
-ntp_timezone: UTC
+sb_debian_base_ntp_timezone: UTC
 
 # Extra packages
 sb_debian_base_extra_packages:

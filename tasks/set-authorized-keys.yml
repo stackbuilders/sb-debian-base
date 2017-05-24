@@ -1,7 +1,7 @@
 ---
 - name: Set up authorized_keys file for the admin user
   authorized_key:
-    user: "{{ admin_user }}"
+    user: "{{ sb_debian_base_admin_user }}"
     key:  "{{ item }}"
     state: present
     exclusive: yes
@@ -10,19 +10,19 @@
 
 - name: Set up authorized_keys file for the deploy user
   authorized_key:
-    user: "{{ deploy_username }}"
+    user: "{{ sb_debian_base_deploy_user }}"
     key:  "{{ item }}"
     state: present
     exclusive: yes
   with_file:
     - keys/deploy_users
-  when: deploy_username is defined
+  when: sb_debian_base_deploy_user is defined
 
 - name: Set up authorized_keys file for CI on the deploy user
   authorized_key:
-    user: "{{ deploy_username }}"
+    user: "{{ sb_debian_base_deploy_user }}"
     key:  "{{ item }}"
     state: present
   with_file:
-    - keys/ci-{{ app_environment }}
-  when: deploy_username is defined
+    - keys/ci-{{ sb_debian_base_app_environment }}
+  when: sb_debian_base_deploy_user is defined
