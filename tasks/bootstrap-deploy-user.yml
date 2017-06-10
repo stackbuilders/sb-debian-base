@@ -11,7 +11,7 @@
     group: "{{ sb_debian_base_deploy_user_group }}"
     shell: /bin/bash
 
-- name: Set up application deploy directory
+- name: Create application deploy directory
   file:
     path: "{{ sb_debian_base_app_path }}"
     state: directory
@@ -21,7 +21,7 @@
   tags:
     - create-app-directory
 
-- name: Set up authorized_keys file for the deploy user
+- name: Set up authorized SSH keys for the deployer user
   authorized_key:
     user: "{{ sb_debian_base_deploy_user }}"
     key:  "{{ item }}"
@@ -29,7 +29,7 @@
     - keys/deploy_users
     - keys/ci-{{ sb_debian_base_app_environment }}
 
-- name: Replace SSH keys with GitHub deployer keys
+- name: Add SSH keys for GitHub's "Deploy keys"
   template:
     src:  "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -37,7 +37,7 @@
     owner: "{{ sb_debian_base_deploy_user }}"
     group: "{{ sb_debian_base_deploy_user_group }}"
   with_items:
-    - { src: 'keys/github-pub', dest: '/home/{{ sb_debian_base_deploy_user }}/.ssh/id_rsa.pub', mode: '0644' }
+    - { src: 'keys/github-pub',  dest: '/home/{{ sb_debian_base_deploy_user }}/.ssh/id_rsa.pub', mode: '0644' }
     - { src: 'keys/github-keys', dest: '/home/{{ sb_debian_base_deploy_user }}/.ssh/id_rsa', mode: '0600' }
 
 - name: Ensure github.com is a known host

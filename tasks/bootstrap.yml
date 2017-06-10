@@ -1,5 +1,5 @@
 ---
-- name: Make sure that the authorized_keys file is set up for the admin user
+- name: Make sure that the authorized_keys file is set for the admin user
   authorized_key:
     user: "{{ sb_debian_base_admin_user }}"
     key:  "{{ item }}"
@@ -47,7 +47,7 @@
     state: latest
   with_items: "{{ sb_debian_base_extra_packages }}"
 
-- include: firewall.yml
+- include: bootstrap-firewall.yml
 
-- include: deploy-username-tasks.yml
+- include: bootstrap-deploy-user.yml
   when: sb_debian_base_deploy_user is defined
