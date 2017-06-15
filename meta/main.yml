@@ -31,7 +31,7 @@ dependencies:
     become: yes
     remote_user: "{{ sb_debian_base_admin_user }}"
     unattended_mail: "{{ sb_debian_base_uu_email_alerts }}"
-    unattended_automatic_reboot: false
+    unattended_automatic_reboot: no
     when: bootstrap is defined
 
   - src: nickjj.fail2ban

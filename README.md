@@ -33,7 +33,7 @@ Create a playbook file and in roles section set the group of tasks that you need
     - role: sb-debian-base
       bootstrap: yes
       nginx: yes
-      postgres: true
+      postgres: yes
       install_haskell_stack: yes
       add_remove_keys: yes
       vars:
@@ -43,7 +43,7 @@ Create a playbook file and in roles section set the group of tasks that you need
 
 You can also run ad-hoc tasks, although it's not the recommended way:
 ```
-ansible-playbook -l local -i hosts site.yml -k -u root -e "prebootstrap: true"
+ansible-playbook -l local -i hosts site.yml -k -u root -e "prebootstrap: yes"
 ```
 
 Run the playbook this way:
