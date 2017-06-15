@@ -107,9 +107,9 @@ This tag contains more advance setup tasks, such as:
 
 #### External dependencies (Galaxies) included in this group of bootstrap tasks
 - kamaln7.swapfile (Set up the swapfile)
-    - You need to define the var {{ sb_debian_base_swap_file_size }} (e.g. 2048MB)
+    - You can define the var {{ sb_debian_base_swap_file_size }} (e.g. 2048MB)
 - Install unattended-upgrades for security patches only
-    - You need to define the var {{ sb_debian_base_uu_email_alerts }} (e.g. example@example.com)
+    - You can define the var {{ sb_debian_base_uu_email_alerts }} (e.g. example@example.com)
 - nickjj.fail2ban (Install and configure fail2ban)
 
 ### Update authorized SSH keys (add-remove-keys)

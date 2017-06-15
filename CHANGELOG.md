@@ -2,6 +2,21 @@
 
 ## MASTER
 
+## 1.2.0
+* Variable names are now standardized, prefixed with `sb_debian_base_`.
+* UFW task can now be disabled setting `sb_debian_base_firewall` to `no`
+* By default email alerts will be send to the admin user on the localhost.
+* Fix for Unix deploy group variable name
+* Fix two variables in tests
+* Simplify and order task's filenames
+* README.md updates
+
+## 1.1.5
+* This Galaxy is now tested on every commit running against Docker containers on Travis
+* The supported platforms are now `Debian 8 "Jessie"`, `Ubuntu 14.04 "Trusty"` and `Ubuntu 16.04 "Xenial"`.
+* The time zone is now set using the Ansible module `timezone` (requieres Ansible 2.2).
+* Ansible 2.2.1 is now required.
+
 ## 1.1.4
 * Remove atsar from the default package installation list (not available in Ubuntu).
 * Fix an Ansible warning
@@ -38,8 +53,8 @@
   * Update tasks to use Ansible 2.0+
 
 * To improve the compatibility with AWS and Ubuntu, this version includes some
-tweaks also changes the default `admin_user` from `administrator` to `admin` and
-is now set as a default variable.
+  tweaks also changes the default `admin_user` from `administrator` to `admin` and
+  is now set as a default variable.
 
 ## 0.0.2
 * Compatible with Ansible version 1.9.
