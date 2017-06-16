@@ -48,7 +48,7 @@
   with_items: "{{ sb_debian_base_extra_packages }}"
 
 - include: bootstrap-firewall.yml
-  when: sb_debian_base_firewall is defined
+  when: sb_debian_base_firewall
 
 - include: bootstrap-deploy-user.yml
   when: sb_debian_base_deploy_user is defined
