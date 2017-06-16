@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## MASTER
+
+## 1.2.1
 * Fix disabling of firewall
 * Use the same boolean form consistently
 
