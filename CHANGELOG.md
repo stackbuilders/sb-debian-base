@@ -1,7 +1,8 @@
 # CHANGELOG
 
 ## MASTER
-Fix disabling of firewall
+* Fix disabling of firewall
+* Use the same boolean form consistently
 
 ## 1.2.0
 * Variable names are now standardized, prefixed with `sb_debian_base_`.
