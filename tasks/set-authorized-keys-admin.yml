@@ -1,0 +1,9 @@
+---
+- name: Set up authorized_keys file for the admin user
+  authorized_key:
+    user: "{{ sb_debian_base_admin_user }}"
+    key:  "{{ item }}"
+    state: present
+    exclusive: yes
+  with_file:
+    - keys/administrators
