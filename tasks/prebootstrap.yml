@@ -7,14 +7,11 @@
     groups: sudo
     append: yes
 
-- name: Update packages cache
-  apt:
-    update_cache: yes
-
 - name: Install sudo package
   apt:
     name: sudo
     state: latest
+    update_cache: yes
 
 - name: Use sudo without password
   lineinfile:
@@ -24,9 +21,4 @@
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
-- name: Set up authorized_keys file for the admin user
-  authorized_key:
-    user: "{{ sb_debian_base_admin_user }}"
-    key:  "{{ item }}"
-  with_file:
-    - keys/administrators
+- include: set-authorized-keys-admin.yml
