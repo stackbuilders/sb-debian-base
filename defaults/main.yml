@@ -6,7 +6,7 @@ sb_debian_base_swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
 
 # This works with AWS images of Debian and Ubuntu
 sb_debian_base_admin_user: "{{ 'admin' if (ansible_distribution == 'Debian') else 'ubuntu' }}"
-sb_debian_base_deploy_user_group: "{{ sb_debian_base_deploy_user if (sb_debian_base_admin_user is defined) else deploy_user_group }}"
+sb_debian_base_deploy_user_group: "{{ sb_debian_base_deploy_user if (sb_debian_base_deploy_user is defined) else deploy_user_group }}"
 
 # Time zone
 sb_debian_base_ntp_timezone: UTC
