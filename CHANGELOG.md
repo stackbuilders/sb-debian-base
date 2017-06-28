@@ -2,6 +2,11 @@
 
 ## MASTER
 
+## 1.2.2
+* Add cache_valid_time to apt upgrade
+* Remove duplicate code for updating SSH keys
+* Fix sb_debian_base_deploy_user default value
+
 ## 1.2.1
 * Fix disabling of firewall
 * Use the same boolean form consistently
