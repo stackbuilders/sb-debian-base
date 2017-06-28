@@ -7,15 +7,5 @@
     key:  "{{ item }}"
     state: present
     exclusive: yes
-  with_file:
-    - keys/deploy_users
-  when: sb_debian_base_deploy_user is defined
-
-- name: Set up authorized_keys file for CI on the deploy user
-  authorized_key:
-    user: "{{ sb_debian_base_deploy_user }}"
-    key:  "{{ item }}"
-    state: present
-  with_file:
-    - keys/ci-{{ sb_debian_base_app_environment }}
+  with_items: "{{ sb_debian_base_deploy_user_authorized_keys }}"
   when: sb_debian_base_deploy_user is defined
