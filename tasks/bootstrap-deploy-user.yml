@@ -21,13 +21,9 @@
   tags:
     - create-app-directory
 
-- name: Set up authorized SSH keys for the deployer user
-  authorized_key:
-    user: "{{ sb_debian_base_deploy_user }}"
-    key:  "{{ item }}"
-  with_items: "{{ sb_debian_base_deploy_user_authorized_keys }}"
+- include: set-authorized-keys-user.yml
 
-- name: Add deploy user private key
+- name: Add deploy user's SSH private key
   copy:
     dest:  "{{ sb_debian_base_deploy_user_dir }}/.ssh/id_rsa"
     content: "{{ sb_debian_base_deploy_user_private_key }}"

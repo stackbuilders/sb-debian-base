@@ -1,0 +1,7 @@
+---
+- name: Set up authorized_keys file for the deploy user
+  authorized_key:
+    user: "{{ sb_debian_base_deploy_user }}"
+    key:  "{{ item }}"
+    exclusive: yes
+  with_items: "{{ sb_debian_base_deploy_user_authorized_keys }}"

@@ -2,9 +2,9 @@
 
 ## MASTER
 * Use variables instead of files to configure SSH private and authorized keys for `admin` and `deploy` users.
-* Read `admin` user SSH authorized keys from `sb_debian_base_admin_user_authorized_keys` variable.
-* Read `deploy` user SSH private key from `sb_debian_base_deploy_user_private_key` variable.
-* Read `deploy` user SSH authorized keys from `sb_debian_base_deploy_user_authorized_keys` variable.
+  * Read `admin` user SSH authorized keys from `sb_debian_base_admin_user_authorized_keys` variable.
+  * Read `deploy` user SSH private key from `sb_debian_base_deploy_user_private_key` variable.
+  * Read `deploy` user SSH authorized keys from `sb_debian_base_deploy_user_authorized_keys` variable.
 
 ## 1.2.2
 * Add cache_valid_time to apt upgrade

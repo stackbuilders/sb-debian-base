@@ -1,11 +1,5 @@
 ---
 - include: set-authorized-keys-admin.yml
 
-- name: Set up authorized_keys file for the deploy user
-  authorized_key:
-    user: "{{ sb_debian_base_deploy_user }}"
-    key:  "{{ item }}"
-    state: present
-    exclusive: yes
-  with_items: "{{ sb_debian_base_deploy_user_authorized_keys }}"
+- include: set-authorized-keys-user.yml
   when: sb_debian_base_deploy_user is defined
