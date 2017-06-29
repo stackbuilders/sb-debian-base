@@ -1,2 +1,2 @@
 ---
-# vars file for sb-base
+sb_debian_base_deploy_user_dir: "/home/{{ sb_debian_base_deploy_user }}"

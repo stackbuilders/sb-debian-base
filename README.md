@@ -66,7 +66,7 @@ This tag contains basic setup tasks, such as:
 - Install sudo package
 - Use sudo without a password for the sudo group
 - Set up authorized SSH keys for administrator users
-    - You need to define this file: keys/administrators
+    - You need to define {{ sb_debian_base_admin_user_authorized_keys }}
 
 ### Bootstrap (bootstrap)
 This tag contains more advance setup tasks, such as:
@@ -93,7 +93,7 @@ This tag contains more advance setup tasks, such as:
 - Create application deploy directory
 - Add SSH keys for GitHub's «Deploy keys»
 - Set up authorized SSH keys for the deployer user
-    - You need to define the files: keys/deploy_users, e.g. keys/ci-staging
+    - You need to define {{ sb_debian_base_deploy_user_authorized_keys }}
 - Ensure github.com is a known host
     - You need to define {{ sb_debian_base_deploy_user }}
 
@@ -115,10 +115,11 @@ This tag contains more advance setup tasks, such as:
 ### Update authorized SSH keys (add-remove-keys)
 - deploy listed SSH keys into key files, adding or removing the keys listed inside keys/ folder
 
-    - You need to create the following list of files containing the SSH public-keys for both the administrator and the deployer users, respectively:
+    - You need to define the following list of variables containing the SSH public-keys for both the administrator and the deployer users, respectively:
+
 ```
-keys/administrators
-keys/deploy_users
+{{ sb_debian_base_admin_user_authorized_keys }}
+{{ sb_debian_base_deploy_user_authorized_keys }}
 ```
 
 ### Haskell build dependencies (haskell-build-dependencies)

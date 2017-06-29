@@ -3,6 +3,11 @@
   roles:
     - role: sb-debian-base
       prebootstrap: yes
+      vars:
+        sb_debian_base_admin_user_authorized_keys:
+            - "ssh-rsa AAAAB3NzaC1yc2E ADMIN_USER_1"
+            - "ssh-rsa AAAAB3NzaC1yc2E ADMIN_USER_2"
+
     - role: sb-debian-base
       bootstrap: yes
       install_haskell_stack: yes
@@ -11,4 +16,13 @@
       vars:
         sb_debian_base_swap_file_size: no
         sb_debian_base_app_environment: test
+
+        sb_debian_base_admin_user_authorized_keys:
+            - "ssh-rsa AAAAB3NzaC1yc2E ADMIN_USER_1"
+            - "ssh-rsa AAAAB3NzaC1yc2E ADMIN_USER_2"
+
         sb_debian_base_deploy_user: deployer
+        sb_debian_base_deploy_user_private_key: "DEPLOY_USER_PRIVATE_KEY"
+        sb_debian_base_deploy_user_authorized_keys:
+            - "ssh-rsa AAAAB3NzaC1yc2E DEPLOY_USER_1"
+            - "ssh-rsa AAAAB3NzaC1yc2E DEPLOY_USER_2"
