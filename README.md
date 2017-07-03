@@ -22,11 +22,19 @@ ansible-galaxy install -r requirements.yml
 ```
 
 ### Create a playbook
-Create a playbook file and in roles section set the group of tasks that you need to run, for example:
+Create a playbook file and in the roles section set the group of tasks that you need to run.
+You can use as an example `tests/site.yml` or the one below:
 ```
 # site.yml
 - hosts: all
   remote_user: foo
+  vars:
+    sb_debian_base_admin_user_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc1E ADMIN_USER_1
+      - ssh-rsa AAAAB3Nzac2Yc2e ADMIN_USER_2
+    sb_debian_base_deploy_user_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc1E DEPLOY_USER_1
+      - ssh-rsa AAAAB3Nzac2Yc2e DEPLOY_USER_2
   roles:
     - role: sb-debian-base
       prebootstrap: yes
@@ -102,8 +110,8 @@ This tag contains more advance setup tasks, such as:
     - You need to define {{ hostname }}
 
 #### Create app directory (create-app-directory)
-- name: Set up application deploy directory
-    - You need to define {{ user_owner_app_directory }} and {{ user_group_app_directory }}
+- Create the application deploy directory
+    - When {{ sb_debian_base_deploy_user }} is defined
 
 #### External dependencies (Galaxies) included in this group of bootstrap tasks
 - kamaln7.swapfile (Set up the swapfile)
