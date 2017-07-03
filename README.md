@@ -144,14 +144,6 @@ This tag contains more advance setup tasks, such as:
 - Install dependencies for rvm
     - (s.a. build-essential, tklib,zlib1g-dev,libssl-dev,libreadline-gplv2-dev,libxml2,libxml2-dev,libxslt1-dev)
 
-## Available group of tasks from external roles
-### PostgreSQL (postgres)
-- external dependency ANXS.postgresql which installs and configures PostgreSQL, extensions, databases and users
-
-### NGINX (nginx)
-- external dependency jdauphant.nginx to install and manage NGINX configuration
-
-
 License
 -------
 
