@@ -43,21 +43,3 @@ dependencies:
     remote_user: "{{ sb_debian_base_admin_user }}"
     when: bootstrap is defined
 
-  - src: jdauphant.ssl-certs
-    version: v1.4
-    become: yes
-    remote_user: "{{ sb_debian_base_admin_user }}"
-    ssl_certs_common_name: "{{ hostname }}"
-    when: nginx_certs is defined
-
-  - src: jdauphant.nginx
-    version: v2.7.7
-    become: yes
-    remote_user: "{{ sb_debian_base_admin_user }}"
-    when: nginx is defined
-
-  - src: ANXS.postgresql
-    version: v1.7.1
-    become: yes
-    remote_user: "{{ sb_debian_base_admin_user }}"
-    when: postgres is defined
