@@ -8,15 +8,18 @@ galaxy_info:
   platforms:
     - name: Debian
       versions:
-        - lenny   # 8
-
+        - jessie  # 8
     - name: Ubuntu
       versions:
         - trusty  # 14.04
         - xenial  # 16.04
-
   galaxy_tags:
-    - sb-base
+    - debian
+    - development
+    - production
+    - security
+    - system: bootstrap
+    - ubuntu
 
 dependencies:
   - src: kamaln7.swapfile
