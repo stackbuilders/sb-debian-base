@@ -1,10 +1,17 @@
 # CHANGELOG
 
 ## MASTER
+
+## 1.3.0
 * Use variables instead of files to configure SSH private and authorized keys for `admin` and `deploy` users.
   * Read `admin` user SSH authorized keys from `sb_debian_base_admin_user_authorized_keys` variable.
   * Read `deploy` user SSH private key from `sb_debian_base_deploy_user_private_key` variable.
   * Read `deploy` user SSH authorized keys from `sb_debian_base_deploy_user_authorized_keys` variable.
+* Definitive fix for sb_debian_base_deploy_user default value.
+* Add galaxy_tags to meta/main.yml
+* Fix typo on platform for Debian 'Jessie' name.
+* Remove unused role dependecies (jdauphant.ssl-certs, jdauphant.nginx,
+  ANXS.postgresql).
 
 ## 1.2.2
 * Add cache_valid_time to apt upgrade
