@@ -8,11 +8,3 @@
 - src: nickjj.fail2ban
   version: v0.1.2
 
-- src: jdauphant.ssl-certs
-  version: v1.4
-
-- src: jdauphant.nginx
-  version: v2.7.7
-
-- src: ANXS.postgresql
-  version: v1.7.1

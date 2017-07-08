@@ -9,6 +9,13 @@ services:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup
 
+  debian9:
+    build: ./dockerfiles/debian9
+    cap_add:
+      - ALL
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup
+
   ubuntu1404:
     build: ./dockerfiles/ubuntu1404
     cap_add:
