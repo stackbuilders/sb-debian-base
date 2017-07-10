@@ -9,6 +9,7 @@ galaxy_info:
     - name: Debian
       versions:
         - jessie  # 8
+        - stretch # 9
     - name: Ubuntu
       versions:
         - trusty  # 14.04

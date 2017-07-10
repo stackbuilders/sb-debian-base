@@ -17,6 +17,12 @@
     state: present
   when: ansible_distribution_release == "jessie"
 
+- name: Add FPCO deb repository (Stretch)
+  apt_repository:
+    repo: 'deb http://download.fpcomplete.com/debian/jessie stable main'
+    state: present
+  when: ansible_distribution_release == "stretch"
+
 - name: Add FPCO deb repository (Trusty)
   apt_repository:
     repo: 'deb http://download.fpcomplete.com/ubuntu trusty main'

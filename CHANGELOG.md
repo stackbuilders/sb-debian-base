@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## MASTER
+* Add support for Debian 9 "Stretch"
+* Minor fixes
 
 ## 1.3.0
 * Use variables instead of files to configure SSH private and authorized keys for `admin` and `deploy` users.
