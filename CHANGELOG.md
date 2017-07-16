@@ -1,8 +1,10 @@
 # CHANGELOG
 
 ## MASTER
+
+## 1.3.1
 * Add support for Debian 9 "Stretch"
-* Minor fixes
+* Fix Galaxy tag
 
 ## 1.3.0
 * Use variables instead of files to configure SSH private and authorized keys for `admin` and `deploy` users.

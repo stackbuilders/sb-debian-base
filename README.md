@@ -6,14 +6,13 @@ Generic Debian image for servers. This Galaxy requires Ansible 2.2.1
 
 ## How to use this role
 The current version uses Ansible flow control (when: foo is defined) to run tasks
-for the different stages but keep some useful tags like set hostname or create deploy folder.
+for the different stages but keeps some useful tags like to set the hostname or create the deploy folder.
 
 First make sure you create the requirements.yml file and add the reference to this repository, as following:
 ```
 ---
 - src: git@github.com:stackbuilders/sb-debian-base.git
-  scm: git
-  version: remotes/origin/master
+  version: <tag, commit or branch>
   path: external-roles
 ```
 After that you need to run the following command:
@@ -23,7 +22,7 @@ ansible-galaxy install -r requirements.yml
 
 ### Create a playbook
 Create a playbook file and in the roles section set the group of tasks that you need to run.
-You can use as an example `tests/site.yml` or the one below:
+As an example you can use `tests/site.yml` or the one below:
 ```
 # site.yml
 - hosts: all
@@ -40,8 +39,6 @@ You can use as an example `tests/site.yml` or the one below:
       prebootstrap: yes
     - role: sb-debian-base
       bootstrap: yes
-      nginx: yes
-      postgres: yes
       install_haskell_stack: yes
       add_remove_keys: yes
       vars:
@@ -121,9 +118,10 @@ This tag contains more advance setup tasks, such as:
 - nickjj.fail2ban (Install and configure fail2ban)
 
 ### Update authorized SSH keys (add-remove-keys)
-- deploy listed SSH keys into key files, adding or removing the keys listed inside keys/ folder
+- Updates SSH authorized keys:
 
-    - You need to define the following list of variables containing the SSH public-keys for both the administrator and the deployer users, respectively:
+    - You need to define the following list of variables containing the SSH
+      public-keys for both the administrator and the deploy users, respectively:
 
 ```
 {{ sb_debian_base_admin_user_authorized_keys }}
@@ -132,7 +130,7 @@ This tag contains more advance setup tasks, such as:
 
 ### Haskell build dependencies (haskell-build-dependencies)
 - Install common Haskell build dependencies
-    - (s.a libpcre3-dev, libsqlite3-dev, libpq-dev)
+    - (i.e. libpcre3-dev, libsqlite3-dev, libpq-dev)
 
 ### Haskell Stack (haskell-stack)
 - Add FPCO PGP public key
@@ -142,7 +140,7 @@ This tag contains more advance setup tasks, such as:
 
 ### Ruby dependencies (ruby-dependencies)
 - Install dependencies for rvm
-    - (s.a. build-essential, tklib,zlib1g-dev,libssl-dev,libreadline-gplv2-dev,libxml2,libxml2-dev,libxslt1-dev)
+    - (i.e. build-essential, tklib,zlib1g-dev,libssl-dev,libreadline-gplv2-dev,libxml2,libxml2-dev,libxslt1-dev)
 
 License
 -------
