@@ -1,11 +1,4 @@
 ---
-- name: Debian version 8.5 introduced a bug, this is a workaround
-  lineinfile:
-    dest: /etc/default/ufw
-    regexp: ^IPV6=yes
-    line: IPV6=no
-  when: ansible_distribution == "Debian"
-
 - name: Enable UFW
   ufw:
     state: enabled

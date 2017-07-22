@@ -43,7 +43,6 @@ As an example you can use `tests/site.yml` or the one below:
       add_remove_keys: yes
       vars:
         sb_debian_base_deploy_user: deployer
-        sb_debian_base_app_environment: test
 ```
 
 You can also run ad-hoc tasks, although it's not the recommended way:

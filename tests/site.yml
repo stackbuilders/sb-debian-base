@@ -17,6 +17,5 @@
       add_remove_keys: yes
       vars:
         sb_debian_base_swap_file_size: no
-        sb_debian_base_app_environment: test
         sb_debian_base_deploy_user: deployer
         sb_debian_base_deploy_user_private_key: "DEPLOY_USER_PRIVATE_KEY"
