@@ -2,6 +2,10 @@
 
 ## MASTER
 
+## 1.3.2
+* Don't disable IPv6 connections on Debian's firewall
+* Minor cleanups
+
 ## 1.3.1
 * Add support for Debian 9 "Stretch"
 * Fix Galaxy tag
