@@ -27,3 +27,5 @@ sb_debian_base_extra_packages:
   - tree
   - ufw
   - vim
+
+sb_debian_base_supplementary_packages: []

@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.3.3
+* Added sb_debian_base_supplementary_packages variable to allow the installation of more packages additionally to sb_debian_base_extra_packages
+
 ## 1.3.2
 * Don't disable IPv6 connections on Debian's firewall
 * Minor cleanups
