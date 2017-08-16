@@ -19,3 +19,4 @@
         sb_debian_base_swap_file_size: no
         sb_debian_base_deploy_user: deployer
         sb_debian_base_deploy_user_private_key: "DEPLOY_USER_PRIVATE_KEY"
+        sb_debian_base_supplementary_packages: [ "pkg-config", "traceroute" ]

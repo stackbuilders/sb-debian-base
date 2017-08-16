@@ -41,7 +41,7 @@
   apt:
     name: "{{ item }}"
     state: latest
-  with_items: "{{ sb_debian_base_extra_packages }}"
+  with_items: "{{ sb_debian_base_extra_packages | union(sb_debian_base_supplementary_packages) }}"
 
 - include: bootstrap-firewall.yml
   when: sb_debian_base_firewall

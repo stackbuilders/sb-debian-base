@@ -85,6 +85,7 @@ This tag contains more advance setup tasks, such as:
 - Upgrade all packages
 - Install basic packages
     - e.g.: vim, tmux, htop, atop, tree, ufw, emacs, git, curl
+- Install supplementary packages - not just sb_debian_base_extra_packages
 - Enable UFW
     - Open general ports (e.g. SSH port, HTTP port; by default SSH)
         - You can define {{ ports }}
