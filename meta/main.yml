@@ -25,22 +25,19 @@ galaxy_info:
 dependencies:
   - src: kamaln7.swapfile
     version: "0.4"
-    become: yes
-    remote_user: "{{ sb_debian_base_admin_user }}"
     swapfile_size: "{{ sb_debian_base_swap_file_size }}"
+    become: yes
     when: bootstrap is defined
 
   - src: jnv.unattended-upgrades
     version: v1.3.0
-    become: yes
-    remote_user: "{{ sb_debian_base_admin_user }}"
     unattended_mail: "{{ sb_debian_base_uu_email_alerts }}"
     unattended_automatic_reboot: no
+    become: yes
     when: bootstrap is defined
 
   - src: nickjj.fail2ban
     version: v0.1.2
     become: yes
-    remote_user: "{{ sb_debian_base_admin_user }}"
     when: bootstrap is defined
 
