@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.3.4
+* Fix deprecation warning about using remote_user as a role parameter
+
 ## 1.3.3
 * Added sb_debian_base_supplementary_packages variable to allow the installation of more packages additionally to sb_debian_base_extra_packages
 
