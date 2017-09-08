@@ -11,4 +11,4 @@ RUN apt-get update && \
 
 RUN touch /var/log/auth.log
 
-CMD ["/usr/lib/systemd/systemd"]
+CMD ["/lib/systemd/systemd"]
