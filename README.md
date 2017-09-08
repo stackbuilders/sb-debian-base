@@ -140,10 +140,6 @@ This tag contains more advance setup tasks, such as:
 - Update packages cache
 - Install Stack
 
-### Ruby dependencies (ruby-dependencies)
-- Install dependencies for rvm
-    - (i.e. build-essential, tklib,zlib1g-dev,libssl-dev,libreadline-gplv2-dev,libxml2,libxml2-dev,libxslt1-dev)
-
 License
 -------
 
