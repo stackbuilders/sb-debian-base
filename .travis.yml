@@ -6,7 +6,12 @@ sudo: required
 services:
   - docker
 
+cache:
+  directories:
+    - $HOME/docker
+
 before_install:
+  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
@@ -20,3 +25,8 @@ script:
   - docker-compose up -d
   - ansible-galaxy install -r requirements.yml -p external-roles
   - ansible-playbook site.yml
+
+before_cache:
+  - >
+    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
