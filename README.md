@@ -8,8 +8,8 @@ Generic Debian image for servers. This Galaxy requires Ansible 2.2.1
 The current version uses Ansible flow control (when: foo is defined) to run tasks
 for the different stages but keeps some useful tags like to set the hostname or create the deploy folder.
 
-First make sure you create the requirements.yml file and add the reference to this repository, as following:
-```
+First make sure you create the `requirements.yml` file and add the reference to this repository, as following:
+```yaml
 ---
 - src: git@github.com:stackbuilders/sb-debian-base.git
   version: <tag, commit or branch>
@@ -23,7 +23,8 @@ ansible-galaxy install -r requirements.yml
 ### Create a playbook
 Create a playbook file and in the roles section set the group of tasks that you need to run.
 As an example you can use `tests/site.yml` or the one below:
-```
+
+```yaml
 # site.yml
 - hosts: all
   remote_user: foo
@@ -145,7 +146,7 @@ This tag contains more advance setup tasks, such as:
 License
 -------
 
-MIT, see the LICENSE file in this repository.
+MIT, see the [LICENSE](LICENSE) file in this repository.
 
 Author Information
 ------------------
