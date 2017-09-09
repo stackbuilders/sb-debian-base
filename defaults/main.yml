@@ -29,3 +29,12 @@ sb_debian_base_extra_packages:
   - vim
 
 sb_debian_base_supplementary_packages: []
+sb_debian_base_ruby_pkgs: 
+    - build-essential
+    - tklib
+    - zlib1g-dev
+    - libssl-dev
+    - libreadline-gplv2-dev
+    - libxml2
+    - libxml2-dev
+    - libxslt1-dev
