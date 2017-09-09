@@ -3,12 +3,4 @@
   apt:
     name: "{{ item }}"
     state: present
-  with_items:
-    - build-essential
-    - tklib
-    - zlib1g-dev
-    - libssl-dev
-    - libreadline-gplv2-dev
-    - libxml2
-    - libxml2-dev
-    - libxslt1-dev
+  with_items: "{{ sb_debian_base_ruby_pkgs }}"
