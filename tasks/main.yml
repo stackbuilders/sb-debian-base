@@ -18,13 +18,6 @@
   become: yes
   when: install_haskell_stack is defined
 
-- include: ruby-dependencies.yml
-  remote_user: "{{ sb_debian_base_admin_user }}"
-  become: yes
-  when: install_ruby_dependencies is defined
-  tags:
-    - ruby-dependencies
-
 - include: set-authorized-keys.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
   become: yes

@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.4.0
+* Remove rvm dependecies instalation task.
+
 ## 1.3.4
 * Fix deprecation warning about using remote_user as a role parameter
 
