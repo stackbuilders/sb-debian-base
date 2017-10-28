@@ -14,8 +14,11 @@
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
     state: present
-  notify:
-    - restart ssh
+
+- name: restart ssh
+  service:
+    name: ssh
+    state: restarted
 
 - name: Set hostname to host-specific variable
   hostname:
