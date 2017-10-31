@@ -103,6 +103,7 @@ This tag contains more advance setup tasks, such as:
     - You need to define {{ sb_debian_base_deploy_user_authorized_keys }}
 - Ensure github.com is a known host
     - You need to define {{ sb_debian_base_deploy_user }}
+    - This variable adds by default GitHub as a known host, but it's possible to change it overwriting {{ sb_debian_base_known_hosts }}
 
 #### Set hostname (set-hostname)
 - Set hostname to host-specific variable

@@ -31,12 +31,13 @@
     group: "{{ sb_debian_base_deploy_user_group }}"
     mode: 0600
 
-- name: Ensure github.com is a known host
+- name: Add the upstream repository to the SSH know_hosts file
   lineinfile:
-    dest: "/home/{{ sb_debian_base_deploy_user }}/.ssh/known_hosts"
+    dest:   "/home/{{ sb_debian_base_deploy_user }}/.ssh/known_hosts"
     create: yes
-    state: present
-    line:  "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
-    regexp: "^github\\.com"
-    group: "{{ sb_debian_base_deploy_user_group }}"
-    owner: "{{ sb_debian_base_deploy_user }}"
+    state:  present
+    line:   "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+    group:  "{{ sb_debian_base_deploy_user_group }}"
+    owner:  "{{ sb_debian_base_deploy_user }}"
+  with_items: "{{ sb_debian_base_known_hosts }}"
