@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.4.1
+* Move GitHub known host to the varible sb_debian_base_known_host
+
 ## 1.4.0
 * Remove rvm dependecies instalation task.
 

@@ -14,7 +14,7 @@ sb_debian_base_ntp_timezone: UTC
 # UFW (iptables frontend)
 sb_debian_base_firewall: yes
 
-# Extra packages
+# Extra and supplementary packages
 sb_debian_base_extra_packages:
   - atop
   - bash-completion
@@ -29,3 +29,8 @@ sb_debian_base_extra_packages:
   - vim
 
 sb_debian_base_supplementary_packages: []
+
+# SSH known hosts
+sb_debian_base_known_hosts:
+  - line:  "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    regexp: "^github\\.com"
