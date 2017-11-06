@@ -1,5 +1,5 @@
 ---
-- include: set-authorized-keys-admin.yml
+- import_tasks: set-authorized-keys-admin.yml
 
 - name: Disallow SSH password authentication
   lineinfile:
@@ -43,8 +43,8 @@
     state: latest
   with_items: "{{ sb_debian_base_extra_packages | union(sb_debian_base_supplementary_packages) }}"
 
-- include: bootstrap-firewall.yml
+- import_tasks: bootstrap-firewall.yml
   when: sb_debian_base_firewall
 
-- include: bootstrap-deploy-user.yml
+- import_tasks: bootstrap-deploy-user.yml
   when: sb_debian_base_deploy_user is defined

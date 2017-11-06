@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.4.2
+* Fix deprecation warnings for using include.
+
 ## 1.4.1
 * Move GitHub known host to the varible sb_debian_base_known_host
 

@@ -21,7 +21,7 @@
   tags:
     - create-app-directory
 
-- include: set-authorized-keys-user.yml
+- import_tasks: set-authorized-keys-user.yml
 
 - name: Add deploy user's SSH private key
   copy:
