@@ -1,24 +1,24 @@
 ---
-- include: prebootstrap.yml
+- import_tasks: prebootstrap.yml
   remote_user: root
   when: prebootstrap is defined
 
-- include: bootstrap.yml
+- import_tasks: bootstrap.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
   become: yes
   when: bootstrap is defined
 
-- include: haskell-dependencies.yml
+- import_tasks: haskell-dependencies.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
   become: yes
   when: install_haskell_dependencies is defined
 
-- include: haskell-stack.yml
+- import_tasks: haskell-stack.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
   become: yes
   when: install_haskell_stack is defined
 
-- include: set-authorized-keys.yml
+- import_tasks: set-authorized-keys.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
   become: yes
   when: add_remove_keys is defined
