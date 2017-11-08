@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.4.3
+* Use task to restart ssh instead of handler.
+
 ## 1.4.2
 * Fix deprecation warnings for using include.
 
