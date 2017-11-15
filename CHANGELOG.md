@@ -2,6 +2,9 @@
 
 ## MASTER
 
+## 1.4.4
+* Make sure D-Bus is present before executing commands that need it.
+
 ## 1.4.3
 * Use task to restart ssh instead of handler.
 

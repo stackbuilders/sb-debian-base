@@ -15,10 +15,17 @@
     line: "PermitRootLogin no"
     state: present
 
-- name: restart ssh
+- name: Restart SSH service
   service:
     name: ssh
     state: restarted
+
+- name: Make sure D-Bus is installed
+  apt:
+    name: dbus
+    state: installed
+    update_cache: yes
+    cache_valid_time: 3600
 
 - name: Set hostname to host-specific variable
   hostname:
