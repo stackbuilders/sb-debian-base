@@ -1,0 +1,12 @@
+---
+- name: Update package cache and upgrade packages
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install extra packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ sb_debian_base_extra_packages | union(sb_debian_base_supplementary_packages) }}"

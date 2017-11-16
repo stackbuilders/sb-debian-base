@@ -1,17 +1,17 @@
 ---
-- name: Add FPCO's PGP public key
+- name: Add FPCO’s PGP public key
   apt_key:
     url: 'https://s3.amazonaws.com/download.fpcomplete.com/{{ ansible_distribution | lower }}/fpco.key'
     state: present
 
 # There is no specific repo for Stretch
-- name: Add FPCO's deb repository (Debian)
+- name: Add FPCO’s deb repository (Debian)
   apt_repository:
     repo: 'deb http://download.fpcomplete.com/debian/jessie stable main'
     state: present
   when: ansible_distribution == "Debian"
 
-- name: Add FPCO's deb repository (Ubuntu)
+- name: Add FPCO’s deb repository (Ubuntu)
   apt_repository:
     repo: 'deb http://download.fpcomplete.com/ubuntu {{ ansible_distribution_release }} main'
     state: present

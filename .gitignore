@@ -1,2 +1,3 @@
-tests/external-roles/
+.#*
 tests/*.retry
+tests/external-roles/

@@ -1,0 +1,21 @@
+---
+- name: Make sure D-Bus is installed
+  apt:
+    name: dbus
+    state: installed
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Set hostname to host-specific variable
+  hostname:
+    name: "{{ hostname }}"
+  when: hostname is defined
+  tags:
+    - set-hostname
+
+- name: Set the time zone
+  timezone:
+    name: "{{ sb_debian_base_ntp_timezone }}"
+
+- name: Enable NTP
+  command: timedatectl set-ntp true

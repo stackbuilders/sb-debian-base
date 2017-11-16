@@ -1,12 +1,13 @@
 # CHANGELOG
 
 ## MASTER
+* Move groups of tasks from the main bootstrap file to individual files.
 
 ## 1.4.4
 * Make sure D-Bus is present before executing commands that need it.
 
 ## 1.4.3
-* Use task to restart ssh instead of handler.
+* Use a task to restart the SSH server instead of a handler.
 
 ## 1.4.2
 * Fix deprecation warnings for using include.
