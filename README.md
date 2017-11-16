@@ -84,6 +84,7 @@ This tag contains more advance setup tasks, such as:
 - Set time zone
     - You can define {{ sb_debian_base_ntp_timezone }}
 - Enable NTP using systemd-timesyncd
+- Make sure to store journald data persistently
 - Upgrade all packages
 - Install basic packages
     - e.g.: vim, tmux, htop, atop, tree, ufw, emacs, git, curl

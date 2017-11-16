@@ -19,3 +19,11 @@
 
 - name: Enable NTP
   command: timedatectl set-ntp true
+
+- name: Store journald data persistently
+  lineinfile:
+    dest: /etc/systemd/journald.conf
+    regexp: "^#?Storage="
+    line: "Storage=persistent"
+    state: present
+  when: ansible_distribution_release != "trusty"
