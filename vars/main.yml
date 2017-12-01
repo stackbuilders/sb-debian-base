@@ -1,4 +1,5 @@
 ---
 sb_debian_base_deploy_user_dir: "/home/{{ sb_debian_base_deploy_user }}"
 sb_debian_base_packages:
+  - acl
   - dbus

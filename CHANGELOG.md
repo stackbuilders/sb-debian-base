@@ -1,12 +1,9 @@
 # CHANGELOG
 
-## MASTER
-* Move Galaxy required packages (dependencies) to a separated list.
-* Install UFW only when sb_debian_base_firewall is true
-
-## 1.4.5
+## 1.4.6
 * Move groups of tasks from the main bootstrap file to individual files.
 * Store journald data persistently on storage.
+* Add `acl` to `sb_debian_base_packages` as it is steadily being removed as a `systemd` dependency in supported distros
 
 ## 1.4.4
 * Make sure D-Bus is present before executing commands that need it.
