@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## MASTER
+* Move Galaxy required packages (dependencies) to a separated list.
 
 ## 1.4.5
 * Move groups of tasks from the main bootstrap file to individual files.
