@@ -1,7 +1,10 @@
 ---
+- shell: "getent passwd | awk -F: '{print $1}'"
+  register: current_users
+
 - import_tasks: prebootstrap.yml
   remote_user: root
-  when: prebootstrap is defined
+  when: prebootstrap is defined and sb_debian_base_admin_user not in current_users.stdout_lines
 
 - import_tasks: bootstrap.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
