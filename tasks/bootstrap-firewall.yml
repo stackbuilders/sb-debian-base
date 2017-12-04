@@ -1,4 +1,11 @@
 ---
+- name: Install UFW
+  apt:
+    name: ufw
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+
 - name: Enable UFW
   ufw:
     state: enabled

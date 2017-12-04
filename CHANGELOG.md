@@ -2,6 +2,7 @@
 
 ## MASTER
 * Move Galaxy required packages (dependencies) to a separated list.
+* Install UFW only when sb_debian_base_firewall is true
 
 ## 1.4.5
 * Move groups of tasks from the main bootstrap file to individual files.

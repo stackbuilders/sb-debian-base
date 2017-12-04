@@ -25,7 +25,6 @@ sb_debian_base_extra_packages:
   - libgmp-dev
   - tmux
   - tree
-  - ufw
   - vim
 
 sb_debian_base_supplementary_packages: []
