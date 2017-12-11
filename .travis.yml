@@ -24,8 +24,8 @@ script:
   - cd tests
   - docker-compose up -d
   - ansible-galaxy install -r requirements.yml
-  - ansible-playbook site.yml
-  - ansible-playbook site.yml
+  - ansible-playbook site.yml -vvv
+  - ansible-playbook site.yml -vvv
 
 before_cache:
   - >
