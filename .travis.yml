@@ -23,7 +23,8 @@ before_install:
 script:
   - cd tests
   - docker-compose up -d
-  - ansible-galaxy install -r requirements.yml -p external-roles
+  - ansible-galaxy install -r requirements.yml
+  - ansible-playbook site.yml
   - ansible-playbook site.yml
 
 before_cache:
