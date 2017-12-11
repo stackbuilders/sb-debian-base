@@ -13,7 +13,7 @@
 
 - name: Create application deploy directory
   file:
-    path: "{{ sb_debian_base_app_path }}"
+    path: "{{ sb_debian_base_project_path }}"
     state: directory
     owner: "{{ sb_debian_base_deploy_user }}"
     group: "{{ sb_debian_base_deploy_user_group }}"
@@ -23,7 +23,7 @@
 
 - import_tasks: set-authorized-keys-user.yml
 
-- name: Add deploy user's SSH private key
+- name: Add deploy user’s SSH private key
   copy:
     dest:  "{{ sb_debian_base_deploy_user_dir }}/.ssh/id_rsa"
     content: "{{ sb_debian_base_deploy_user_private_key }}"
