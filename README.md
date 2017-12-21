@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/stackbuilders/sb-debian-base.svg?branch=master)](https://travis-ci.org/stackbuilders/sb-debian-base)
 [![Ansible Galaxy](https://img.shields.io/badge/role-sb--debian--base-blue.svg)](https://galaxy.ansible.com/stackbuilders/sb-debian-base/)
 
-Generic Debian image for servers. This Galaxy requires Ansible 2.2.1
+Generic Debian image for servers. This Galaxy requires Ansible 2.4.0
 
 ## How to use this role
 The current version uses Ansible flow control (when: foo is defined) to run tasks
@@ -45,6 +45,10 @@ As an example you can use `tests/site.yml` or the one below:
       add_remove_keys: yes
       vars:
         sb_debian_base_deploy_user: deployer
+        sb_debian_base_supplementary_packages: [ "pkg-config", "traceroute" ]
+        sb_debian_base_environment_variables:
+          ONE: "uno"
+          TWO: "dos"
 ```
 
 You can also run ad-hoc tasks, although it's not the recommended way:
@@ -94,7 +98,9 @@ This tag contains more advance setup tasks, such as:
         - You can define {{ ports }}
     - Open specific ports for specific IPs
         - You can define {{ port_ips }}
-- Create user and group for deployer user
+- Set and update environment variables
+    - You need to define {{ sb_debian_base_environment_variables }}
+- Create Unix user and group for deployer user
     - You need to define the var {{ sb_debian_base_deploy_user }} (e.g. deployer)
     - Optionally define the var {{ sb_debian_base_deploy_user_group }} (e.g. deployer)
       otherwise, it will be the same as {{ sb_debian_base_deploy_user }}
