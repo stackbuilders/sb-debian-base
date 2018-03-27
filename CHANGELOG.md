@@ -2,6 +2,10 @@
 
 ## MASTER
 
+## 1.5.1
+* Fix setting of recursive permissions when updating environment variables.
+* Update README.md
+
 ## 1.5.0
 * Fix minimum Ansible version.
 * Change variable name sb_debian_base_app_path to sb_debian_base_project_path

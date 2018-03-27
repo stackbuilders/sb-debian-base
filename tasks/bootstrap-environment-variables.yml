@@ -3,7 +3,6 @@
   file:
     path: "{{ sb_debian_base_environment_vars.path }}"
     state: directory
-    recurse: yes
     mode: "{{ sb_debian_base_environment_vars.path_mode }}"
     owner: "{{ sb_debian_base_deploy_user }}"
     group: "{{ sb_debian_base_deploy_user_group }}"
