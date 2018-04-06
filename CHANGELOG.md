@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## MASTER
+* Improve Travis build time
 
 ## 1.5.1
 * Fix setting of recursive permissions when updating environment variables.
