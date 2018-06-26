@@ -1,10 +1,18 @@
 ---
-# Defaults file
-sb_debian_base_app_path: /var/projects
+# System
 sb_debian_base_uu_email_alerts: "{{ sb_debian_base_admin_user }}@localhost"
 sb_debian_base_swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
 
-# This works with AWS images of Debian and Ubuntu
+# Application
+sb_debian_base_project_path: /var/projects
+sb_debian_base_app_path: "{{ sb_debian_base_project_path }}/{{ sb_debian_base_app_name }}"
+sb_debian_base_environment_vars:
+  path: "{{ sb_debian_base_app_path }}/shared"
+  path_mode: '0750'
+  file_: "{{ sb_debian_base_app_path }}/shared/{{ sb_debian_base_app_name }}.env"
+  file_mode: '0640'
+
+# Compatible with AWS images of Debian and Ubuntu
 sb_debian_base_admin_user: "{{ 'admin' if (ansible_distribution == 'Debian') else 'ubuntu' }}"
 sb_debian_base_deploy_user_group: "{{ sb_debian_base_deploy_user if (sb_debian_base_deploy_user is defined) else '' }}"
 

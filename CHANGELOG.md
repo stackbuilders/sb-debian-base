@@ -1,7 +1,16 @@
 # CHANGELOG
 
 ## MASTER
+* Improve Travis build time
 
+## 1.5.1
+* Fix setting of recursive permissions when updating environment variables.
+* Update README.md
+
+## 1.5.0
+* Fix minimum Ansible version.
+* Change variable name sb_debian_base_app_path to sb_debian_base_project_path
+* Add task to update environment variables.
 
 ## 1.4.6
 * Move Galaxy required packages (dependencies) to a separated list.

@@ -1,0 +1,20 @@
+---
+- name: Create environment variables directories
+  file:
+    path: "{{ sb_debian_base_environment_vars.path }}"
+    state: directory
+    mode: "{{ sb_debian_base_environment_vars.path_mode }}"
+    owner: "{{ sb_debian_base_deploy_user }}"
+    group: "{{ sb_debian_base_deploy_user_group }}"
+
+- name: Add environment variables
+  lineinfile:
+    create: yes
+    dest: "{{ sb_debian_base_environment_vars.file_ }}"
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+    state: present
+    mode: "{{ sb_debian_base_environment_vars.file_mode }}"
+    owner: "{{ sb_debian_base_deploy_user }}"
+    group: "{{ sb_debian_base_deploy_user_group }}"
+  with_dict: "{{ sb_debian_base_environment_variables }}"

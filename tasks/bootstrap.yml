@@ -12,3 +12,8 @@
 
 - import_tasks: bootstrap-deploy-user.yml
   when: sb_debian_base_deploy_user is defined
+
+- import_tasks: bootstrap-environment-variables.yml
+  when: sb_debian_base_environment_variables is defined
+  tags:
+    - env-vars
