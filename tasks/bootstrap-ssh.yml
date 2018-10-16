@@ -12,9 +12,4 @@
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin no"
     state: present
-
-# Here we restart the SSH service immediately instead of using handlers.
-- name: Restart SSH service
-  service:
-    name: ssh
-    state: restarted
+  notify: Restart SSH
