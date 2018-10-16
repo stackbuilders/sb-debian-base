@@ -1,11 +1,10 @@
 ---
 - name: Install required packages
   apt:
-    name: "{{ item }}"
+    name: "{{ sb_debian_base_packages }}"
     state: latest
     update_cache: yes
     cache_valid_time: 3600
-  with_items: "{{ sb_debian_base_packages }}"
 
 - name: Set hostname to host-specific variable
   hostname:
