@@ -35,6 +35,10 @@ sb_debian_base_extra_packages:
   - vim
 
 sb_debian_base_supplementary_packages: []
+sb_debian_base_haskell_dependencies:
+    - libpcre3-dev
+    - libsqlite3-dev
+    - libpq-dev
 
 # SSH known hosts
 sb_debian_base_known_hosts:

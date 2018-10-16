@@ -6,19 +6,19 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: Enable UFW
-  ufw:
-    state: enabled
-    policy: deny
-    direction: incoming
-
 - name: Open general ports
   ufw:
     rule: allow
     port: "{{ item }}"
     proto: tcp
   with_items:
-    - "{{ ports | default([22]) }}"
+    - "{{ ports | default(['22']) }}"
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+    policy: deny
+    direction: incoming
 
 - name: Open ports by IP
   ufw:

@@ -25,13 +25,15 @@ galaxy_info:
 
 dependencies:
   - src: geerlingguy.swap
-    version: 1.0.0
+    version: 1.0.1
     swap_file_size_mb: "{{ sb_debian_base_swap_file_size }}"
     become: yes
-    when: bootstrap is defined
+    when: |
+      bootstrap is defined and
+      swapfile |bool
 
   - src: jnv.unattended-upgrades
-    version: v1.3.0
+    version: v1.7.1
     unattended_mail: "{{ sb_debian_base_uu_email_alerts }}"
     unattended_automatic_reboot: no
     become: yes
@@ -40,4 +42,6 @@ dependencies:
   - src: nickjj.fail2ban
     version: v0.1.2
     become: yes
-    when: bootstrap is defined
+    when: |
+      bootstrap is defined and
+      fail2ban |bool

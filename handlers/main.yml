@@ -1,0 +1,6 @@
+---
+- name: Enable NTP
+  command: timedatectl set-ntp true
+
+- name: Restart SSH
+  service: name=ssh state=restarted
