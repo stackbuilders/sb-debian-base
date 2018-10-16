@@ -7,6 +7,5 @@
 
 - name: Install extra packages
   apt:
-    name: "{{ item }}"
+    name: "{{ sb_debian_base_extra_packages | union(sb_debian_base_supplementary_packages) }}"
     state: latest
-  with_items: "{{ sb_debian_base_extra_packages | union(sb_debian_base_supplementary_packages) }}"
