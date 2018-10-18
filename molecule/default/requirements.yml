@@ -1,0 +1,9 @@
+---
+- src: kamaln7.swapfile
+  version: "0.4"
+
+- src: jnv.unattended-upgrades
+  version: v1.3.0
+
+- src: nickjj.fail2ban
+  version: v0.1.2
