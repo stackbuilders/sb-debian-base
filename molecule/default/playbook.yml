@@ -9,3 +9,8 @@
   roles:
     - role: sb-debian-base
       prebootstrap: yes
+
+  tasks:
+    - include_role:
+        name: sb-debian-base
+        tasks_from: bootstrap-packages.yml
