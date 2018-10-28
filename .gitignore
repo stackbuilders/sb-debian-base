@@ -1,3 +1,2 @@
 .#*
-tests/*.retry
-tests/external-roles/
+__pycache__/
