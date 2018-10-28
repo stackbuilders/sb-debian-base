@@ -18,10 +18,10 @@
     "default": {
         "ansible": {
             "hashes": [
-                "sha256:a1ab8e0f13e79a20661ad6546f45a142afeaeb664deb2c290e32362d8ae5b618"
+                "sha256:e7953472347fcc6dca10839111b576a9f790e00056344f2dcf448e6c452fe939"
             ],
             "index": "pypi",
-            "version": "==2.7.0"
+            "version": "==2.7.1"
         },
         "asn1crypto": {
             "hashes": [
@@ -221,10 +221,10 @@
     "develop": {
         "ansible": {
             "hashes": [
-                "sha256:a1ab8e0f13e79a20661ad6546f45a142afeaeb664deb2c290e32362d8ae5b618"
+                "sha256:e7953472347fcc6dca10839111b576a9f790e00056344f2dcf448e6c452fe939"
             ],
             "index": "pypi",
-            "version": "==2.7.0"
+            "version": "==2.7.1"
         },
         "ansible-lint": {
             "hashes": [
@@ -450,9 +450,9 @@
         },
         "future": {
             "hashes": [
-                "sha256:e39ced1ab767b5936646cedba8bcce582398233d6a627067d4c6a454c90cfedb"
+                "sha256:eb6d4df04f1fb538c99f69c9a28b255d1ee4e825d479b9c62fc38c0cf38065a4"
             ],
-            "version": "==0.16.0"
+            "version": "==0.17.0"
         },
         "git-url-parse": {
             "hashes": [
@@ -645,17 +645,17 @@
         },
         "pytest": {
             "hashes": [
-                "sha256:10e59f84267370ab20cec9305bafe7505ba4d6b93ecbf66a1cce86193ed511d5",
-                "sha256:8c827e7d4816dfe13e9329c8226aef8e6e75d65b939bc74fda894143b6d1df59"
+                "sha256:a9e5e8d7ab9d5b0747f37740276eb362e6a76275d76cebbb52c6049d93b475db",
+                "sha256:bf47e8ed20d03764f963f0070ff1c8fda6e2671fc5dd562a4d3b7148ad60f5ca"
             ],
-            "version": "==3.9.1"
+            "version": "==3.9.3"
         },
         "python-dateutil": {
             "hashes": [
-                "sha256:1adb80e7a782c12e52ef9a8182bebeb73f1d7e24e374397af06fb4956c8dc5c0",
-                "sha256:e27001de32f627c22380a688bcc43ce83504a7bc5da472209b4c70f02829f0b8"
+                "sha256:063df5763652e21de43de7d9e00ccf239f953a832941e37be541614732cdfc93",
+                "sha256:88f9287c0174266bb0d8cedd395cfba9c58e87e5ad86b2ce58859bc11be3cf02"
             ],
-            "version": "==2.7.3"
+            "version": "==2.7.5"
         },
         "python-gilt": {
             "hashes": [
