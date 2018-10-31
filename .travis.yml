@@ -1,32 +1,21 @@
 ---
 language: python
-python:
-  - "2.7"
-
-sudo: required
 
 services:
   - docker
 
-cache:
-  pip: true
-  directories:
-    - $HOME/docker
+python:
+  - "2.7"
+  - "3.6"
 
-before_install:
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
-  - curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv ./docker-compose /usr/local/bin/
-  - pip install ansible
+env:
+  - REQUIREMENTS_FILE=requirements-2.4.txt
+  - REQUIREMENTS_FILE=requirements-2.5.txt
+  - REQUIREMENTS_FILE=requirements-2.6.txt
+  - REQUIREMENTS_FILE=requirements-2.7.txt
+
+install:
+  - pip install -r "$REQUIREMENTS_FILE"
 
 script:
-  - cd tests
-  - docker-compose up -d
-  - ansible-galaxy install -r requirements.yml -p external-roles
-  - ansible-playbook site.yml
-
-before_cache:
-  - >
-    mkdir -p $HOME/docker && docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+  - molecule test
