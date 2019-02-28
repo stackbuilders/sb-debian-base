@@ -2,6 +2,7 @@
 
 ## MASTER
 * Improve Travis build time
+* Add hostname in /etc/hosts file
 
 ## 1.5.1
 * Fix setting of recursive permissions when updating environment variables.
