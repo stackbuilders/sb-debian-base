@@ -17,7 +17,7 @@
 - name: Add hostname entry to /etc/hosts
   lineinfile:
     path: /etc/hosts
-    line: '127.0.0.1    {{ hostname }}'
+    line: '127.0.0.1  localhost  {{ hostname }}'
     insertbefore: BOF
   when: hostname is defined
   tags:
