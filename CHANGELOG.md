@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## MASTER
+
+## 1.6.0
 * Improve Travis build time
 * Add hostname in /etc/hosts file
 * Add "incoming" as default value for the "direction" parameter when enabling ufw, to work around issue #53854 (https://github.com/ansible/ansible/issues/53854) in Ansible 2.7.7+
