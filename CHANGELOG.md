@@ -1,6 +1,7 @@
 # CHANGELOG
 
 ## MASTER
+* Add webhooks into travis.yml to notifiy galaxy about new releases.
 
 ## 1.6.0
 * Improve Travis build time
