@@ -1,5 +1,7 @@
 ---
 sb_debian_base_deploy_user_dir: "/home/{{ sb_debian_base_deploy_user }}"
-sb_debian_base_packages:
-  - acl
-  - dbus
+
+sb_debian_base_haskell_packages:
+  - libpcre3-dev
+  - libsqlite3-dev
+  - libpq-dev

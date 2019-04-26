@@ -3,11 +3,17 @@
   hosts: all
   vars:
     sb_debian_base_admin_user: admin
+    sb_debian_base_deploy_user: deploy
     sb_debian_base_admin_user_authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc1E ADMIN_USER_1
       - ssh-rsa AAAAB3Nzac2Yc2e ADMIN_USER_2
+    sb_debian_base_deploy_user_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2E DEPLOY_USER_1
+    sb_debian_base_firewall: false
+    sb_debian_base_swapfile: false
 
   roles:
     - role: sb-debian-base
       vars:
         prebootstrap: true
+        bootstrap: true

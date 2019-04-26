@@ -12,12 +12,16 @@ lint:
 platforms:
   - name: debian-8
     image: debian:8
+    privileged: true
   - name: debian-9
     image: debian:9
+    privileged: true
   - name: ubuntu-16.04
     image: ubuntu:16.04
+    privileged: true
   - name: ubuntu-18.04
     image: ubuntu:18.04
+    privileged: true
 
 provisioner:
   name: ansible
@@ -30,5 +34,9 @@ scenario:
 
 verifier:
   name: testinfra
+  env:
+    PYTHONWARNINGS: "ignore:.*U.*mode is deprecated:DeprecationWarning"
   lint:
     name: flake8
+  options:
+    v: 1

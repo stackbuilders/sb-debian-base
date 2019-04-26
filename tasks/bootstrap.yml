@@ -1,18 +1,25 @@
 ---
+#[tested]
 - import_tasks: set-authorized-keys-admin.yml
 
-- import_tasks: bootstrap-ssh.yml
-  
-- import_tasks: bootstrap-services-and-os-settings.yml
-
+#[tested for openssh-server]
 - import_tasks: bootstrap-packages.yml
 
+#[tested]
+- import_tasks: bootstrap-ssh.yml
+  
+#[not tested, docker issues?]
+- import_tasks: bootstrap-services-and-os-settings.yml
+
+#[not tested, docker issues?]
 - import_tasks: bootstrap-firewall.yml
   when: sb_debian_base_firewall
 
+#[basic tested]
 - import_tasks: bootstrap-deploy-user.yml
   when: sb_debian_base_deploy_user is defined
 
+#[]
 - import_tasks: bootstrap-environment-variables.yml
   when: sb_debian_base_environment_variables is defined
   tags:

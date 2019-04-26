@@ -5,10 +5,11 @@ name = "pypi"
 
 [packages]
 ansible = "~=2.4"
+docker-py = "*"
+requests = "*"
 
 [dev-packages]
 molecule = "~=2.19"
-docker = "~=3.5"
 
 [requires]
 python_version = "3.7"

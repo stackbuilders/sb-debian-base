@@ -22,12 +22,16 @@ sb_debian_base_ntp_timezone: UTC
 # UFW (iptables frontend)
 sb_debian_base_firewall: yes
 
-# Extra and supplementary packages
+sb_debian_base_packages:
+  - acl
+  - dbus
+  - openssh-server
+  - apt-transport-https
+
 sb_debian_base_extra_packages:
   - atop
   - bash-completion
   - curl
-  - emacs24-nox
   - git
   - htop
   - libgmp-dev

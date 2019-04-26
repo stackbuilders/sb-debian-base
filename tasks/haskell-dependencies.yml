@@ -1,9 +1,5 @@
 ---
 - name: Install common Haskell build dependencies
   apt:
-    name: "{{ item }}"
+    name: "{{ sb_debian_base_haskell_packages }}"
     state: latest
-  with_items:
-    - libpcre3-dev
-    - libsqlite3-dev
-    - libpq-dev

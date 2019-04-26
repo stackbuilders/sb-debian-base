@@ -1,12 +1,4 @@
 ---
-- name: Install required packages
-  apt:
-    name: "{{ item }}"
-    state: latest
-    update_cache: yes
-    cache_valid_time: 3600
-  with_items: "{{ sb_debian_base_packages }}"
-
 - name: Set hostname to host-specific variable
   hostname:
     name: "{{ hostname }}"
@@ -17,9 +9,11 @@
 - name: Set the time zone
   timezone:
     name: "{{ sb_debian_base_ntp_timezone }}"
+  when: timezone is defined
 
 - name: Enable NTP
   command: timedatectl set-ntp true
+  when: timezone is defined
 
 - name: Store journald data persistently
   lineinfile:
