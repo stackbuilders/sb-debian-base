@@ -1,6 +1,8 @@
 # CHANGELOG
 
 ## MASTER
+
+* Remove package emacs24-nox ,to work arround issue #114
 * Add webhooks into travis.yml to notifiy galaxy about new releases.
 
 ## 1.6.0
