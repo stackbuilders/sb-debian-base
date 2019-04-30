@@ -29,7 +29,7 @@ dependencies:
     become: yes
     when: |
       bootstrap is defined and
-      swapfile |bool
+      swapfile |bool == false
 
   - src: jnv.unattended-upgrades
     version: v1.3.0
