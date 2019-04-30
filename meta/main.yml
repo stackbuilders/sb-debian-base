@@ -24,11 +24,12 @@ galaxy_info:
     - ubuntu
 
 dependencies:
-  - src: kamaln7.swapfile
-    version: "0.4"
-    swapfile_size: "{{ sb_debian_base_swap_file_size }}"
+  - src: geerlingguy.swap
+    swap_file_size_mb: "{{ sb_debian_base_swap_file_size }}"
     become: yes
-    when: bootstrap is defined
+    when: |
+      bootstrap is defined and
+      swapfile |bool
 
   - src: jnv.unattended-upgrades
     version: v1.3.0
