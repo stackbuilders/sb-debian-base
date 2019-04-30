@@ -2,6 +2,7 @@
 
 ## MASTER
 * Add webhooks into travis.yml to notifiy galaxy about new releases.
+* Replace kamaln7.swapfile with geerlingguy.swap requeriment role.
 
 ## 1.6.0
 * Improve Travis build time
