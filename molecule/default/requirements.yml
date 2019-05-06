@@ -1,5 +1,6 @@
 ---
 - src: geerlingguy.swap
+  version: 1.0.0
 
 - src: jnv.unattended-upgrades
   version: v1.3.0

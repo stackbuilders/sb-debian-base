@@ -28,8 +28,7 @@ dependencies:
     swap_file_size_mb: "{{ sb_debian_base_swap_file_size }}"
     become: yes
     when: |
-      bootstrap is defined and
-      swapfile |bool == false
+      bootstrap is defined
 
   - src: jnv.unattended-upgrades
     version: v1.3.0
