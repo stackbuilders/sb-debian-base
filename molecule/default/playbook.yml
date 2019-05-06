@@ -11,4 +11,3 @@
     - role: sb-debian-base
       vars:
         prebootstrap: true
-        swapfile: false
