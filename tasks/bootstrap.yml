@@ -2,7 +2,7 @@
 - import_tasks: set-authorized-keys-admin.yml
 
 - import_tasks: bootstrap-ssh.yml
-  
+
 - import_tasks: bootstrap-services-and-os-settings.yml
 
 - import_tasks: bootstrap-packages.yml
