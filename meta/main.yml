@@ -25,10 +25,10 @@ galaxy_info:
 
 dependencies:
   - src: geerlingguy.swap
+    version: 1.0.0
     swap_file_size_mb: "{{ sb_debian_base_swap_file_size }}"
     become: yes
-    when: |
-      bootstrap is defined
+    when: bootstrap is defined
 
   - src: jnv.unattended-upgrades
     version: v1.3.0
