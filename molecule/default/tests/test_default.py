@@ -21,3 +21,12 @@ def test_admin_authorized_keys_file(host):
     assert f.group == 'admin'
     assert f.contains('ADMIN_USER_1')
     assert f.contains('ADMIN_USER_2')
+
+
+def test_bash_history_config(host):
+    f = host.file('/home/admin/.bashrc')
+
+    assert f.exists
+    assert f.contains('HISTSIZE=6000')
+    assert f.contains('HISTFILESIZE=3000')
+    assert f.contains('HISTTIMEFORMAT=%c%t')

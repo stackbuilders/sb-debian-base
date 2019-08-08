@@ -25,6 +25,9 @@ Removed
 ## 1.6.1
 * Add webhooks into travis.yml to notifiy galaxy about new releases.
 
+## 1.6.1
+- Add history size and timestamp to bash global configuration
+
 ## 1.6.0
 * Improve Travis build time
 * Add hostname in /etc/hosts file
