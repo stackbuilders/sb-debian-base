@@ -13,6 +13,7 @@ env:
   - REQUIREMENTS_FILE=requirements-2.5.txt
   - REQUIREMENTS_FILE=requirements-2.6.txt
   - REQUIREMENTS_FILE=requirements-2.7.txt
+  - REQUIREMENTS_FILE=requirements-2.8.txt
 
 install:
   - pip install -r "$REQUIREMENTS_FILE"
