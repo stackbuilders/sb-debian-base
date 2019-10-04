@@ -5,6 +5,17 @@
 
 Generic Debian image for servers. This Galaxy requires Ansible 2.4.0
 
+## Supported Platforms
+
+- Debian
+  - 8  (jessie)
+  - 9  (stretch)
+  - 10 (buster)
+
+- Ubuntu
+  - 18.04 (bionic)
+  - 16.04 (xenial)
+
 ## How to use this role
 The current version uses Ansible flow control (when: foo is defined) to run tasks
 for the different stages but keeps some useful tags like to set the hostname or create the deploy folder.

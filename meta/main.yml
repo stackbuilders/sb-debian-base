@@ -10,9 +10,9 @@ galaxy_info:
       versions:
         - jessie  # 8
         - stretch # 9
+        - buster  # 10
     - name: Ubuntu
       versions:
-        - trusty  # 14.04
         - xenial  # 16.04
         - bionic  # 18.04
   galaxy_tags:
