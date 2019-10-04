@@ -4,6 +4,7 @@
 * Remove package emacs24-nox ,to work arround issue #114
 * Add Debian 10 support
 * Drop Ubuntu 14.04 support
+* Drop Ansible 2.4.0 and 2.5.0 support
 
 ## 1.6.1
 * Add webhooks into travis.yml to notifiy galaxy about new releases.
