@@ -1,6 +1,6 @@
 ---
-- src: kamaln7.swapfile
-  version: "0.4"
+- src: geerlingguy.swap
+  version: 1.0.0
 
 - src: jnv.unattended-upgrades
   version: v1.3.0

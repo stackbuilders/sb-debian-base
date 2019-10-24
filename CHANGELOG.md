@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.6.3
+* Replace kamaln7.swapfile with geerlingguy.swap requeriment role.
+
 ## 1.6.2
 * Remove package emacs24-nox ,to work arround issue #114
 * Add Debian 10 support
