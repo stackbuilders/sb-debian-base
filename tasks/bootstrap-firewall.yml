@@ -10,6 +10,7 @@
   ufw:
     state: enabled
     policy: deny
+    direction: incoming
 
 - name: Open general ports
   ufw:

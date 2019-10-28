@@ -10,10 +10,11 @@ galaxy_info:
       versions:
         - jessie  # 8
         - stretch # 9
+        - buster  # 10
     - name: Ubuntu
       versions:
-        - trusty  # 14.04
         - xenial  # 16.04
+        - bionic  # 18.04
   galaxy_tags:
     - debian
     - development
@@ -23,9 +24,9 @@ galaxy_info:
     - ubuntu
 
 dependencies:
-  - src: kamaln7.swapfile
-    version: "0.4"
-    swapfile_size: "{{ sb_debian_base_swap_file_size }}"
+  - src: geerlingguy.swap
+    version: 1.0.0
+    swap_file_size_mb: "{{ sb_debian_base_swap_file_size }}"
     become: yes
     when: bootstrap is defined
 
@@ -40,4 +41,3 @@ dependencies:
     version: v0.1.2
     become: yes
     when: bootstrap is defined
-

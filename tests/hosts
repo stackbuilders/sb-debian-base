@@ -1,7 +1,0 @@
-[debian]
-tests_debian8_1 ansible_connection=docker
-tests_debian9_1 ansible_connection=docker
-
-[ubuntu]
-tests_ubuntu1404_1 ansible_connection=docker
-tests_ubuntu1604_1 ansible_connection=docker

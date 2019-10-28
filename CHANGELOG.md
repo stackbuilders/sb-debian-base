@@ -1,7 +1,20 @@
 # CHANGELOG
 
-## MASTER
+## 1.6.3
+* Replace kamaln7.swapfile with geerlingguy.swap requeriment role.
+
+## 1.6.2
+* Remove package emacs24-nox ,to work arround issue #114
+* Add Debian 10 support
+* Drop Ubuntu 14.04 support
+
+## 1.6.1
+* Add webhooks into travis.yml to notifiy galaxy about new releases.
+
+## 1.6.0
 * Improve Travis build time
+* Add hostname in /etc/hosts file
+* Add "incoming" as default value for the "direction" parameter when enabling ufw, to work around issue #53854 (https://github.com/ansible/ansible/issues/53854) in Ansible 2.7.7+
 
 ## 1.5.1
 * Fix setting of recursive permissions when updating environment variables.

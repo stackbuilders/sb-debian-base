@@ -14,6 +14,15 @@
   tags:
     - set-hostname
 
+- name: Add hostname entry to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1  localhost  {{ hostname }}'
+    insertbefore: BOF
+  when: hostname is defined
+  tags:
+    - set-hostname
+
 - name: Set the time zone
   timezone:
     name: "{{ sb_debian_base_ntp_timezone }}"
