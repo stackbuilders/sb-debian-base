@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/stackbuilders/sb-debian-base.svg?branch=master)](https://travis-ci.org/stackbuilders/sb-debian-base)
 [![Ansible Galaxy](https://img.shields.io/badge/role-sb--debian--base-blue.svg)](https://galaxy.ansible.com/stackbuilders/sb-debian-base/)
 
-Generic Debian image for servers. This Galaxy requires Ansible 2.4.0
+Generic Debian image for servers. This Galaxy requires Ansible 2.6.0
 
 ## Supported Platforms
 
