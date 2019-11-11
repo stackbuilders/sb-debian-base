@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.7.0
+* Drop Ansible 2.4.0 and 2.5.0 support
+
 ## 1.6.3
 * Replace kamaln7.swapfile with geerlingguy.swap requeriment role.
 

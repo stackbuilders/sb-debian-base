@@ -7,8 +7,6 @@ services:
 python: "3.6"
 
 env:
-  - REQUIREMENTS_FILE=requirements-2.4.txt
-  - REQUIREMENTS_FILE=requirements-2.5.txt
   - REQUIREMENTS_FILE=requirements-2.6.txt
   - REQUIREMENTS_FILE=requirements-2.7.txt
   - REQUIREMENTS_FILE=requirements-2.8.txt

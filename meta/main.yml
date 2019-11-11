@@ -4,7 +4,7 @@ galaxy_info:
   description: Base image and common roles
   company: Stack Builders
   license: MIT
-  min_ansible_version: 2.4.0
+  min_ansible_version: 2.6.0
   platforms:
     - name: Debian
       versions:
