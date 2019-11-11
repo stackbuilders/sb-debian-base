@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ansible = "~=2.4"
+ansible = "~=2.7"
 
 [dev-packages]
 molecule = "~=2.19"
