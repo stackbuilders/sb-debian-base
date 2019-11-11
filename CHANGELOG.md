@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 1.6.4
+## 1.7.0
 * Drop Ansible 2.4.0 and 2.5.0 support
 
 ## 1.6.3
