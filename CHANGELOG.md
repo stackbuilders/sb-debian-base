@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 1.7.1
+* Drop Ansible 2.6.0 support [Ansible releases](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html)
+
 ## 1.7.0
 * Drop Ansible 2.4.0 and 2.5.0 support
 
