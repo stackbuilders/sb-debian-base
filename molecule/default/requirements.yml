@@ -1,9 +1,9 @@
 ---
 - src: geerlingguy.swap
-  version: 1.0.0
+  version: 1.0.1
 
 - src: jnv.unattended-upgrades
-  version: v1.3.0
+  version: v1.7.1
 
 - src: nickjj.fail2ban
   version: v0.1.2
