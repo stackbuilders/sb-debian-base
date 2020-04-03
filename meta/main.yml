@@ -28,9 +28,7 @@ dependencies:
     version: 1.0.1
     swap_file_size_mb: "{{ sb_debian_base_swap_file_size }}"
     become: yes
-    when: |
-      bootstrap is defined and
-      swapfile |bool
+    when: bootstrap is defined
 
   - src: jnv.unattended-upgrades
     version: v1.7.1
@@ -42,6 +40,4 @@ dependencies:
   - src: nickjj.fail2ban
     version: v0.1.2
     become: yes
-    when: |
-      bootstrap is defined and
-      fail2ban |bool
+    when: bootstrap is defined
