@@ -36,15 +36,3 @@
     line: "Storage=persistent"
     state: present
   when: ansible_distribution_release != "trusty"
-
-- name: Set history timestamps and size
-  blockinfile:
-    path: "/home/{{ item }}/.bashrc"
-    block: |
-      HISTSIZE={{ sb_debian_base_bash_history_histsize }}
-      HISTFILESIZE={{ sb_debian_base_bash_history_histfilesize }}
-      HISTTIMEFORMAT={{ sb_debian_base_bash_history_histtimeformat }}
-  when: sb_debian_base_bash_history |bool
-  loop:
-    - "{{ sb_debian_base_admin_user }}"
-    - "{{ sb_debian_base_deploy_user }}"

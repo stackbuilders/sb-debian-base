@@ -24,7 +24,7 @@ def test_admin_authorized_keys_file(host):
 
 
 def test_bash_history_config(host):
-    f = host.file('/home/admin/.bashrc')
+    f = host.file('/etc/profile.d/bash_history.sh')
 
     assert f.exists
     assert f.contains('HISTSIZE=6000')

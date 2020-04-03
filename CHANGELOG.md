@@ -4,6 +4,8 @@ Removed
 * Haskell related tasks in favor of using an external dedicated role.
 
 # CHANGELOG
+## 1.7.3
+- Add history size and timestamp to bash global configuration
 
 ## 1.7.2
 * Remove `MB` text in `sb_debian_base_swapfile_size` variable to avoid a swap file filling the whole disk space.
@@ -24,9 +26,6 @@ Removed
 
 ## 1.6.1
 * Add webhooks into travis.yml to notifiy galaxy about new releases.
-
-## 1.6.1
-- Add history size and timestamp to bash global configuration
 
 ## 1.6.0
 * Improve Travis build time

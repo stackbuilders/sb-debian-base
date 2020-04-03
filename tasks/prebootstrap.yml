@@ -21,4 +21,15 @@
     line: '%sudo ALL=(ALL) NOPASSWD: ALL'
     validate: 'visudo -cf %s'
 
+- name: Set history timestamps and size
+  blockinfile:
+    path: /etc/profile.d/bash_history.sh
+    block: |
+      HISTSIZE={{ sb_debian_base_bash_history_histsize }}
+      HISTFILESIZE={{ sb_debian_base_bash_history_histfilesize }}
+      HISTTIMEFORMAT={{ sb_debian_base_bash_history_histtimeformat }}
+    state: present
+    create: true
+  when: sb_debian_base_bash_history |bool
+
 - import_tasks: set-authorized-keys-admin.yml
