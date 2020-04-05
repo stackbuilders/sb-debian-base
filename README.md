@@ -108,9 +108,17 @@ This tag contains more advance setup tasks, such as:
 - Install supplementary packages - not just sb_debian_base_extra_packages
 - Enable firewall using UFW
     - Open general ports (e.g. SSH port, HTTP port; by default SSH)
-        - You can define {{ ports }}
+        - You can define {{ sb_debian_base_ports }}
     - Open specific ports for specific IPs
-        - You can define {{ port_ips }}
+        - You can define {{ sb_debian_base_ports_ips }} like:
+          ```yml
+          sb_debian_base_ports-ips:
+            - ip: 17.10.2.15
+              port: 80
+            - ip: 190.11.212.45
+              port: https
+          ```
+            
     - You can disable UFW with `sb_debian_base_firewall: no`
 - Set and update environment variables
     - You need to define {{ sb_debian_base_environment_variables }}

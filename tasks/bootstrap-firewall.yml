@@ -11,8 +11,7 @@
     rule: allow
     port: "{{ item }}"
     proto: tcp
-  with_items:
-    - "{{ ports | default(['22']) }}"
+  loop: "{{ sb_debian_base_ports |default(['22']) }}"
 
 - name: Enable UFW
   ufw:
@@ -23,7 +22,7 @@
 - name: Open ports by IP
   ufw:
     rule: allow
-    src:  "{{ item.value.ip }}"
-    port: "{{ item.value.port }}"
+    src:  "{{ item.ip }}"
+    port: "{{ item.port }}"
     proto: tcp
-  with_dict: "{{ port_ips | default({}) }}"
+  loop: "{{ sb_debian_base_ports_ips |default([]) }}"
