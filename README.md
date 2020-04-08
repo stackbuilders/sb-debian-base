@@ -107,17 +107,18 @@ This tag contains more advance setup tasks, such as:
     - e.g.: vim, tmux, htop, atop, tree, ufw, emacs, git, curl
 - Install supplementary packages - not just sb_debian_base_extra_packages
 - Enable firewall using UFW
-    - Open general ports (e.g. SSH port, HTTP port; by default SSH)
-        - You can define {{ sb_debian_base_ports }}
-    - Open specific ports for specific IPs
-        - You can define {{ sb_debian_base_ports_ips }} like:
-          ```yml
-          sb_debian_base_ports-ips:
-            - ip: 17.10.2.15
-              port: 80
-            - ip: 190.11.212.45
-              port: https
-          ```
+    - Open general ports (e.g. SSH port, HTTP port; by default SSH) You can set rules with `port` entries with default `tcp` protocol and `any` as source IP, or define finegrained rules like the example below: 
+
+      ```yaml
+      sb_debian_base_firewall_allowed_ports:
+        - port: 22
+        - port: 161
+          proto: udp
+          ip: 192.168.168.0/24
+        - port: 80
+        - port: 443
+        - port: 10050:10051
+        ```
             
     - You can disable UFW with `sb_debian_base_firewall: no`
 - Set and update environment variables
