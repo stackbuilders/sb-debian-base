@@ -1,5 +1,0 @@
----
-- name: Install common Haskell build dependencies
-  apt:
-    name: "{{ sb_debian_base_haskell_dependencies }}"
-    state: latest

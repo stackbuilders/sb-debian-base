@@ -1,3 +1,8 @@
+# Unreleased
+
+Removed
+* Haskell related tasks in favor of using an external dedicated role.
+
 # CHANGELOG
 
 ## 1.7.1

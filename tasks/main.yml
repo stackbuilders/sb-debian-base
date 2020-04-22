@@ -8,16 +8,6 @@
   become: yes
   when: bootstrap is defined
 
-- import_tasks: haskell-dependencies.yml
-  remote_user: "{{ sb_debian_base_admin_user }}"
-  become: yes
-  when: install_haskell_dependencies is defined
-
-- import_tasks: haskell-stack.yml
-  remote_user: "{{ sb_debian_base_admin_user }}"
-  become: yes
-  when: install_haskell_stack is defined
-
 - import_tasks: set-authorized-keys.yml
   remote_user: "{{ sb_debian_base_admin_user }}"
   become: yes
