@@ -16,6 +16,9 @@ Generic Debian image for servers. This Galaxy requires Ansible 2.7.0
   - 18.04 (bionic)
   - 16.04 (xenial)
 
+## BREAKING CHANGES:
+ * Haskell tasks were removed from this role so `install_haskell_stack` and `install_haskell_dependencies` variables for calling haskell instalation tasks are not longer being used.
+
 ## How to use this role
 The current version uses Ansible flow control (when: foo is defined) to run tasks
 for the different stages but keeps some useful tags like to set the hostname or create the deploy folder.
@@ -52,7 +55,6 @@ As an example you can use `tests/site.yml` or the one below:
       prebootstrap: yes
     - role: sb-debian-base
       bootstrap: yes
-      install_haskell_stack: yes
       add_remove_keys: yes
       vars:
         sb_debian_base_deploy_user: deployer
@@ -149,16 +151,6 @@ This tag contains more advance setup tasks, such as:
 {{ sb_debian_base_admin_user_authorized_keys }}
 {{ sb_debian_base_deploy_user_authorized_keys }}
 ```
-
-### Haskell build dependencies (haskell-build-dependencies)
-- Install common Haskell build dependencies
-    - (i.e. libpcre3-dev, libsqlite3-dev, libpq-dev)
-
-### Haskell Stack (haskell-stack)
-- Add FPCO PGP public key
-- Add FPCO Deb repository
-- Update packages cache
-- Install Stack
 
 License
 -------
