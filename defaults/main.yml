@@ -1,7 +1,7 @@
 ---
 # System
 sb_debian_base_uu_email_alerts: "{{ sb_debian_base_admin_user }}@localhost"
-sb_debian_base_swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}MB"
+sb_debian_base_swap_file_size: "{{ (ansible_memtotal_mb / 2)|round|int }}"
 
 # Application
 sb_debian_base_project_path: /var/projects
