@@ -9,6 +9,9 @@ Removed
 
 # CHANGELOG
 
+## 1.7.2
+* Remove `MB` text in `sb_debian_base_swapfile_size` variable to avoid a swap file filling the whole disk space.
+
 ## 1.7.1
 * Drop Ansible 2.6.0 support [Ansible releases](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html)
 
