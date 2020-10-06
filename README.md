@@ -134,10 +134,26 @@ This tag contains more advance setup tasks, such as:
 - Ensure github.com is a known host
     - You need to define {{ sb_debian_base_deploy_user }}
     - This variable adds by default GitHub as a known host, but it's possible to change it overwriting {{ sb_debian_base_known_hosts }}
+- Set global bash history configuration to the format bellow:
+    `285  Thu 08 Aug 2019 01:43:40 PM UTC some comand`
+    See bellow for available variables.
 
 #### Set hostname (set-hostname)
 - Set hostname to host-specific variable
     - You need to define {{ hostname }}
+
+#### Set bash history configuration:
+- Enable/disable the history configuration
+  `sb_debian_base_bash_history: true`
+    
+- Under `sb_debian_base_bash_history_config:`
+  - Set the amount of lines to keep in the history buffer
+    `histsize: '5000'`
+  - Set the amount of lines to keep in the history file
+    `histfilesize: '3000'`
+  - Set the time format to append before each history command (see `man history` for complete options)
+    `histtimeformat: '%c%t'`
+
 
 #### Create app directory (create-app-directory)
 - Create the application deploy directory

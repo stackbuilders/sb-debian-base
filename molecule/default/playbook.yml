@@ -2,6 +2,10 @@
 - name: Converge
   hosts: all
   vars:
+    sb_debian_base_bash_history: true
+    sb_debian_base_bash_history_histsize: '6000'
+    sb_debian_base_bash_history_histfilesize: '3000'
+    sb_debian_base_bash_history_histtimeformat: '%c%t'
     sb_debian_base_admin_user: admin
     sb_debian_base_admin_user_authorized_keys:
       - ssh-rsa AAAAB3NzaC1yc1E ADMIN_USER_1

@@ -42,3 +42,9 @@ sb_debian_base_supplementary_packages: []
 sb_debian_base_known_hosts:
   - line:  "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
     regexp: "^github\\.com"
+
+# Bash history configuration
+sb_debian_base_bash_history: true
+sb_debian_base_bash_history_histsize: '5000'
+sb_debian_base_bash_history_histfilesize: '3000'
+sb_debian_base_bash_history_histtimeformat: '%c%t'

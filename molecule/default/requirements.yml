@@ -3,7 +3,7 @@
   version: 1.0.1
 
 - src: jnv.unattended-upgrades
-  version: v1.7.1
+  version: v1.8.0
 
 - src: nickjj.fail2ban
   version: v0.1.2
