@@ -21,6 +21,8 @@ sb_debian_base_ntp_timezone: UTC
 
 # UFW (iptables frontend)
 sb_debian_base_firewall: yes
+sb_debian_base_firewall_allowed_ports:
+    - port: 22
 
 # Extra and supplementary packages
 sb_debian_base_extra_packages:

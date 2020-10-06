@@ -1,4 +1,8 @@
 # Unreleased
+Changed
+* BREAKING CHANGES:
+  - `ports` variable is now `sb_debian_base_firewall_allowed_ports` to allow fine grained UFW rules.
+  - `Open ports by IP` task no longer exist, so `sb_debian_base_ports_ips` variable is no longer valid. 
 
 Removed
 * Haskell related tasks in favor of using an external dedicated role.
