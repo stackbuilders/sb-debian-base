@@ -35,8 +35,3 @@ dependencies:
     unattended_automatic_reboot: no
     become: yes
     when: bootstrap is defined
-
-  - src: nickjj.fail2ban
-    version: v0.1.2
-    become: yes
-    when: bootstrap is defined

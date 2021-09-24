@@ -163,7 +163,6 @@ This tag contains more advance setup tasks, such as:
 - Install unattended-upgrades for security patches only
     - You can define the var {{ sb_debian_base_uu_email_alerts }} (e.g.
       example@example.com)
-- nickjj.fail2ban (Install and configure fail2ban)
 
 ### Update authorized SSH keys (add-remove-keys)
 - Updates SSH authorized keys:

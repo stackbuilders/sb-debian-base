@@ -4,6 +4,11 @@ Removed
 * Haskell related tasks in favor of using an external dedicated role.
 
 # CHANGELOG
+
+## 1.7.4
+- Remove Fail2Ban role due to the high disk space usage of the resulting log
+  file.
+
 ## 1.7.3
 - Add history size and timestamp to bash global configuration
 
