@@ -10,7 +10,6 @@ Generic Debian image for servers. This Galaxy requires Ansible 2.7.0
 - Debian
   - 10 (buster)
   - 9  (stretch)
-  - 8  (jessie)
 
 - Ubuntu
   - 18.04 (bionic)
