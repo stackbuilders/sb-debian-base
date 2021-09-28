@@ -1,7 +1,6 @@
 version: 2.1
 jobs: 
   build:
-    working_directory: ~/project
     docker: 
       - image: circleci/python:3.7
         environment: 
@@ -10,7 +9,7 @@ jobs:
       - checkout
       - run: 
           command:  |
-            sudo pip install -r "SREQUIREMENTS_FILE"
+            sudo pip install -r ${REQUIREMENTS_FILE}
       - run: 
           command: |
             molecule test
