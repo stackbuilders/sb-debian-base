@@ -1,15 +1,17 @@
 version: 2.1
-jobs: 
+jobs:
   build:
-    docker: 
-      - image: circleci/python:3.7
-        environment: 
-          REQUIREMENTS_FILE: requirements-2.8.txt
+    machine: true
+    environment:
+      REQUIREMENTS_FILE: requirements-2.8.txt
     steps:
       - checkout
-      - run: 
-          command:  |
-            pip install -r ${REQUIREMENTS_FILE}
-            molecule test
-
-            
+      - run:
+          name: "Set Python Version"
+          command: pyenv global 3.7.0
+      - run:
+          name: "Install dependencies"
+          command: pip install -r ${REQUIREMENTS_FILE}
+      - run:
+          name: "Run Molecule Test"
+          command: molecule test
