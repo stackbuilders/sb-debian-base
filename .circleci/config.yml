@@ -8,7 +8,9 @@ jobs:
       - checkout
       - run: 
           name: "Install Python Version"
-          command: pyenv install 3.7.0
+          command: | 
+            pyenv update
+            pyenv install 3.7.0
       - run:
           name: "Set Python Version"
           command: pyenv global 3.7.0
