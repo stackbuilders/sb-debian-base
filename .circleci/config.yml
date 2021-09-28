@@ -1,19 +1,17 @@
 version: 2.1
 jobs:
-  build:
-    machine: true
+   build:
+    machine: 
+      image: ubuntu-2004:202010-01
     environment:
       REQUIREMENTS_FILE: requirements-2.8.txt
     steps:
       - checkout
       - run: 
-          name: "Install Python Version"
-          command: | 
-            pyenv update
-            pyenv install 3.7.0
-      - run:
           name: "Set Python Version"
-          command: pyenv global 3.7.0
+          command: |
+            pyenv versions
+            pyenv global 3.7.0
       - run:
           name: "Install dependencies"
           command: pip install -r ${REQUIREMENTS_FILE}
