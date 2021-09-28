@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run: 
           command:  |
-            sudo pip install -r ${REQUIREMENTS_FILE}
-      - run: 
-          command: |
+            pip install -r ${REQUIREMENTS_FILE}
             molecule test
+
+            
