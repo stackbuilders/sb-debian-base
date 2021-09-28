@@ -1,0 +1,16 @@
+version: 2.1
+jobs: 
+  build:
+    working_directory: "$CIRCLE_WORKING_DIRECTORY"
+    docker: 
+      - image: circleci/python:3.7
+        environment: 
+          REQUIREMENTS_FILE: requirements-2.8.txt
+    steps:
+      - checkout
+      - run: 
+          command:  |
+            sudo pip install -r "SREQUIREMENTS_FILE"
+      - run: 
+          command: |
+            molecule test
