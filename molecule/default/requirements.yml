@@ -1,9 +1,4 @@
 ---
-- src: geerlingguy.swap
-  version: 1.0.1
-
-- src: jnv.unattended-upgrades
-  version: v1.8.0
-
-- src: nickjj.fail2ban
-  version: v0.1.2
+- name: sb-debian-base
+  src: https://github.com/stackbuilders/sb-debian-base.git
+  version: v1.7.2

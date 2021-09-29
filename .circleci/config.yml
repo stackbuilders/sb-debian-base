@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+   build:
+    machine: 
+      image: ubuntu-2004:202010-01
+    environment:
+      REQUIREMENTS_FILE: requirements-2.8.txt
+    steps:
+      - checkout
+      - run: 
+          name: "Set Python Version"
+          command: |
+            pyenv install 3.7.0
+            pyenv global 3.7.0
+      - run:
+          name: "Install dependencies"
+          command: |
+            pip install --upgrade pip
+            pip install wheel
+            pip install -r ${REQUIREMENTS_FILE}
+      - run:
+          name: "Run Molecule Test"
+          command: molecule test
