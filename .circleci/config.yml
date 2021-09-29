@@ -18,10 +18,6 @@ jobs:
             pip install --upgrade pip
             pip install wheel
             pip install -r ${REQUIREMENTS_FILE}
-      - run: 
-          name: "Install Ansible Role"
-          command: |
-            ansible-galaxy install stackbuilders.sb-debian-base
       - run:
           name: "Run Molecule Test"
           command: molecule test
