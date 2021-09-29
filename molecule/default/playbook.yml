@@ -12,6 +12,6 @@
       - ssh-rsa AAAAB3Nzac2Yc2e ADMIN_USER_2
 
   roles:
-    - role: sb-debian-base
+    - role: stackbuilders.sb-debian-base
       vars:
         prebootstrap: true
