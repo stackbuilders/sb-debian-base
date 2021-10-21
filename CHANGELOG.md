@@ -5,9 +5,10 @@ Removed
 
 # CHANGELOG
 
-## 1.7.4
+## 2.0.0
 - Remove Fail2Ban role due to the high disk space usage of the resulting log
-  file.
+  file. This [role](https://github.com/nickjj/ansible-fail2ban) has not been
+  updated since 2014.
 
 ## 1.7.3
 - Add history size and timestamp to bash global configuration
