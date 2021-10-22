@@ -4,6 +4,18 @@ Removed
 * Haskell related tasks in favor of using an external dedicated role.
 
 # CHANGELOG
+
+## 2.0.0
+- Remove Fail2Ban role due to the high disk space usage of the resulting log
+  file. This [role](https://github.com/nickjj/ansible-fail2ban) has not been
+  updated since 2014. The configuration of this role is filling the log file
+  with unnecessary information. The configuration of the role is conflicting
+  in new versions of Debian, and the default values just block SSH.
+  Current Debian configuration for the fail2ban package block SSH by default
+  too, meaning that this role has the same effect than running
+  `apt install fail2ban`, however the configuration of the Debian package is
+  proved to be working with its respective version.
+
 ## 1.7.3
 - Add history size and timestamp to bash global configuration
 

@@ -10,34 +10,37 @@ Generic Debian image for servers. This Galaxy requires Ansible 2.7.0
 - Debian
   - 10 (buster)
   - 9  (stretch)
-  - 8  (jessie)
 
 - Ubuntu
   - 18.04 (bionic)
   - 16.04 (xenial)
 
 ## BREAKING CHANGES:
- * Haskell tasks were removed from this role so `install_haskell_stack` and `install_haskell_dependencies` variables for calling haskell instalation tasks are not longer being used.
+* Haskell tasks were removed from this role so `install_haskell_stack` and
+  `install_haskell_dependencies` variables for calling haskell installation
+  tasks are no longer being used.
 
 ## How to use this role
-The current version uses Ansible flow control (when: foo is defined) to run tasks
-for the different stages but keeps some useful tags like to set the hostname or create the deploy folder.
+The current version uses Ansible flow control (when: foo is defined) to run 
+tasks for the different stages, but it keeps some useful tags like to set the
+hostname or create the deploy directory.
 
-First make sure you create the `requirements.yml` file and add the reference to this repository, as following:
+First make sure you create the `requirements.yml` file and add the reference
+to this repository, as following:
 ```yaml
 ---
 - src: git@github.com:stackbuilders/sb-debian-base.git
   version: <tag, commit or branch>
   path: external-roles
 ```
-After that you need to run the following command:
+After that, you need to run the following command:
 ```
 ansible-galaxy install -r requirements.yml
 ```
 
 ### Create a playbook
-Create a playbook file and in the roles section set the group of tasks that you need to run.
-As an example you can use `tests/site.yml` or the one below:
+Create a playbook file and in the roles section set the group of tasks that
+you need to run. As an example you can use `tests/site.yml` or the one below:
 
 ```yaml
 # site.yml
@@ -115,16 +118,19 @@ This tag contains more advance setup tasks, such as:
 - Set and update environment variables
     - You need to define {{ sb_debian_base_environment_variables }}
 - Create Unix user and group for deployer user
-    - You need to define the var {{ sb_debian_base_deploy_user }} (e.g. deployer)
-    - Optionally define the var {{ sb_debian_base_deploy_user_group }} (e.g. deployer)
-      otherwise, it will be the same as {{ sb_debian_base_deploy_user }}
+    - You need to define the var {{ sb_debian_base_deploy_user }}
+      (e.g. deployer)
+    - Optionally define the var {{ sb_debian_base_deploy_user_group }}
+      (e.g. deployer) otherwise, it will be the same as
+      {{ sb_debian_base_deploy_user }}
 - Create application deploy directory
 - Add SSH keys for GitHub's «Deploy keys»
 - Set up authorized SSH keys for the deployer user
     - You need to define {{ sb_debian_base_deploy_user_authorized_keys }}
 - Ensure github.com is a known host
     - You need to define {{ sb_debian_base_deploy_user }}
-    - This variable adds by default GitHub as a known host, but it's possible to change it overwriting {{ sb_debian_base_known_hosts }}
+    - This variable adds by default GitHub as a known host, but it's possible
+      to change it overwriting {{ sb_debian_base_known_hosts }}
 - Set global bash history configuration to the format bellow:
     `285  Thu 08 Aug 2019 01:43:40 PM UTC some comand`
     See bellow for available variables.
@@ -142,7 +148,8 @@ This tag contains more advance setup tasks, such as:
     `histsize: '5000'`
   - Set the amount of lines to keep in the history file
     `histfilesize: '3000'`
-  - Set the time format to append before each history command (see `man history` for complete options)
+  - Set the time format to append before each history command (see
+    `man history` for complete options)
     `histtimeformat: '%c%t'`
 
 
@@ -154,14 +161,14 @@ This tag contains more advance setup tasks, such as:
 - kamaln7.swapfile (Set up the swapfile)
     - You can define the var {{ sb_debian_base_swap_file_size }} (e.g. 2048MB)
 - Install unattended-upgrades for security patches only
-    - You can define the var {{ sb_debian_base_uu_email_alerts }} (e.g. example@example.com)
-- nickjj.fail2ban (Install and configure fail2ban)
+    - You can define the var {{ sb_debian_base_uu_email_alerts }} (e.g.
+      example@example.com)
 
 ### Update authorized SSH keys (add-remove-keys)
 - Updates SSH authorized keys:
 
     - You need to define the following list of variables containing the SSH
-      public-keys for both the administrator and the deploy users, respectively:
+      public-keys for both the administrator and the deploy users respectively:
 
 ```
 {{ sb_debian_base_admin_user_authorized_keys }}
