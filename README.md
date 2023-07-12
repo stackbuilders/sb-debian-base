@@ -1,5 +1,9 @@
 **Warning:** This library has been deprecated and is no longer maintained. It will not receive any further security patches, features, or bug fixes and is preserved here at GitHub for archival purposes. If you want to use it, we suggest forking the repository and auditing the codebase before use. For more information contact us at info@stackbuilders.com.
 
+**Recommended Roles:**
+
+- https://github.com/dev-sec/ansible-collection-hardening
+
 # Stack Builders - Debian Base
 
 [![Build Status](https://travis-ci.org/stackbuilders/sb-debian-base.svg?branch=master)](https://travis-ci.org/stackbuilders/sb-debian-base)
