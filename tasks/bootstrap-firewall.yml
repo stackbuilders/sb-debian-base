@@ -6,24 +6,16 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: Open general ports
-  ufw:
-    rule: allow
-    port: "{{ item }}"
-    proto: tcp
-  with_items:
-    - "{{ ports | default(['22']) }}"
-
 - name: Enable UFW
   ufw:
     state: enabled
     policy: deny
     direction: incoming
 
-- name: Open ports by IP
+- name: Set allowed ports
   ufw:
     rule: allow
-    src:  "{{ item.value.ip }}"
-    port: "{{ item.value.port }}"
-    proto: tcp
-  with_dict: "{{ port_ips | default({}) }}"
+    src:  "{{ item.ip |default('any') }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto |default('tcp') }}"
+  loop: "{{ sb_debian_base_firewall_allowed_ports }}"
